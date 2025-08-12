@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía Pedagógica de Control de Versiones | Innovaciones MADFAM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Space+Mono&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/phosphor-icons"></script>
+    <style>
+        :root {
+            --primary-light: #2563eb; --primary-dark: #3b82f6;
+            --secondary-light: #059669; --secondary-dark: #10b981;
+            --accent-light: #d97706; --accent-dark: #f59e0b;
+            --neutral-light: #64748b; --neutral-dark: #94a3b8;
+            --bg-light: #f1f5f9; --text-light: #0f172a;
+            --bg-dark: #020617; --text-dark: #e2e8f0;
+            --card-bg-light: #ffffff; --card-bg-dark: #0f172a;
+            --border-light: #e2e8f0; --border-dark: #1e293b;
+            --success: #22c55e; --info: #3b82f6; --warning: #f59e0b; --danger: #ef4444;
+        }
+
+        .theme-light {
+            --primary: var(--primary-light); --secondary: var(--secondary-light);
+            --accent: var(--accent-light); --neutral: var(--neutral-light);
+            --bg: var(--bg-light); --text: var(--text-light);
+            --card-bg: var(--card-bg-light); --border-color: var(--border-light);
+        }
+
+        .theme-dark {
+            --primary: var(--primary-dark); --secondary: var(--secondary-dark);
+            --accent: var(--accent-dark); --neutral: var(--neutral-dark);
+            --bg: var(--bg-dark); --text: var(--text-dark);
+            --card-bg: var(--card-bg-dark); --border-color: var(--border-dark);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        .hero-bg {
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            width: 100%; height: 100%;
+            background-image:
+                radial-gradient(circle at 15% 50%, var(--primary) 1px, transparent 0),
+                radial-gradient(circle at 85% 50%, var(--secondary) 1px, transparent 0);
+            background-size: 50px 50px;
+            opacity: 0.3;
+            animation: move-dots 30s linear infinite;
+        }
+
+        @keyframes move-dots {
+            0% { background-position: 0 0; }
+            100% { background-position: 100px 50px; }
+        }
+
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        details summary .icon-plus, details[open] summary .icon-minus { display: block; }
+        details summary .icon-minus, details[open] summary .icon-plus { display: none; }
+        
+        .prose-custom h1, .prose-custom h2, .prose-custom h3, .prose-custom h4, .prose-custom strong { color: var(--text); }
+        .prose-custom a { color: var(--primary); font-weight: 600; text-decoration: none; }
+        .prose-custom a:hover { text-decoration: underline; }
+        .prose-custom blockquote { border-left-color: var(--primary); color: var(--neutral); }
+        .prose-custom code, .prose-custom pre { font-family: 'Space Mono', monospace; }
+        .prose-custom code { color: var(--secondary); background-color: rgba(5, 150, 105, 0.1); padding: 0.2em 0.4em; border-radius: 6px; }
+        .prose-custom pre { background-color: var(--card-bg); border: 1px solid var(--border-color); padding: 1rem; border-radius: 0.5rem; }
+        .prose-custom ul > li::before { background-color: var(--primary); }
+
+        /* Interactive Components */
+        .terminal { background-color: #0f172a; border-radius: 0.5rem; padding: 1rem; color: #e2e8f0; border: 1px solid #334155; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05); }
+        .terminal-prompt { color: var(--secondary); }
+        .terminal-command { color: var(--accent); }
+        .terminal-output { color: var(--neutral-dark); white-space: pre-wrap; margin-top: 0.5rem; }
+
+        .tool-spotlight { background: linear-gradient(135deg, var(--card-bg) 0%, var(--bg) 100%); border: 1px solid var(--border-color); border-radius: 0.75rem; padding: 1.5rem; transition: transform 0.2s ease-out, box-shadow 0.2s ease-out; }
+        .tool-spotlight:hover { transform: translateY(-5px); box-shadow: 0 10px 20px -5px rgba(0,0,0,0.1); }
+        
+        .drag-item { cursor: grab; }
+        .drop-zone { border: 2px dashed var(--border-color); transition: background-color 0.2s; }
+        .drop-zone.over { background-color: rgba(37, 99, 235, 0.1); border-color: var(--primary); }
+        .drop-zone.correct { background-color: rgba(34, 197, 94, 0.1); border-color: var(--success); }
+
+        .branch-simulator button { transition: all 0.2s; }
+        .cicd-pipe span { transition: all 0.3s ease-in-out; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-40 w-full backdrop-blur flex-none transition-colors duration-500 lg:z-50 lg:border-b" style="border-color: var(--border-color); background-color: rgba(241, 245, 249, 0.7);">
+        <div class="theme-dark" style="background-color: rgba(2, 6, 23, 0.7);">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <a href="#" class="text-xl font-bold flex items-center gap-2" style="color: var(--text);">
+                        <i class="ph-git-branch text-2xl" style="color: var(--primary);"></i>
+                        <span data-lang-es="Innovaciones MADFAM" data-lang-en="MADFAM Innovations">Innovaciones MADFAM</span>
+                    </a>
+                    <div class="flex items-center space-x-4">
+                        <div class="flex items-center text-sm font-medium" style="color: var(--neutral);">
+                            <span>ES</span>
+                            <label for="language-toggle" class="relative inline-flex items-center cursor-pointer mx-2">
+                                <input type="checkbox" value="" id="language-toggle" class="sr-only peer">
+                                <div class="w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                            </label>
+                            <span>EN</span>
+                        </div>
+                        <div class="flex items-center p-1 rounded-full" style="background-color: var(--card-bg); border: 1px solid var(--border-color);">
+                            <button id="theme-auto" class="p-1.5 rounded-full" title="Auto"><i class="ph-monitor text-xl" style="color: var(--neutral);"></i></button>
+                            <button id="theme-light" class="p-1.5 rounded-full" title="Light"><i class="ph-sun text-xl" style="color: var(--neutral);"></i></button>
+                            <button id="theme-dark" class="p-1.5 rounded-full" title="Dark"><i class="ph-moon text-xl" style="color: var(--neutral);"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="relative py-20 sm:py-32 overflow-hidden">
+            <div class="hero-bg"></div>
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight" style="color: var(--text);">
+                    <span data-lang-es="Guía Pedagógica de Control de Versiones" data-lang-en="A Pedagogical Guide to Version Control">Guía Pedagógica de Control de Versiones</span>
+                </h1>
+                <p class="mt-6 text-lg sm:text-xl max-w-3xl mx-auto" style="color: var(--neutral);">
+                    <span data-lang-es="De Fundamentos a Flujos de Trabajo Avanzados para el Aula Universitaria Neurodiversa." data-lang-en="From Foundations to Advanced Workflows for the Neurodiverse University Classroom.">De Fundamentos a Flujos de Trabajo Avanzados para el Aula Universitaria Neurodiversa.</span>
+                </p>
+            </div>
+        </section>
+
+        <!-- Content Sections -->
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+            <div class="space-y-6">
+                
+                <!-- Part I Accordion -->
+                <details class="group bg-transparent rounded-lg border" style="border-color: var(--border-color);">
+                    <summary class="flex justify-between items-center p-5 cursor-pointer">
+                        <h2 class="text-xl font-semibold">
+                            <span data-lang-es="Parte I: Fundamentos Conceptuales" data-lang-en="Part I: Conceptual Foundations">Parte I: Fundamentos Conceptuales</span>
+                        </h2>
+                        <div class="text-2xl" style="color: var(--neutral);">
+                            <i class="ph-plus-circle icon-plus"></i>
+                            <i class="ph-minus-circle icon-minus"></i>
+                        </div>
+                    </summary>
+                    <div class="p-6 pt-0 prose prose-custom max-w-none">
+                        <!-- Section 1 Accordion -->
+                        <details class="group mt-4 bg-transparent rounded-lg border" style="background-color: var(--card-bg); border-color: var(--border-color);">
+                            <summary class="flex justify-between items-center p-4 cursor-pointer">
+                                <h3 class="text-lg font-medium"><i class="ph-compass inline-block mr-2 text-xl" style="color: var(--primary);"></i><span data-lang-es="Sección 1: El Imperativo del Control de Versiones" data-lang-en="Section 1: The Imperative of Version Control">Sección 1: El Imperativo del Control de Versiones</span></h3>
+                                <div class="text-xl" style="color: var(--neutral);"><i class="ph-plus icon-plus"></i><i class="ph-minus icon-minus"></i></div>
+                            </summary>
+                            <div class="p-4 pt-0">
+                                <h4 data-lang-es="1.1 Definiendo el Control de Versiones" data-lang-en="1.1 Defining Version Control">1.1 Definiendo el Control de Versiones</h4>
+                                <p data-lang-es="Arrastra los términos a su definición correcta para probar tu conocimiento." data-lang-en="Drag the terms to their correct definition to test your knowledge.">Arrastra los términos a su definición correcta para probar tu conocimiento.</p>
+                                <div class="my-4 p-4 rounded-lg" style="background-color: var(--bg);">
+                                    <div class="flex flex-wrap gap-2 mb-4">
+                                        <div id="drag-vcs" draggable="true" class="drag-item p-2 rounded" style="background-color: var(--card-bg); border: 1px solid var(--border-color);" data-term="vcs">VCS</div>
+                                        <div id="drag-commit" draggable="true" class="drag-item p-2 rounded" style="background-color: var(--card-bg); border: 1px solid var(--border-color);" data-term="commit">Commit</div>
+                                    </div>
+                                    <div class="space-y-2">
+                                        <div class="flex items-center gap-2">
+                                            <div id="drop-commit" class="drop-zone w-full p-4 rounded" data-term="commit"><span data-lang-es="Una 'instantánea' o guardado permanente de tus cambios." data-lang-en="A 'snapshot' or permanent save of your changes.">Una 'instantánea' o guardado permanente de tus cambios.</span></div>
+                                            <i id="feedback-commit" class="ph text-2xl"></i>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <div id="drop-vcs" class="drop-zone w-full p-4 rounded" data-term="vcs"><span data-lang-es="Un sistema que registra cambios en archivos a lo largo del tiempo." data-lang-en="A system that records changes to files over time.">Un sistema que registra cambios en archivos a lo largo del tiempo.</span></div>
+                                            <i id="feedback-vcs" class="ph text-2xl"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h4 data-lang-es="1.2 Los Beneficios Clave" data-lang-en="1.2 The Core Benefits">1.2 Los Beneficios Clave</h4>
+                                <p data-lang-es="El control de versiones es una superpotencia para cualquier proyecto digital. Haz clic en cada beneficio para saber más." data-lang-en="Version control is a superpower for any digital project. Click each benefit to learn more.">El control de versiones es una superpotencia para cualquier proyecto digital. Haz clic en cada beneficio para saber más.</p>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
+                                    <div class="p-4 rounded-lg border" style="border-color: var(--primary);"><strong data-lang-es="Colaboración" data-lang-en="Collaboration">Colaboración</strong><p class="text-sm" style="color: var(--neutral);" data-lang-es="Equipos trabajan en paralelo sin caos." data-lang-en="Teams work in parallel without chaos.">Equipos trabajan en paralelo sin caos.</p></div>
+                                    <div class="p-4 rounded-lg border" style="border-color: var(--secondary);"><strong data-lang-es="Historial y Trazabilidad" data-lang-en="History & Traceability">Historial y Trazabilidad</strong><p class="text-sm" style="color: var(--neutral);" data-lang-es="Cada cambio queda registrado para siempre." data-lang-en="Every change is logged forever.">Cada cambio queda registrado para siempre.</p></div>
+                                    <div class="p-4 rounded-lg border" style="border-color: var(--accent);"><strong data-lang-es="Recuperación de Errores" data-lang-en="Error Recovery">Recuperación de Errores</strong><p class="text-sm" style="color: var(--neutral);" data-lang-es="¿Algo se rompió? Vuelve a una versión anterior al instante." data-lang-en="Something broke? Revert to a previous version instantly.">¿Algo se rompió? Vuelve a una versión anterior al instante.</p></div>
+                                    <div class="p-4 rounded-lg border" style="border-color: var(--danger);"><strong data-lang-es="Experimentación Segura" data-lang-en="Safe Experimentation">Experimentación Segura</strong><p class="text-sm" style="color: var(--neutral);" data-lang-es="Prueba nuevas ideas en 'ramas' sin afectar el proyecto principal." data-lang-en="Test new ideas in 'branches' without affecting the main project.">Prueba nuevas ideas en 'ramas' sin afectar el proyecto principal.</p></div>
+                                </div>
+                            </div>
+                        </details>
+                        <!-- Section 2 Accordion -->
+                        <details class="group mt-4 bg-transparent rounded-lg border" style="background-color: var(--card-bg); border-color: var(--border-color);">
+                            <summary class="flex justify-between items-center p-4 cursor-pointer">
+                                <h3 class="text-lg font-medium"><i class="ph-brain inline-block mr-2 text-xl" style="color: var(--primary);"></i><span data-lang-es="Sección 2: La Filosofía de Git" data-lang-en="Section 2: The Git Philosophy">Sección 2: La Filosofía de Git</span></h3>
+                                <div class="text-xl" style="color: var(--neutral);"><i class="ph-plus icon-plus"></i><i class="ph-minus icon-minus"></i></div>
+                            </summary>
+                            <div class="p-4 pt-0">
+                                <h4 data-lang-es="2.1 Una Breve Historia" data-lang-en="2.1 A Brief History">2.1 Una Breve Historia</h4>
+                                <p data-lang-es="Git no apareció de la nada. Nació de una necesidad específica. Explora la línea de tiempo:" data-lang-en="Git didn't just appear. It was born from a specific need. Explore the timeline:">Git no apareció de la nada. Nació de una necesidad específica. Explora la línea de tiempo:</p>
+                                <div class="relative mt-4 border-l-2 pl-6" style="border-color: var(--primary);">
+                                    <div class="mb-8 relative"><div class="absolute -left-8 -top-1 w-4 h-4 rounded-full" style="background-color: var(--primary);"></div><p class="font-bold">2002</p><p class="text-sm" style="color: var(--neutral);" data-lang-es="El equipo del Kernel de Linux adopta BitKeeper, un DVCS propietario." data-lang-en="The Linux Kernel team adopts BitKeeper, a proprietary DVCS.">El equipo del Kernel de Linux adopta BitKeeper, un DVCS propietario.</p></div>
+                                    <div class="mb-8 relative"><div class="absolute -left-8 -top-1 w-4 h-4 rounded-full" style="background-color: var(--primary);"></div><p class="font-bold">2005</p><p class="text-sm" style="color: var(--neutral);" data-lang-es="BitKeeper revoca su licencia gratuita. Linus Torvalds crea Git en 10 días." data-lang-en="BitKeeper revokes its free license. Linus Torvalds creates Git in 10 days.">BitKeeper revoca su licencia gratuita. Linus Torvalds crea Git en 10 días.</p></div>
+                                    <div class="relative"><div class="absolute -left-8 -top-1 w-4 h-4 rounded-full" style="background-color: var(--primary);"></div><p class="font-bold" data-lang-es="Hoy" data-lang-en="Today">Hoy</p><p class="text-sm" style="color: var(--neutral);" data-lang-es="Git es el estándar de facto para el control de versiones en todo el mundo." data-lang-en="Git is the de facto standard for version control worldwide.">Git es el estándar de facto para el control de versiones en todo el mundo.</p></div>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+                </details>
+
+                <!-- Part II Accordion -->
+                <details class="group bg-transparent rounded-lg border" style="border-color: var(--border-color);">
+                    <summary class="flex justify-between items-center p-5 cursor-pointer">
+                        <h2 class="text-xl font-semibold"><span data-lang-es="Parte II: Ruta de Aprendizaje Estructurada" data-lang-en="Part II: A Structured Learning Path">Parte II: Ruta de Aprendizaje Estructurada</span></h2>
+                        <div class="text-2xl" style="color: var(--neutral);"><i class="ph-plus-circle icon-plus"></i><i class="ph-minus-circle icon-minus"></i></div>
+                    </summary>
+                    <div class="p-6 pt-0 prose prose-custom max-w-none">
+                        <!-- Section 3 Accordion -->
+                        <details class="group mt-4 bg-transparent rounded-lg border" style="background-color: var(--card-bg); border-color: var(--border-color);">
+                            <summary class="flex justify-between items-center p-4 cursor-pointer">
+                                <h3 class="text-lg font-medium"><i class="ph-toolbox inline-block mr-2 text-xl" style="color: var(--primary);"></i><span data-lang-es="Sección 3: Competencias Fundamentales de Git" data-lang-en="Section 3: Core Git Competencies">Sección 3: Competencias Fundamentales de Git</span></h3>
+                                <div class="text-xl" style="color: var(--neutral);"><i class="ph-plus icon-plus"></i><i class="ph-minus icon-minus"></i></div>
+                            </summary>
+                            <div class="p-4 pt-0">
+                                <h4 data-lang-es="3.2 El Flujo de Trabajo Fundamental: ¡Simulador!" data-lang-en="3.2 The Fundamental Workflow: Simulator!">3.2 El Flujo de Trabajo Fundamental: ¡Simulador!</h4>
+                                <p data-lang-es="Sigue los pasos para hacer tu primer commit. Haz clic en los botones en orden." data-lang-en="Follow the steps to make your first commit. Click the buttons in order.">Sigue los pasos para hacer tu primer commit. Haz clic en los botones en orden.</p>
+                                <div class="my-4 p-4 rounded-lg space-y-4" style="background-color: var(--bg);">
+                                    <div class="flex flex-wrap gap-2">
+                                        <button id="sim-status" class="p-2 rounded text-white" style="background-color: var(--info);"><i class="ph-magnifying-glass inline-block mr-1"></i> git status</button>
+                                        <button id="sim-add" class="p-2 rounded text-white" style="background-color: var(--accent);"><i class="ph-plus-circle inline-block mr-1"></i> git add</button>
+                                        <button id="sim-commit" class="p-2 rounded text-white" style="background-color: var(--success);"><i class="ph-check-circle inline-block mr-1"></i> git commit</button>
+                                    </div>
+                                    <div id="sim-terminal" class="terminal min-h-[150px]"><p data-lang-es="Presiona un botón para empezar..." data-lang-en="Press a button to start...">Presiona un botón para empezar...</p></div>
+                                </div>
+                            </div>
+                        </details>
+                        <!-- Section 4 Accordion -->
+                        <details class="group mt-4 bg-transparent rounded-lg border" style="background-color: var(--card-bg); border-color: var(--border-color);">
+                            <summary class="flex justify-between items-center p-4 cursor-pointer">
+                                <h3 class="text-lg font-medium"><i class="ph-git-fork inline-block mr-2 text-xl" style="color: var(--primary);"></i><span data-lang-es="Sección 4: El Poder de la Ramificación" data-lang-en="Section 4: The Power of Branching">Sección 4: El Poder de la Ramificación</span></h3>
+                                <div class="text-xl" style="color: var(--neutral);"><i class="ph-plus icon-plus"></i><i class="ph-minus icon-minus"></i></div>
+                            </summary>
+                            <div class="p-4 pt-0">
+                                <h4 data-lang-es="4.2 Simulador de Ramas" data-lang-en="4.2 Branch Simulator">4.2 Simulador de Ramas</h4>
+                                <p data-lang-es="Crea ramas, haz commits y fúndelas para ver cómo funciona el desarrollo en paralelo." data-lang-en="Create branches, make commits, and merge them to see how parallel development works.">Crea ramas, haz commits y fúndelas para ver cómo funciona el desarrollo en paralelo.</p>
+                                <div class="branch-simulator my-4 p-4 rounded-lg" style="background-color: var(--bg);">
+                                    <div class="flex flex-wrap gap-2 mb-4">
+                                        <button id="branch-commit" class="p-2 rounded text-white" style="background-color: var(--primary);"><i class="ph-plus inline-block mr-1"></i> <span data-lang-es="Commit en" data-lang-en="Commit to">Commit en</span> <span id="current-branch-name">main</span></button>
+                                        <input id="new-branch-input" type="text" placeholder="nueva-rama" class="p-2 rounded border" style="background-color: var(--card-bg); border-color: var(--border-color);">
+                                        <button id="branch-create" class="p-2 rounded text-white" style="background-color: var(--secondary);"><i class="ph-git-fork inline-block mr-1"></i> <span data-lang-es="Crear Rama" data-lang-en="Create Branch">Crear Rama</span></button>
+                                        <button id="branch-merge" class="p-2 rounded text-white" style="background-color: var(--accent);"><i class="ph-git-merge inline-block mr-1"></i> <span data-lang-es="Fusionar en Main" data-lang-en="Merge to Main">Fusionar en Main</span></button>
+                                    </div>
+                                    <div id="branch-visualizer" class="font-mono text-sm p-4 rounded" style="background-color: var(--card-bg); border: 1px solid var(--border-color);"></div>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+                </details>
+
+                <!-- Part III Accordion -->
+                <details class="group bg-transparent rounded-lg border" style="border-color: var(--border-color);">
+                    <summary class="flex justify-between items-center p-5 cursor-pointer">
+                        <h2 class="text-xl font-semibold"><span data-lang-es="Parte III: El Ecosistema Extendido" data-lang-en="Part III: The Broader Ecosystem">Parte III: El Ecosistema Extendido</span></h2>
+                        <div class="text-2xl" style="color: var(--neutral);"><i class="ph-plus-circle icon-plus"></i><i class="ph-minus-circle icon-minus"></i></div>
+                    </summary>
+                    <div class="p-6 pt-0 prose prose-custom max-w-none">
+                        <!-- Section 6 Accordion -->
+                        <details class="group mt-4 bg-transparent rounded-lg border" style="background-color: var(--card-bg); border-color: var(--border-color);">
+                            <summary class="flex justify-between items-center p-4 cursor-pointer">
+                                <h3 class="text-lg font-medium"><i class="ph-cloud inline-block mr-2 text-xl" style="color: var(--primary);"></i><span data-lang-es="Sección 6: Plataformas de Control de Versiones" data-lang-en="Section 6: Version Control Platforms">Sección 6: Plataformas de Control de Versiones</span></h3>
+                                <div class="text-xl" style="color: var(--neutral);"><i class="ph-plus icon-plus"></i><i class="ph-minus icon-minus"></i></div>
+                            </summary>
+                            <div class="p-4 pt-0">
+                                <h4 data-lang-es="6.1 Los Titanes: GitHub, GitLab, y Bitbucket" data-lang-en="6.1 The Titans: GitHub, GitLab, and Bitbucket">6.1 Los Titanes: GitHub, GitLab, y Bitbucket</h4>
+                                <p data-lang-es="Haz clic en cada logo para ver sus fortalezas." data-lang-en="Click each logo to see its strengths.">Haz clic en cada logo para ver sus fortalezas.</p>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-4 text-center">
+                                    <div class="p-4 rounded-lg border cursor-pointer hover:shadow-lg transition-shadow" style="border-color: var(--primary);"><i class="ph-github-logo text-4xl"></i><h5 class="font-bold mt-2">GitHub</h5></div>
+                                    <div class="p-4 rounded-lg border cursor-pointer hover:shadow-lg transition-shadow" style="border-color: var(--accent);"><i class="ph-gitlab-logo-simple text-4xl"></i><h5 class="font-bold mt-2">GitLab</h5></div>
+                                    <div class="p-4 rounded-lg border cursor-pointer hover:shadow-lg transition-shadow" style="border-color: #2684FF;"><i class="ph-atlassian-logo text-4xl" style="color: #2684FF;"></i><h5 class="font-bold mt-2">Bitbucket</h5></div>
+                                </div>
+                            </div>
+                        </details>
+                        <!-- Section 7 Accordion -->
+                        <details class="group mt-4 bg-transparent rounded-lg border" style="background-color: var(--card-bg); border-color: var(--border-color);">
+                            <summary class="flex justify-between items-center p-4 cursor-pointer">
+                                <h3 class="text-lg font-medium"><i class="ph-strategy inline-block mr-2 text-xl" style="color: var(--primary);"></i><span data-lang-es="Sección 7: Flujos de Trabajo Avanzados" data-lang-en="Section 7: Advanced Workflows">Sección 7: Flujos de Trabajo Avanzados</span></h3>
+                                <div class="text-xl" style="color: var(--neutral);"><i class="ph-plus icon-plus"></i><i class="ph-minus icon-minus"></i></div>
+                            </summary>
+                            <div class="p-4 pt-0">
+                                <h4 data-lang-es="7.2 Automatización: CI/CD" data-lang-en="7.2 Automation: CI/CD">7.2 Automatización: CI/CD</h4>
+                                <p data-lang-es="La Integración y Despliegue Continuos (CI/CD) automatizan tu flujo de trabajo. Presiona 'Iniciar' para ver la magia." data-lang-en="Continuous Integration & Deployment (CI/CD) automates your workflow. Press 'Start' to see the magic.">La Integración y Despliegue Continuos (CI/CD) automatizan tu flujo de trabajo. Presiona 'Iniciar' para ver la magia.</p>
+                                <div class="my-4 p-4 rounded-lg" style="background-color: var(--bg);">
+                                    <div class="flex items-center justify-around text-center cicd-pipe">
+                                        <span id="pipe-push" class="flex flex-col items-center gap-1 p-2 rounded-lg"><i class="ph-git-push text-3xl"></i><span class="text-xs font-bold" data-lang-es="PUSH" data-lang-en="PUSH">PUSH</span></span>
+                                        <i class="ph-arrow-right text-2xl" style="color: var(--neutral);"></i>
+                                        <span id="pipe-build" class="flex flex-col items-center gap-1 p-2 rounded-lg"><i class="ph-wrench text-3xl"></i><span class="text-xs font-bold" data-lang-es="BUILD" data-lang-en="BUILD">BUILD</span></span>
+                                        <i class="ph-arrow-right text-2xl" style="color: var(--neutral);"></i>
+                                        <span id="pipe-test" class="flex flex-col items-center gap-1 p-2 rounded-lg"><i class="ph-test-tube text-3xl"></i><span class="text-xs font-bold" data-lang-es="TEST" data-lang-en="TEST">TEST</span></span>
+                                        <i class="ph-arrow-right text-2xl" style="color: var(--neutral);"></i>
+                                        <span id="pipe-deploy" class="flex flex-col items-center gap-1 p-2 rounded-lg"><i class="ph-rocket-launch text-3xl"></i><span class="text-xs font-bold" data-lang-es="DEPLOY" data-lang-en="DEPLOY">DEPLOY</span></span>
+                                    </div>
+                                    <button id="cicd-start" class="mt-4 p-2 rounded text-white w-full" style="background-color: var(--primary);" data-lang-es="Iniciar Pipeline" data-lang-en="Start Pipeline">Iniciar Pipeline</button>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+                </details>
+
+                <!-- Part IV Accordion -->
+                <details class="group bg-transparent rounded-lg border" style="border-color: var(--border-color);">
+                    <summary class="flex justify-between items-center p-5 cursor-pointer">
+                        <h2 class="text-xl font-semibold"><span data-lang-es="Parte IV: Una Pedagogía Inclusiva" data-lang-en="Part IV: An Inclusive Pedagogy">Parte IV: Una Pedagogía Inclusiva</span></h2>
+                        <div class="text-2xl" style="color: var(--neutral);"><i class="ph-plus-circle icon-plus"></i><i class="ph-minus-circle icon-minus"></i></div>
+                    </summary>
+                    <div class="p-6 pt-0 prose prose-custom max-w-none">
+                        <!-- Section 8 Accordion -->
+                        <details class="group mt-4 bg-transparent rounded-lg border" style="background-color: var(--card-bg); border-color: var(--border-color);">
+                            <summary class="flex justify-between items-center p-4 cursor-pointer">
+                                <h3 class="text-lg font-medium"><i class="ph-users-four inline-block mr-2 text-xl" style="color: var(--primary);"></i><span data-lang-es="Sección 8: Diseño de un Entorno Neuroafirmativo" data-lang-en="Section 8: Designing a Neuroaffirming Environment">Sección 8: Diseño de un Entorno Neuroafirmativo</span></h3>
+                                <div class="text-xl" style="color: var(--neutral);"><i class="ph-plus icon-plus"></i><i class="ph-minus icon-minus"></i></div>
+                            </summary>
+                            <div class="p-4 pt-0">
+                                <h4 data-lang-es="8.1 Principios de Diseño Universal para el Aprendizaje (DUA)" data-lang-en="8.1 Principles of Universal Design for Learning (UDL)">8.1 Principios de Diseño Universal para el Aprendizaje (DUA)</h4>
+                                <p data-lang-es="El DUA se centra en 3 pilares. Marca las casillas para ver ejemplos." data-lang-en="UDL focuses on 3 pillars. Check the boxes to see examples.">El DUA se centra en 3 pilares. Marca las casillas para ver ejemplos.</p>
+                                <div class="my-4 space-y-2">
+                                    <label class="flex items-center gap-2 p-2 rounded-lg" style="background-color: var(--bg);"><input type="checkbox" class="h-4 w-4 rounded" style="color: var(--primary);"> <span data-lang-es="Múltiples Medios de Representación (el 'qué' del aprendizaje)" data-lang-en="Multiple Means of Representation (the 'what' of learning)">Múltiples Medios de Representación (el 'qué' del aprendizaje)</span></label>
+                                    <label class="flex items-center gap-2 p-2 rounded-lg" style="background-color: var(--bg);"><input type="checkbox" class="h-4 w-4 rounded" style="color: var(--primary);"> <span data-lang-es="Múltiples Medios de Acción y Expresión (el 'cómo' del aprendizaje)" data-lang-en="Multiple Means of Action and Expression (the 'how' of learning)">Múltiples Medios de Acción y Expresión (el 'cómo' del aprendizaje)</span></label>
+                                    <label class="flex items-center gap-2 p-2 rounded-lg" style="background-color: var(--bg);"><input type="checkbox" class="h-4 w-4 rounded" style="color: var(--primary);"> <span data-lang-es="Múltiples Medios de Compromiso (el 'porqué' del aprendizaje)" data-lang-en="Multiple Means of Engagement (the 'why' of learning)">Múltiples Medios de Compromiso (el 'porqué' del aprendizaje)</span></label>
+                                </div>
+                            </div>
+                        </details>
+                        <!-- Section 9 Accordion -->
+                        <details class="group mt-4 bg-transparent rounded-lg border" style="background-color: var(--card-bg); border-color: var(--border-color);">
+                             <summary class="flex justify-between items-center p-4 cursor-pointer">
+                                <h3 class="text-lg font-medium"><i class="ph-paint-brush-broad inline-block mr-2 text-xl" style="color: var(--primary);"></i><span data-lang-es="Sección 9: Un Conjunto de Herramientas para Estudiantes Diversos" data-lang-en="Section 9: A Curated Toolkit for Diverse Learners">Sección 9: Un Conjunto de Herramientas para Estudiantes Diversos</span></h3>
+                                <div class="text-xl" style="color: var(--neutral);"><i class="ph-plus icon-plus"></i><i class="ph-minus icon-minus"></i></div>
+                            </summary>
+                            <div class="p-4 pt-0">
+                                <h4 data-lang-es="9.4 Aprendizaje Basado en Proyectos" data-lang-en="9.4 Project-Based Learning">9.4 Aprendizaje Basado en Proyectos</h4>
+                                <p data-lang-es="La mejor forma de aprender es haciendo. Sigue esta ruta de proyectos para pasar de principiante a colaborador." data-lang-en="The best way to learn is by doing. Follow this project path to go from beginner to collaborator.">La mejor forma de aprender es haciendo. Sigue esta ruta de proyectos para pasar de principiante a colaborador.</p>
+                                <div class="mt-4 flex flex-col md:flex-row justify-between items-center gap-2 font-mono text-xs">
+                                    <div class="text-center p-2">P1: Local</div><i class="ph-arrow-right text-lg" style="color: var(--neutral);"></i>
+                                    <div class="text-center p-2">P2: Branching</div><i class="ph-arrow-right text-lg" style="color: var(--neutral);"></i>
+                                    <div class="text-center p-2">P3: Remoto</div><i class="ph-arrow-right text-lg" style="color: var(--neutral);"></i>
+                                    <div class="text-center p-2">P4: Colaborar</div>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+                </details>
+
+                <!-- Conclusion -->
+                <div class="mt-12 pt-6 border-t" style="border-color: var(--border-color);">
+                    <h2 class="text-2xl font-bold" data-lang-es="Conclusión" data-lang-en="Conclusion">Conclusión</h2>
+                    <p class="mt-4" data-lang-es="Al adoptar un enfoque inclusivo y basado en evidencia, los educadores pueden crear un entorno de aprendizaje que no solo desmitifica el control de versiones, sino que también capacita a todos los estudiantes, independientemente de su estilo de aprendizaje, para que se conviertan en colaboradores competentes. El objetivo no es simplemente enseñar una herramienta, sino cultivar las prácticas profesionales que les servirán a lo largo de sus carreras." data-lang-en="By adopting an inclusive and evidence-based framework, educators can create a learning environment that not only demystifies version control but also empowers all students, regardless of their learning style, to become competent collaborators. The goal is not merely to teach a tool, but to cultivate the professional practices that will serve them throughout their careers.">Al adoptar un enfoque inclusivo y basado en evidencia, los educadores pueden crear un entorno de aprendizaje que no solo desmitifica el control de versiones, sino que también capacita a todos los estudiantes, independientemente de su estilo de aprendizaje, para que se conviertan en colaboradores competentes. El objetivo no es simplemente enseñar una herramienta, sino cultivar las prácticas profesionales que les servirán a lo largo de sus carreras.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer style="background-color: var(--card-bg); border-top: 1px solid var(--border-color);">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 text-center">
+            <p style="color: var(--neutral);">
+                &copy; <span id="current-year"></span> <span data-lang-es="Innovaciones MADFAM SAS de CV. Todos los derechos reservados." data-lang-en="Innovaciones MADFAM SAS de CV. All rights reserved.">Innovaciones MADFAM SAS de CV. Todos los derechos reservados.</span>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Dynamic Year ---
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            // --- Theme Management ---
+            const themeAutoBtn = document.getElementById('theme-auto');
+            const themeLightBtn = document.getElementById('theme-light');
+            const themeDarkBtn = document.getElementById('theme-dark');
+            
+            const updateActiveButton = (theme) => {
+                [themeAutoBtn, themeLightBtn, themeDarkBtn].forEach(btn => {
+                    btn.style.backgroundColor = 'transparent';
+                    btn.querySelector('i').style.color = 'var(--neutral)';
+                });
+                const activeBtn = document.getElementById(`theme-${theme}`);
+                if (activeBtn) {
+                    activeBtn.style.backgroundColor = 'var(--primary)';
+                    activeBtn.querySelector('i').style.color = 'var(--bg)';
+                }
+            };
+
+            const applyTheme = (theme) => {
+                if (theme === 'auto') {
+                    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                    document.body.className = prefersDark ? 'theme-dark' : 'theme-light';
+                } else {
+                    document.body.className = `theme-${theme}`;
+                }
+                localStorage.setItem('theme', theme);
+                updateActiveButton(theme);
+            };
+
+            themeAutoBtn.addEventListener('click', () => applyTheme('auto'));
+            themeLightBtn.addEventListener('click', () => applyTheme('light'));
+            themeDarkBtn.addEventListener('click', () => applyTheme('dark'));
+
+            const savedTheme = localStorage.getItem('theme') || 'auto';
+            applyTheme(savedTheme);
+
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+                if (localStorage.getItem('theme') === 'auto') applyTheme('auto');
+            });
+
+            // --- Language Management ---
+            const langToggle = document.getElementById('language-toggle');
+            const applyLanguage = (lang) => {
+                document.documentElement.lang = lang;
+                document.querySelectorAll('[data-lang-es], [data-lang-en]').forEach(el => {
+                    const text = el.getAttribute(`data-lang-${lang}`);
+                    if (text) el.innerHTML = text;
+                });
+                localStorage.setItem('language', lang);
+                langToggle.checked = (lang === 'en');
+            };
+
+            langToggle.addEventListener('change', (e) => applyLanguage(e.target.checked ? 'en' : 'es'));
+            const savedLang = localStorage.getItem('language') || 'es';
+            applyLanguage(savedLang);
+
+            // --- Drag and Drop Interaction ---
+            const dragItems = document.querySelectorAll('.drag-item');
+            const dropZones = document.querySelectorAll('.drop-zone');
+            let draggedItem = null;
+
+            dragItems.forEach(item => {
+                item.addEventListener('dragstart', (e) => {
+                    draggedItem = e.target;
+                    setTimeout(() => e.target.style.display = 'none', 0);
+                });
+                item.addEventListener('dragend', (e) => {
+                    setTimeout(() => e.target.style.display = 'block', 0);
+                    draggedItem = null;
+                });
+            });
+
+            dropZones.forEach(zone => {
+                zone.addEventListener('dragover', (e) => { e.preventDefault(); zone.classList.add('over'); });
+                zone.addEventListener('dragleave', () => zone.classList.remove('over'));
+                zone.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    zone.classList.remove('over');
+                    if (draggedItem && zone.dataset.term === draggedItem.dataset.term) {
+                        zone.classList.add('correct');
+                        zone.innerHTML = '';
+                        zone.appendChild(draggedItem);
+                        draggedItem.setAttribute('draggable', 'false');
+                        draggedItem.style.cursor = 'default';
+                        const feedback = document.getElementById(`feedback-${zone.dataset.term}`);
+                        feedback.className = 'ph ph-check-circle text-2xl';
+                        feedback.style.color = 'var(--success)';
+                    }
+                });
+            });
+
+            // --- Workflow Simulator ---
+            const simStatusBtn = document.getElementById('sim-status');
+            const simAddBtn = document.getElementById('sim-add');
+            const simCommitBtn = document.getElementById('sim-commit');
+            const simTerminal = document.getElementById('sim-terminal');
+            let simState = 0;
+
+            simStatusBtn.addEventListener('click', () => {
+                const output = simState === 0 
+                    ? `<p><span class="terminal-prompt">~ $ </span><span class="terminal-command">git status</span></p><div class="terminal-output">${document.documentElement.lang === 'es' ? 'Cambios no preparados para commit:\n  modificado:   style.css' : 'Changes not staged for commit:\n  modified:   style.css'}</div>`
+                    : `<p><span class="terminal-prompt">~ $ </span><span class="terminal-command">git status</span></p><div class="terminal-output">${document.documentElement.lang === 'es' ? 'Cambios a ser confirmados:\n  nuevo archivo: style.css' : 'Changes to be committed:\n  new file:   style.css'}</div>`;
+                simTerminal.innerHTML = output;
+            });
+            simAddBtn.addEventListener('click', () => { if (simState === 0) { simTerminal.innerHTML = `<p><span class="terminal-prompt">~ $ </span><span class="terminal-command">git add style.css</span></p>`; simState = 1; } });
+            simCommitBtn.addEventListener('click', () => { if (simState === 1) { simTerminal.innerHTML = `<p><span class="terminal-prompt">~ $ </span><span class="terminal-command">git commit -m "Add styles"</span></p><div class="terminal-output">${document.documentElement.lang === 'es' ? '[main 1a2b3c4] Add styles\n 1 file changed, 10 insertions(+)' : '[main 1a2b3c4] Add styles\n 1 file changed, 10 insertions(+)'}</div>`; simState = 2; } });
+            
+            // --- Branch Simulator ---
+            const branchVisualizer = document.getElementById('branch-visualizer');
+            const branchCommitBtn = document.getElementById('branch-commit');
+            const branchCreateBtn = document.getElementById('branch-create');
+            const branchMergeBtn = document.getElementById('branch-merge');
+            const newBranchInput = document.getElementById('new-branch-input');
+            const currentBranchNameSpan = document.getElementById('current-branch-name');
+            let branches = { 'main': { commits: ['C0'], head: true, color: 'var(--primary)' } };
+            let commitCounter = 1;
+
+            function renderBranches() {
+                let html = '';
+                const branchContainer = branchCreateBtn.parentElement;
+                
+                // Clear old branch buttons
+                branchContainer.querySelectorAll('.branch-btn').forEach(btn => btn.remove());
+
+                for (const name in branches) {
+                    const branch = branches[name];
+                    const head = branch.head ? ' <span style="color: var(--success);">* HEAD</span>' : '';
+                    html += `<div><span style="color: ${branch.color};">${name}${head}</span>: ${branch.commits.join(' -> ')}</div>`;
+                    
+                    if (name !== 'main') {
+                        const btn = document.createElement('button');
+                        btn.textContent = name;
+                        btn.dataset.branchName = name;
+                        btn.className = 'p-2 rounded border branch-btn';
+                        btn.style.borderColor = branch.color;
+                        btn.addEventListener('click', () => {
+                            Object.values(branches).forEach(b => b.head = false);
+                            branch.head = true;
+                            currentBranchNameSpan.textContent = name;
+                            renderBranches();
+                        });
+                        branchContainer.insertBefore(btn, branchCreateBtn);
+                    }
+                }
+                branchVisualizer.innerHTML = html;
+            }
+
+            branchCommitBtn.addEventListener('click', () => {
+                const headBranch = Object.keys(branches).find(name => branches[name].head);
+                if (headBranch) {
+                    branches[headBranch].commits.push(`C${commitCounter++}`);
+                    renderBranches();
+                }
+            });
+
+            branchCreateBtn.addEventListener('click', () => {
+                const newName = newBranchInput.value.trim();
+                if (newName && !branches[newName]) {
+                    const headBranch = Object.keys(branches).find(name => branches[name].head);
+                    const colors = ['var(--secondary)', 'var(--accent)', 'var(--danger)', '#9333ea'];
+                    branches[newName] = { commits: [...branches[headBranch].commits], head: false, color: colors[Object.keys(branches).length % colors.length] };
+                    newBranchInput.value = '';
+                    renderBranches();
+                }
+            });
+            
+            branchMergeBtn.addEventListener('click', () => {
+                const headBranchName = Object.keys(branches).find(name => branches[name].head);
+                if (headBranchName && headBranchName !== 'main') {
+                     branches.main.commits.push(`M${commitCounter++}`);
+                     delete branches[headBranchName];
+                     Object.values(branches).forEach(b => b.head = false);
+                     branches.main.head = true;
+                     currentBranchNameSpan.textContent = 'main';
+                     renderBranches();
+                }
+            });
+
+            renderBranches();
+
+            // --- CI/CD Pipeline ---
+            const cicdStartBtn = document.getElementById('cicd-start');
+            const pipeStages = document.querySelectorAll('.cicd-pipe span');
+            cicdStartBtn.addEventListener('click', () => {
+                let delay = 0;
+                pipeStages.forEach((stage, index) => {
+                    setTimeout(() => {
+                        stage.style.backgroundColor = 'var(--primary)';
+                        stage.style.color = 'var(--card-bg)';
+                        stage.style.transform = 'scale(1.1)';
+                    }, delay);
+                    delay += 500;
+                });
+                setTimeout(() => {
+                     pipeStages.forEach(stage => {
+                        stage.style.backgroundColor = 'transparent';
+                        stage.style.color = 'inherit';
+                        stage.style.transform = 'scale(1)';
+                     });
+                }, delay);
+            });
+        });
+    </script>
+</body>
+</html>
