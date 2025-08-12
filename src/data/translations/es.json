@@ -1,0 +1,127 @@
+{
+  "common": {
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito",
+    "continue": "Continuar",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "finish": "Finalizar",
+    "reset": "Reiniciar",
+    "close": "Cerrar",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar"
+  },
+  "navigation": {
+    "home": "Inicio",
+    "progress": "Progreso",
+    "sections": {
+      "hero": "Inicio",
+      "part1": "Fundamentos Conceptuales",
+      "part2": "Ruta de Aprendizaje",
+      "part3": "Ecosistema Extendido",
+      "part4": "Pedagogía Inclusiva"
+    }
+  },
+  "hero": {
+    "title": "Guía Pedagógica de Control de Versiones",
+    "subtitle": "De Fundamentos a Flujos de Trabajo Avanzados para el Aula Universitaria Neurodiversa",
+    "startLearning": "Comenzar Aprendizaje",
+    "viewProgress": "Ver Progreso"
+  },
+  "concepts": {
+    "vcs": {
+      "term": "VCS",
+      "definition": "Un sistema que registra y gestiona cambios en archivos a lo largo del tiempo."
+    },
+    "commit": {
+      "term": "Commit",
+      "definition": "Una 'instantánea' o guardado permanente de cambios con metadata."
+    },
+    "repository": {
+      "term": "Repository",
+      "definition": "La base de datos donde se almacena toda la historia del proyecto."
+    },
+    "branch": {
+      "term": "Branch",
+      "definition": "Una línea independiente de desarrollo paralelo."
+    }
+  },
+  "exercises": {
+    "dragDrop": {
+      "title": "Ejercicio Interactivo: Conceptos Fundamentales",
+      "instructions": "Arrastra los términos a sus definiciones correctas:",
+      "completion": "¡Excelente trabajo! Has completado el ejercicio.",
+      "reset": "Reiniciar"
+    },
+    "threeStates": {
+      "title": "Los Tres Estados de Git",
+      "workingDirectory": "Directorio de Trabajo",
+      "stagingArea": "Área de Preparación", 
+      "repository": "Repositorio Git",
+      "demo": "Demostrar Flujo"
+    },
+    "branching": {
+      "title": "Simulador de Ramas",
+      "createBranch": "Crear Rama",
+      "commit": "Hacer Commit",
+      "merge": "Fusionar",
+      "reset": "Reiniciar"
+    }
+  },
+  "progress": {
+    "title": "Tu Progreso",
+    "overall": "Progreso General",
+    "sections": "Secciones",
+    "activities": "Actividades",
+    "achievements": "Logros",
+    "completed": "completado",
+    "of": "de"
+  },
+  "achievements": {
+    "unlocked": "¡Logro Desbloqueado!",
+    "firstSteps": {
+      "name": "Primeros Pasos",
+      "description": "Completa tu primer ejercicio de conceptos",
+      "reward": "Novato de Git"
+    },
+    "foundationMaster": {
+      "name": "Maestro de Fundamentos", 
+      "description": "Completa todas las actividades de la Parte I",
+      "reward": "Experto en Fundamentos"
+    },
+    "branchingExpert": {
+      "name": "Experto en Ramas",
+      "description": "Domina todos los conceptos de ramificación",
+      "reward": "Maestro de Ramas"
+    },
+    "collaborationPro": {
+      "name": "Profesional de Colaboración",
+      "description": "Completa el flujo de trabajo colaborativo",
+      "reward": "Jugador de Equipo"
+    },
+    "platformExplorer": {
+      "name": "Explorador de Plataformas",
+      "description": "Explora las tres plataformas principales",
+      "reward": "Experto en Plataformas"
+    },
+    "gitMaster": {
+      "name": "Maestro Git",
+      "description": "Completa todo el viaje de aprendizaje",
+      "reward": "Gurú de Git"
+    }
+  },
+  "accessibility": {
+    "keyboardShortcuts": "Atajos de Teclado",
+    "highContrast": "Alto Contraste",
+    "screenReader": "Lector de Pantalla",
+    "reduceMotion": "Reducir Movimiento"
+  },
+  "errors": {
+    "loadingFailed": "Error al cargar el contenido",
+    "networkError": "Error de conexión",
+    "tryAgain": "Intentar de nuevo",
+    "contactSupport": "Contactar soporte"
+  }
+}

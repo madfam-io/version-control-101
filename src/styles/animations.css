@@ -1,0 +1,357 @@
+/* =======================
+   HERO ANIMATIONS
+   ======================= */
+
+.hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    radial-gradient(circle at 15% 50%, var(--primary) 1px, transparent 0),
+    radial-gradient(circle at 85% 50%, var(--secondary) 1px, transparent 0);
+  background-size: 50px 50px;
+  opacity: 0.3;
+  animation: move-dots 30s linear infinite;
+}
+
+/* =======================
+   INTERACTIVE ANIMATIONS
+   ======================= */
+
+/* Collaboration Simulator Arrows */
+.collab-sim-arrow {
+  transition: opacity var(--transition-slow), transform var(--transition-slow);
+  opacity: 0;
+  
+  &.active {
+    opacity: 1;
+    animation: arrow-pulse 1s ease-in-out;
+  }
+}
+
+@keyframes arrow-pulse {
+  0%, 100% { 
+    opacity: 1; 
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 0.7; 
+    transform: scale(1.1);
+  }
+}
+
+/* Branch Simulator */
+.branch-simulator button {
+  transition: all var(--transition-fast);
+  
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+/* CI/CD Pipeline Animation */
+.cicd-pipe span {
+  transition: all var(--transition-normal);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-md);
+  
+  &.active {
+    animation: pipeline-stage 0.8s ease-in-out;
+  }
+}
+
+@keyframes pipeline-stage {
+  0% {
+    background-color: transparent;
+    transform: scale(1);
+  }
+  50% {
+    background-color: var(--primary);
+    color: white;
+    transform: scale(1.1);
+  }
+  100% {
+    background-color: var(--success);
+    color: white;
+    transform: scale(1);
+  }
+}
+
+/* =======================
+   STATE TRANSITIONS
+   ======================= */
+
+/* Three States Demo Animation */
+.three-states-demo .state-node {
+  transition: all var(--transition-normal);
+  
+  &.active {
+    border-color: currentColor;
+    transform: scale(1.05);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.2);
+  }
+  
+  &.working-dir.active {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px rgba(217, 119, 6, 0.2);
+  }
+  
+  &.staging-area.active {
+    border-color: var(--warning);
+    box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.2);
+  }
+  
+  &.repository.active {
+    border-color: var(--success);
+    box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.2);
+  }
+}
+
+/* Data Flow Animation */
+.data-flow {
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, 
+      transparent 0%, 
+      var(--primary) 50%, 
+      transparent 100%);
+    transform: translateY(-50%);
+    animation: data-flow 2s ease-in-out infinite;
+  }
+}
+
+@keyframes data-flow {
+  0% {
+    opacity: 0;
+    transform: translateY(-50%) translateX(-100%);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-50%) translateX(100%);
+  }
+}
+
+/* =======================
+   FEEDBACK ANIMATIONS
+   ======================= */
+
+/* Success Animation */
+.success-feedback {
+  animation: success-bounce 0.6s ease-in-out;
+}
+
+@keyframes success-bounce {
+  0%, 100% { transform: scale(1); }
+  25% { transform: scale(0.95); }
+  75% { transform: scale(1.05); }
+}
+
+/* Error Animation */
+.error-feedback {
+  animation: error-shake 0.5s ease-in-out;
+}
+
+@keyframes error-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-8px); }
+  75% { transform: translateX(8px); }
+}
+
+/* Loading Spinner */
+.loading-spinner {
+  width: 2rem;
+  height: 2rem;
+  border: 2px solid var(--border-color);
+  border-top: 2px solid var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* =======================
+   SECTION TRANSITIONS
+   ======================= */
+
+/* Accordion Animations */
+details {
+  overflow: hidden;
+  
+  &[open] {
+    animation: accordion-open 0.3s ease-out;
+  }
+  
+  summary {
+    transition: all var(--transition-fast);
+    
+    &:hover {
+      background-color: rgba(37, 99, 235, 0.05);
+    }
+  }
+  
+  .icon-plus,
+  .icon-minus {
+    transition: all var(--transition-fast);
+  }
+  
+  &[open] .icon-plus {
+    transform: rotate(180deg);
+    opacity: 0;
+  }
+  
+  &[open] .icon-minus {
+    transform: rotate(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes accordion-open {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Page Transitions */
+.page-transition-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.page-transition-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.3s ease-out;
+}
+
+/* =======================
+   SCROLL ANIMATIONS
+   ======================= */
+
+/* Reveal on Scroll */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s ease-out;
+  
+  &.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Stagger Animation for Lists */
+.stagger-item {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.4s ease-out;
+  
+  &.animate {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Delay classes for staggered animations */
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+.delay-4 { transition-delay: 0.4s; }
+.delay-5 { transition-delay: 0.5s; }
+
+/* =======================
+   HOVER EFFECTS
+   ======================= */
+
+/* Tilt Effect */
+.tilt-on-hover {
+  transition: transform var(--transition-normal);
+  
+  &:hover {
+    transform: perspective(1000px) rotateX(5deg) rotateY(5deg);
+  }
+}
+
+/* Glow Effect */
+.glow-on-hover {
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(45deg, var(--primary), var(--secondary));
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+    z-index: -1;
+  }
+  
+  &:hover::before {
+    opacity: 0.7;
+    animation: glow-pulse 2s ease-in-out infinite;
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { 
+    opacity: 0.7; 
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 1; 
+    transform: scale(1.02);
+  }
+}
+
+/* =======================
+   REDUCED MOTION
+   ======================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .hero-bg {
+    animation: none;
+  }
+  
+  .collab-sim-arrow,
+  .cicd-pipe span,
+  .three-states-demo .state-node {
+    transition: none;
+  }
+}

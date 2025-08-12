@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Guía pedagógica interactiva para el control de versiones, diseñada para estudiantes universitarios neurodiversos">
+    <meta name="keywords" content="git, control de versiones, educación, accesibilidad, neurodiversidad">
+    <meta name="author" content="Innovaciones MADFAM SAS de CV">
+    
+    <title>Guía Pedagógica de Control de Versiones | Innovaciones MADFAM</title>
+    
+    <!-- Preconnect to external resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/phosphor-icons@2.0.2"></script>
+    
+    <!-- Tailwind CSS (will be replaced with custom build later) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Main Styles -->
+    <link rel="stylesheet" href="./styles/main.css">
+    <link rel="stylesheet" href="./styles/components.css">
+    <link rel="stylesheet" href="./styles/animations.css">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="./manifest.json">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="./assets/favicon.ico">
+    <link rel="apple-touch-icon" href="./assets/icons/apple-touch-icon.png">
+    
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#2563eb">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Guía Pedagógica de Control de Versiones">
+    <meta property="og:description" content="Aprende Git y control de versiones de forma interactiva">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://version-control-101.pages.dev">
+</head>
+<body class="theme-light">
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progress-bar" style="transform: scaleX(0);"></div>
+    
+    <!-- Navigation Indicator -->
+    <nav class="nav-indicator" id="nav-indicator" aria-label="Section Navigation">
+        <div class="nav-dot" data-section="hero" title="Inicio" role="button" tabindex="0"></div>
+        <div class="nav-dot" data-section="part1" title="Fundamentos Conceptuales" role="button" tabindex="0"></div>
+        <div class="nav-dot" data-section="part2" title="Ruta de Aprendizaje" role="button" tabindex="0"></div>
+        <div class="nav-dot" data-section="part3" title="Ecosistema Extendido" role="button" tabindex="0"></div>
+        <div class="nav-dot" data-section="part4" title="Pedagogía Inclusiva" role="button" tabindex="0"></div>
+    </nav>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="flex justify-between items-center h-16">
+                <a href="#" class="text-xl font-bold flex items-center gap-2" style="color: var(--text);">
+                    <i class="ph-git-branch text-2xl" style="color: var(--primary);"></i>
+                    <span data-lang-es="Innovaciones MADFAM" data-lang-en="MADFAM Innovations">Innovaciones MADFAM</span>
+                </a>
+                <div class="flex items-center space-x-4">
+                    <!-- Language Toggle -->
+                    <div class="flex items-center text-sm font-medium" style="color: var(--neutral);">
+                        <span>ES</span>
+                        <label for="language-toggle" class="relative inline-flex items-center cursor-pointer mx-2">
+                            <input type="checkbox" value="" id="language-toggle" class="sr-only peer">
+                            <div class="w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                        </label>
+                        <span>EN</span>
+                    </div>
+                    
+                    <!-- Theme Toggle -->
+                    <div class="flex items-center p-1 rounded-full" style="background-color: var(--card-bg); border: 1px solid var(--border-color);">
+                        <button id="theme-auto" class="p-1.5 rounded-full" title="Auto" aria-label="Auto theme">
+                            <i class="ph-monitor text-xl" style="color: var(--neutral);"></i>
+                        </button>
+                        <button id="theme-light" class="p-1.5 rounded-full" title="Light" aria-label="Light theme">
+                            <i class="ph-sun text-xl" style="color: var(--neutral);"></i>
+                        </button>
+                        <button id="theme-dark" class="p-1.5 rounded-full" title="Dark" aria-label="Dark theme">
+                            <i class="ph-moon text-xl" style="color: var(--neutral);"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="relative py-20 sm:py-32 overflow-hidden">
+            <div class="hero-bg"></div>
+            <div class="container text-center relative">
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight" style="color: var(--text);">
+                    <span data-lang-es="Guía Pedagógica de Control de Versiones" data-lang-en="A Pedagogical Guide to Version Control">Guía Pedagógica de Control de Versiones</span>
+                </h1>
+                <p class="mt-6 text-lg sm:text-xl max-w-3xl mx-auto" style="color: var(--neutral);">
+                    <span data-lang-es="De Fundamentos a Flujos de Trabajo Avanzados para el Aula Universitaria Neurodiversa." data-lang-en="From Foundations to Advanced Workflows for the Neurodiverse University Classroom.">De Fundamentos a Flujos de Trabajo Avanzados para el Aula Universitaria Neurodiversa.</span>
+                </p>
+                <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+                    <button id="start-learning" class="btn btn-primary">
+                        <i class="ph-play"></i>
+                        <span data-lang-es="Comenzar Aprendizaje" data-lang-en="Start Learning">Comenzar Aprendizaje</span>
+                    </button>
+                    <button id="progress-overview" class="btn btn-secondary">
+                        <i class="ph-chart-line"></i>
+                        <span data-lang-es="Ver Progreso" data-lang-en="View Progress">Ver Progreso</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Content Sections Container -->
+        <div id="content-sections" class="container pb-20">
+            <!-- Sections will be dynamically loaded here -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t" style="background-color: var(--card-bg); border-color: var(--border-color);">
+        <div class="container py-6 text-center">
+            <p style="color: var(--neutral);">
+                &copy; <span id="current-year"></span> 
+                <span data-lang-es="Innovaciones MADFAM SAS de CV. Todos los derechos reservados." data-lang-en="Innovaciones MADFAM SAS de CV. All rights reserved.">
+                    Innovaciones MADFAM SAS de CV. Todos los derechos reservados.
+                </span>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Success Notification Template -->
+    <template id="success-notification">
+        <div class="fixed top-20 right-4 bg-green-500 text-white p-4 rounded-lg shadow-lg z-50 transform translate-x-full transition-transform">
+            <div class="flex items-center gap-2">
+                <i class="ph-check-circle text-xl"></i>
+                <span data-lang-es="¡Excelente trabajo!" data-lang-en="Excellent work!">¡Excelente trabajo!</span>
+            </div>
+        </div>
+    </template>
+
+    <!-- Main Application Script -->
+    <script type="module" src="./js/app.js"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js')
+                .then(registration => console.log('SW registered:', registration))
+                .catch(error => console.log('SW registration failed:', error));
+        }
+    </script>
+</body>
+</html>

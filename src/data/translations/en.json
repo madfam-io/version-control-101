@@ -1,0 +1,127 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success", 
+    "continue": "Continue",
+    "back": "Back",
+    "next": "Next",
+    "finish": "Finish",
+    "reset": "Reset",
+    "close": "Close",
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirm": "Confirm"
+  },
+  "navigation": {
+    "home": "Home",
+    "progress": "Progress",
+    "sections": {
+      "hero": "Home",
+      "part1": "Conceptual Foundations",
+      "part2": "Learning Path",
+      "part3": "Extended Ecosystem",
+      "part4": "Inclusive Pedagogy"
+    }
+  },
+  "hero": {
+    "title": "A Pedagogical Guide to Version Control",
+    "subtitle": "From Foundations to Advanced Workflows for the Neurodiverse University Classroom",
+    "startLearning": "Start Learning",
+    "viewProgress": "View Progress"
+  },
+  "concepts": {
+    "vcs": {
+      "term": "VCS",
+      "definition": "A system that records and manages changes to files over time."
+    },
+    "commit": {
+      "term": "Commit", 
+      "definition": "A 'snapshot' or permanent save of changes with metadata."
+    },
+    "repository": {
+      "term": "Repository",
+      "definition": "The database where the entire project history is stored."
+    },
+    "branch": {
+      "term": "Branch",
+      "definition": "An independent line of parallel development."
+    }
+  },
+  "exercises": {
+    "dragDrop": {
+      "title": "Interactive Exercise: Fundamental Concepts",
+      "instructions": "Drag the terms to their correct definitions:",
+      "completion": "Excellent work! You completed the exercise.",
+      "reset": "Reset"
+    },
+    "threeStates": {
+      "title": "The Three States of Git",
+      "workingDirectory": "Working Directory",
+      "stagingArea": "Staging Area",
+      "repository": "Git Repository", 
+      "demo": "Demonstrate Flow"
+    },
+    "branching": {
+      "title": "Branch Simulator",
+      "createBranch": "Create Branch",
+      "commit": "Make Commit",
+      "merge": "Merge",
+      "reset": "Reset"
+    }
+  },
+  "progress": {
+    "title": "Your Progress",
+    "overall": "Overall Progress",
+    "sections": "Sections",
+    "activities": "Activities", 
+    "achievements": "Achievements",
+    "completed": "completed",
+    "of": "of"
+  },
+  "achievements": {
+    "unlocked": "Achievement Unlocked!",
+    "firstSteps": {
+      "name": "First Steps",
+      "description": "Complete your first concept exercise",
+      "reward": "Git Novice"
+    },
+    "foundationMaster": {
+      "name": "Foundation Master",
+      "description": "Complete all Part I activities", 
+      "reward": "Foundation Expert"
+    },
+    "branchingExpert": {
+      "name": "Branching Expert",
+      "description": "Master all branching concepts",
+      "reward": "Branch Master"
+    },
+    "collaborationPro": {
+      "name": "Collaboration Pro",
+      "description": "Complete the collaborative workflow",
+      "reward": "Team Player"
+    },
+    "platformExplorer": {
+      "name": "Platform Explorer",
+      "description": "Explore all three major platforms",
+      "reward": "Platform Expert"
+    },
+    "gitMaster": {
+      "name": "Git Master",
+      "description": "Complete the entire learning journey",
+      "reward": "Git Guru"
+    }
+  },
+  "accessibility": {
+    "keyboardShortcuts": "Keyboard Shortcuts",
+    "highContrast": "High Contrast",
+    "screenReader": "Screen Reader",
+    "reduceMotion": "Reduce Motion"
+  },
+  "errors": {
+    "loadingFailed": "Failed to load content",
+    "networkError": "Network error", 
+    "tryAgain": "Try again",
+    "contactSupport": "Contact support"
+  }
+}
