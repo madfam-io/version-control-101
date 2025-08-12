@@ -89,6 +89,9 @@
 
         .branch-simulator button { transition: all 0.2s; }
         .cicd-pipe span { transition: all 0.3s ease-in-out; }
+        
+        .collab-sim-arrow { transition: opacity 0.5s, transform 0.5s; opacity: 0; }
+        .collab-sim-arrow.active { opacity: 1; }
     </style>
 </head>
 <body class="antialiased">
@@ -249,6 +252,60 @@
                                         <button id="branch-merge" class="p-2 rounded text-white" style="background-color: var(--accent);"><i class="ph-git-merge inline-block mr-1"></i> <span data-lang-es="Fusionar en Main" data-lang-en="Merge to Main">Fusionar en Main</span></button>
                                     </div>
                                     <div id="branch-visualizer" class="font-mono text-sm p-4 rounded" style="background-color: var(--card-bg); border: 1px solid var(--border-color);"></div>
+                                </div>
+                            </div>
+                        </details>
+                        <!-- Section 5 Accordion -->
+                        <details class="group mt-4 bg-transparent rounded-lg border" style="background-color: var(--card-bg); border-color: var(--border-color);">
+                            <summary class="flex justify-between items-center p-4 cursor-pointer">
+                                <h3 class="text-lg font-medium"><i class="ph-globe-hemisphere-west inline-block mr-2 text-xl" style="color: var(--primary);"></i><span data-lang-es="Sección 5: Colaboración y Repositorios Remotos" data-lang-en="Section 5: Collaboration and Remote Repositories">Sección 5: Colaboración y Repositorios Remotos</span></h3>
+                                <div class="text-xl" style="color: var(--neutral);"><i class="ph-plus icon-plus"></i><i class="ph-minus icon-minus"></i></div>
+                            </summary>
+                            <div class="p-4 pt-0">
+                                <h4 data-lang-es="5.1 Simulador de Flujo de Trabajo Remoto" data-lang-en="5.1 Remote Workflow Simulator">5.1 Simulador de Flujo de Trabajo Remoto</h4>
+                                <p data-lang-es="Visualiza cómo fluyen los cambios entre tu repositorio local, el remoto (origin) y el de un colaborador. Haz clic en los botones para simular las acciones." data-lang-en="Visualize how changes flow between your local repository, the remote (origin), and a collaborator's repo. Click the buttons to simulate actions.">Visualiza cómo fluyen los cambios entre tu repositorio local, el remoto (origin) y el de un colaborador. Haz clic en los botones para simular las acciones.</p>
+                                <div class="my-4 p-4 rounded-lg" style="background-color: var(--bg);">
+                                    <div class="relative flex justify-between items-center h-48">
+                                        <!-- Local Repo -->
+                                        <div class="text-center">
+                                            <i class="ph-laptop text-4xl" style="color: var(--primary);"></i>
+                                            <p class="text-sm font-bold" data-lang-es="Tu Local" data-lang-en="Your Local">Tu Local</p>
+                                            <div id="local-commits" class="text-xs font-mono">C0</div>
+                                        </div>
+                                        <!-- Arrows -->
+                                        <div class="absolute top-1/2 left-0 w-full h-full -z-10">
+                                            <svg width="100%" height="100%" viewBox="0 0 300 100" preserveAspectRatio="none">
+                                                <path id="arrow-push" d="M 60 50 H 130" stroke="var(--success)" stroke-width="2" marker-end="url(#arrowhead-push)" class="collab-sim-arrow"/>
+                                                <path id="arrow-pull" d="M 140 60 H 70" stroke="var(--info)" stroke-width="2" marker-end="url(#arrowhead-pull)" class="collab-sim-arrow"/>
+                                                <path id="arrow-fork" d="M 160 40 Q 225 10, 290 40" stroke="var(--accent)" stroke-width="2" fill="none" marker-end="url(#arrowhead-fork)" class="collab-sim-arrow"/>
+                                                <path id="arrow-pr" d="M 290 60 Q 225 90, 160 60" stroke="var(--danger)" stroke-width="2" fill="none" marker-end="url(#arrowhead-pr)" class="collab-sim-arrow"/>
+                                                <defs>
+                                                    <marker id="arrowhead-push" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--success)" /></marker>
+                                                    <marker id="arrowhead-pull" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--info)" /></marker>
+                                                    <marker id="arrowhead-fork" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--accent)" /></marker>
+                                                    <marker id="arrowhead-pr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--danger)" /></marker>
+                                                </defs>
+                                            </svg>
+                                        </div>
+                                        <!-- Remote Repo -->
+                                        <div class="text-center">
+                                            <i class="ph-cloud text-4xl" style="color: var(--secondary);"></i>
+                                            <p class="text-sm font-bold">Origin</p>
+                                            <div id="remote-commits" class="text-xs font-mono">C0</div>
+                                        </div>
+                                        <!-- Forked Repo -->
+                                        <div class="text-center">
+                                            <i class="ph-git-fork text-4xl" style="color: var(--accent);"></i>
+                                            <p class="text-sm font-bold" data-lang-es="Tu Fork" data-lang-en="Your Fork">Tu Fork</p>
+                                            <div id="fork-commits" class="text-xs font-mono">C0</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-wrap gap-2 mt-4 justify-center">
+                                        <button id="collab-commit" class="p-2 rounded text-white" style="background-color: var(--primary);"><span data-lang-es="1. Commit Local" data-lang-en="1. Local Commit">1. Commit Local</span></button>
+                                        <button id="collab-push" class="p-2 rounded text-white" style="background-color: var(--success);"><span data-lang-es="2. Push a Fork" data-lang-en="2. Push to Fork">2. Push a Fork</span></button>
+                                        <button id="collab-pr" class="p-2 rounded text-white" style="background-color: var(--danger);"><span data-lang-es="3. Abrir PR" data-lang-en="3. Open PR">3. Abrir PR</span></button>
+                                        <button id="collab-reset" class="p-2 rounded border" style="border-color: var(--neutral);"><i class="ph-arrow-clockwise"></i></button>
+                                    </div>
                                 </div>
                             </div>
                         </details>
@@ -490,7 +547,6 @@
                 let html = '';
                 const branchContainer = branchCreateBtn.parentElement;
                 
-                // Clear old branch buttons
                 branchContainer.querySelectorAll('.branch-btn').forEach(btn => btn.remove());
 
                 for (const name in branches) {
@@ -570,6 +626,59 @@
                      });
                 }, delay);
             });
+            
+            // --- Collaboration Simulator ---
+            const collabState = {
+                local: ['C0'],
+                remote: ['C0'],
+                fork: ['C0']
+            };
+            const localCommitsEl = document.getElementById('local-commits');
+            const remoteCommitsEl = document.getElementById('remote-commits');
+            const forkCommitsEl = document.getElementById('fork-commits');
+            let collabCommitCounter = 1;
+
+            function renderCollabState() {
+                localCommitsEl.textContent = collabState.local.join(', ');
+                remoteCommitsEl.textContent = collabState.remote.join(', ');
+                forkCommitsEl.textContent = collabState.fork.join(', ');
+            }
+            
+            function flashArrow(arrowId) {
+                const arrow = document.getElementById(arrowId);
+                arrow.classList.add('active');
+                setTimeout(() => arrow.classList.remove('active'), 1000);
+            }
+
+            document.getElementById('collab-commit').addEventListener('click', () => {
+                collabState.local.push(`C${collabCommitCounter++}`);
+                renderCollabState();
+            });
+            
+            document.getElementById('collab-push').addEventListener('click', () => {
+                collabState.fork = [...collabState.local];
+                flashArrow('arrow-push'); // This arrow represents push to fork
+                renderCollabState();
+            });
+            
+            document.getElementById('collab-pr').addEventListener('click', () => {
+                flashArrow('arrow-pr');
+                // Simulate merge after a delay
+                setTimeout(() => {
+                    collabState.remote = [...collabState.fork];
+                    renderCollabState();
+                }, 1000);
+            });
+
+            document.getElementById('collab-reset').addEventListener('click', () => {
+                collabState.local = ['C0'];
+                collabState.remote = ['C0'];
+                collabState.fork = ['C0'];
+                collabCommitCounter = 1;
+                renderCollabState();
+            });
+
+            renderCollabState();
         });
     </script>
 </body>
