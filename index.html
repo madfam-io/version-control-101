@@ -59,6 +59,38 @@
             100% { background-position: 100px 50px; }
         }
 
+        /* Enhanced Navigation */
+        .nav-indicator {
+            position: fixed; right: 2rem; top: 50%; transform: translateY(-50%);
+            z-index: 50; display: flex; flex-direction: column; gap: 0.5rem;
+        }
+        .nav-dot {
+            width: 12px; height: 12px; border-radius: 50%;
+            background-color: var(--border-color); cursor: pointer;
+            transition: all 0.3s ease; border: 2px solid transparent;
+        }
+        .nav-dot.active {
+            background-color: var(--primary); border-color: var(--primary);
+            transform: scale(1.2);
+        }
+        .nav-dot:hover { background-color: var(--secondary); }
+
+        /* Progress Tracking */
+        .progress-bar {
+            position: fixed; top: 0; left: 0; width: 100%; height: 4px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            transform-origin: left; transition: transform 0.3s ease; z-index: 100;
+        }
+
+        /* Component Loading */
+        .component-loading {
+            opacity: 0; transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+        .component-loaded {
+            opacity: 1; transform: translateY(0);
+        }
+
         details > summary { list-style: none; }
         details > summary::-webkit-details-marker { display: none; }
         details summary .icon-plus, details[open] summary .icon-minus { display: block; }
@@ -92,9 +124,56 @@
         
         .collab-sim-arrow { transition: opacity 0.5s, transform 0.5s; opacity: 0; }
         .collab-sim-arrow.active { opacity: 1; }
+
+        /* Enhanced Interactive Components */
+        .timeline-item { position: relative; padding-left: 2rem; margin-bottom: 2rem; }
+        .timeline-item::before { content: ''; position: absolute; left: 0; top: 0.5rem; width: 0.75rem; height: 0.75rem; border-radius: 50%; background: var(--primary); }
+        .timeline-line { position: absolute; left: 0.375rem; top: 0; bottom: 0; width: 2px; background: var(--border-color); }
+        
+        .comparison-table { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+        .comparison-card { padding: 1.5rem; border: 1px solid var(--border-color); border-radius: 0.5rem; transition: all 0.3s ease; }
+        .comparison-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        
+        .git-graph { font-family: 'Space Mono', monospace; padding: 1rem; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 0.5rem; }
+        .git-commit { display: inline-block; padding: 0.25rem 0.5rem; margin: 0.125rem; border-radius: 0.25rem; }
+        .git-branch-main { background: var(--primary); color: white; }
+        .git-branch-feature { background: var(--secondary); color: white; }
+        .git-merge { background: var(--accent); color: white; }
+        
+        .hash-demo { font-family: 'Space Mono', monospace; background: var(--card-bg); padding: 1rem; border-radius: 0.5rem; border: 1px solid var(--border-color); }
+        .hash-input { width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 0.25rem; background: var(--bg); }
+        .hash-output { margin-top: 0.5rem; padding: 0.5rem; background: rgba(34, 197, 94, 0.1); border-radius: 0.25rem; word-break: break-all; }
+        
+        .platform-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+        .platform-card { padding: 2rem; border: 1px solid var(--border-color); border-radius: 1rem; position: relative; overflow: hidden; }
+        .platform-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+        .github-card::before { background: #333; }
+        .gitlab-card::before { background: #fc6d26; }
+        .bitbucket-card::before { background: #2684ff; }
+        
+        .workflow-diagram { display: flex; align-items: center; justify-content: space-around; padding: 2rem; background: var(--bg); border-radius: 1rem; }
+        .workflow-node { text-align: center; padding: 1rem; border-radius: 0.5rem; background: var(--card-bg); border: 1px solid var(--border-color); }
+        .workflow-arrow { font-size: 1.5rem; color: var(--neutral); }
+        
+        .udl-checklist { list-style: none; padding: 0; }
+        .udl-checklist li { padding: 0.5rem 0; display: flex; align-items: center; gap: 0.75rem; }
+        .udl-checkbox { width: 1.25rem; height: 1.25rem; border: 2px solid var(--primary); border-radius: 0.25rem; position: relative; cursor: pointer; }
+        .udl-checkbox.checked::after { content: '✓'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: var(--primary); font-weight: bold; }
     </style>
 </head>
 <body class="antialiased">
+
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progress-bar" style="transform: scaleX(0);"></div>
+    
+    <!-- Navigation Indicator -->
+    <nav class="nav-indicator" id="nav-indicator" aria-label="Section Navigation">
+        <div class="nav-dot" data-section="hero" title="Inicio"></div>
+        <div class="nav-dot" data-section="part1" title="Fundamentos Conceptuales"></div>
+        <div class="nav-dot" data-section="part2" title="Ruta de Aprendizaje"></div>
+        <div class="nav-dot" data-section="part3" title="Ecosistema Extendido"></div>
+        <div class="nav-dot" data-section="part4" title="Pedagogía Inclusiva"></div>
+    </nav>
 
     <!-- Header -->
     <header class="sticky top-0 z-40 w-full backdrop-blur flex-none transition-colors duration-500 lg:z-50 lg:border-b" style="border-color: var(--border-color); background-color: rgba(241, 245, 249, 0.7);">
@@ -127,7 +206,7 @@
 
     <main>
         <!-- Hero Section -->
-        <section class="relative py-20 sm:py-32 overflow-hidden">
+        <section id="hero" class="relative py-20 sm:py-32 overflow-hidden">
             <div class="hero-bg"></div>
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
                 <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight" style="color: var(--text);">
@@ -136,6 +215,16 @@
                 <p class="mt-6 text-lg sm:text-xl max-w-3xl mx-auto" style="color: var(--neutral);">
                     <span data-lang-es="De Fundamentos a Flujos de Trabajo Avanzados para el Aula Universitaria Neurodiversa." data-lang-en="From Foundations to Advanced Workflows for the Neurodiverse University Classroom.">De Fundamentos a Flujos de Trabajo Avanzados para el Aula Universitaria Neurodiversa.</span>
                 </p>
+                <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+                    <button id="start-learning" class="px-8 py-3 rounded-lg font-semibold transition-all hover:transform hover:scale-105" style="background-color: var(--primary); color: white;">
+                        <i class="ph-play mr-2"></i>
+                        <span data-lang-es="Comenzar Aprendizaje" data-lang-en="Start Learning">Comenzar Aprendizaje</span>
+                    </button>
+                    <button id="progress-overview" class="px-8 py-3 rounded-lg font-semibold border transition-all hover:bg-opacity-10" style="border-color: var(--primary); color: var(--primary); background-color: transparent;">
+                        <i class="ph-chart-line mr-2"></i>
+                        <span data-lang-es="Ver Progreso" data-lang-en="View Progress">Ver Progreso</span>
+                    </button>
+                </div>
             </div>
         </section>
 
@@ -144,10 +233,10 @@
             <div class="space-y-6">
                 
                 <!-- Part I Accordion -->
-                <details class="group bg-transparent rounded-lg border" style="border-color: var(--border-color);">
+                <details id="part1" class="group bg-transparent rounded-lg border component-loading" style="border-color: var(--border-color);">
                     <summary class="flex justify-between items-center p-5 cursor-pointer">
                         <h2 class="text-xl font-semibold">
-                            <span data-lang-es="Parte I: Fundamentos Conceptuales" data-lang-en="Part I: Conceptual Foundations">Parte I: Fundamentos Conceptuales</span>
+                            <span data-lang-es="Parte I: Fundamentos Conceptuales del Control de Versiones" data-lang-en="Part I: Conceptual Foundations of Version Control">Parte I: Fundamentos Conceptuales del Control de Versiones</span>
                         </h2>
                         <div class="text-2xl" style="color: var(--neutral);">
                             <i class="ph-plus-circle icon-plus"></i>
@@ -155,54 +244,257 @@
                         </div>
                     </summary>
                     <div class="p-6 pt-0 prose prose-custom max-w-none">
-                        <!-- Section 1 Accordion -->
+                        <!-- Section 1: The Imperative of Version Control -->
                         <details class="group mt-4 bg-transparent rounded-lg border" style="background-color: var(--card-bg); border-color: var(--border-color);">
                             <summary class="flex justify-between items-center p-4 cursor-pointer">
-                                <h3 class="text-lg font-medium"><i class="ph-compass inline-block mr-2 text-xl" style="color: var(--primary);"></i><span data-lang-es="Sección 1: El Imperativo del Control de Versiones" data-lang-en="Section 1: The Imperative of Version Control">Sección 1: El Imperativo del Control de Versiones</span></h3>
+                                <h3 class="text-lg font-medium"><i class="ph-compass inline-block mr-2 text-xl" style="color: var(--primary);"></i><span data-lang-es="Sección 1: El Imperativo del Control de Versiones en el Desarrollo Moderno" data-lang-en="Section 1: The Imperative of Version Control in Modern Development">Sección 1: El Imperativo del Control de Versiones en el Desarrollo Moderno</span></h3>
                                 <div class="text-xl" style="color: var(--neutral);"><i class="ph-plus icon-plus"></i><i class="ph-minus icon-minus"></i></div>
                             </summary>
                             <div class="p-4 pt-0">
-                                <h4 data-lang-es="1.1 Definiendo el Control de Versiones" data-lang-en="1.1 Defining Version Control">1.1 Definiendo el Control de Versiones</h4>
-                                <p data-lang-es="Arrastra los términos a su definición correcta para probar tu conocimiento." data-lang-en="Drag the terms to their correct definition to test your knowledge.">Arrastra los términos a su definición correcta para probar tu conocimiento.</p>
-                                <div class="my-4 p-4 rounded-lg" style="background-color: var(--bg);">
+                                <h4 data-lang-es="1.1 Definiendo el Control de Versiones: Más Allá de 'Guardar Como...'" data-lang-en="1.1 Defining Version Control: Beyond 'Saving As...'">1.1 Definiendo el Control de Versiones: Más Allá de "Guardar Como..."</h4>
+                                <p data-lang-es="Un Sistema de Control de Versiones (VCS) es mucho más que guardar archivos con diferentes nombres. Es la base fundamental del desarrollo moderno." data-lang-en="A Version Control System (VCS) is much more than saving files with different names. It's the fundamental foundation of modern development.">Un Sistema de Control de Versiones (VCS) es mucho más que guardar archivos con diferentes nombres. Es la base fundamental del desarrollo moderno.</p>
+                                
+                                <!-- Enhanced Drag and Drop -->
+                                <div class="my-6 p-4 rounded-lg" style="background-color: var(--bg);">
+                                    <h5 data-lang-es="Ejercicio Interactivo: Conceptos Fundamentales" data-lang-en="Interactive Exercise: Fundamental Concepts">Ejercicio Interactivo: Conceptos Fundamentales</h5>
                                     <div class="flex flex-wrap gap-2 mb-4">
                                         <div id="drag-vcs" draggable="true" class="drag-item p-2 rounded" style="background-color: var(--card-bg); border: 1px solid var(--border-color);" data-term="vcs">VCS</div>
                                         <div id="drag-commit" draggable="true" class="drag-item p-2 rounded" style="background-color: var(--card-bg); border: 1px solid var(--border-color);" data-term="commit">Commit</div>
+                                        <div id="drag-repository" draggable="true" class="drag-item p-2 rounded" style="background-color: var(--card-bg); border: 1px solid var(--border-color);" data-term="repository">Repository</div>
+                                        <div id="drag-branch" draggable="true" class="drag-item p-2 rounded" style="background-color: var(--card-bg); border: 1px solid var(--border-color);" data-term="branch">Branch</div>
                                     </div>
                                     <div class="space-y-2">
                                         <div class="flex items-center gap-2">
-                                            <div id="drop-commit" class="drop-zone w-full p-4 rounded" data-term="commit"><span data-lang-es="Una 'instantánea' o guardado permanente de tus cambios." data-lang-en="A 'snapshot' or permanent save of your changes.">Una 'instantánea' o guardado permanente de tus cambios.</span></div>
+                                            <div id="drop-vcs" class="drop-zone w-full p-4 rounded" data-term="vcs"><span data-lang-es="Un sistema que registra y gestiona cambios en archivos a lo largo del tiempo." data-lang-en="A system that records and manages changes to files over time.">Un sistema que registra y gestiona cambios en archivos a lo largo del tiempo.</span></div>
+                                            <i id="feedback-vcs" class="ph text-2xl"></i>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <div id="drop-commit" class="drop-zone w-full p-4 rounded" data-term="commit"><span data-lang-es="Una 'instantánea' o guardado permanente de cambios con metadata." data-lang-en="A 'snapshot' or permanent save of changes with metadata.">Una 'instantánea' o guardado permanente de cambios con metadata.</span></div>
                                             <i id="feedback-commit" class="ph text-2xl"></i>
                                         </div>
                                         <div class="flex items-center gap-2">
-                                            <div id="drop-vcs" class="drop-zone w-full p-4 rounded" data-term="vcs"><span data-lang-es="Un sistema que registra cambios en archivos a lo largo del tiempo." data-lang-en="A system that records changes to files over time.">Un sistema que registra cambios en archivos a lo largo del tiempo.</span></div>
-                                            <i id="feedback-vcs" class="ph text-2xl"></i>
+                                            <div id="drop-repository" class="drop-zone w-full p-4 rounded" data-term="repository"><span data-lang-es="La base de datos donde se almacena toda la historia del proyecto." data-lang-en="The database where the entire project history is stored.">La base de datos donde se almacena toda la historia del proyecto.</span></div>
+                                            <i id="feedback-repository" class="ph text-2xl"></i>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <div id="drop-branch" class="drop-zone w-full p-4 rounded" data-term="branch"><span data-lang-es="Una línea independiente de desarrollo paralelo." data-lang-en="An independent line of parallel development.">Una línea independiente de desarrollo paralelo.</span></div>
+                                            <i id="feedback-branch" class="ph text-2xl"></i>
                                         </div>
                                     </div>
                                 </div>
-                                <h4 data-lang-es="1.2 Los Beneficios Clave" data-lang-en="1.2 The Core Benefits">1.2 Los Beneficios Clave</h4>
-                                <p data-lang-es="El control de versiones es una superpotencia para cualquier proyecto digital. Haz clic en cada beneficio para saber más." data-lang-en="Version control is a superpower for any digital project. Click each benefit to learn more.">El control de versiones es una superpotencia para cualquier proyecto digital. Haz clic en cada beneficio para saber más.</p>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
-                                    <div class="p-4 rounded-lg border" style="border-color: var(--primary);"><strong data-lang-es="Colaboración" data-lang-en="Collaboration">Colaboración</strong><p class="text-sm" style="color: var(--neutral);" data-lang-es="Equipos trabajan en paralelo sin caos." data-lang-en="Teams work in parallel without chaos.">Equipos trabajan en paralelo sin caos.</p></div>
-                                    <div class="p-4 rounded-lg border" style="border-color: var(--secondary);"><strong data-lang-es="Historial y Trazabilidad" data-lang-en="History & Traceability">Historial y Trazabilidad</strong><p class="text-sm" style="color: var(--neutral);" data-lang-es="Cada cambio queda registrado para siempre." data-lang-en="Every change is logged forever.">Cada cambio queda registrado para siempre.</p></div>
-                                    <div class="p-4 rounded-lg border" style="border-color: var(--accent);"><strong data-lang-es="Recuperación de Errores" data-lang-en="Error Recovery">Recuperación de Errores</strong><p class="text-sm" style="color: var(--neutral);" data-lang-es="¿Algo se rompió? Vuelve a una versión anterior al instante." data-lang-en="Something broke? Revert to a previous version instantly.">¿Algo se rompió? Vuelve a una versión anterior al instante.</p></div>
-                                    <div class="p-4 rounded-lg border" style="border-color: var(--danger);"><strong data-lang-es="Experimentación Segura" data-lang-en="Safe Experimentation">Experimentación Segura</strong><p class="text-sm" style="color: var(--neutral);" data-lang-es="Prueba nuevas ideas en 'ramas' sin afectar el proyecto principal." data-lang-en="Test new ideas in 'branches' without affecting the main project.">Prueba nuevas ideas en 'ramas' sin afectar el proyecto principal.</p></div>
+
+                                <h4 data-lang-es="1.2 Los Beneficios Transformadores" data-lang-en="1.2 The Transformative Benefits">1.2 Los Beneficios Transformadores</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
+                                    <div class="p-4 rounded-lg border cursor-pointer transition-all hover:shadow-lg" style="border-color: var(--primary);" data-benefit="collaboration">
+                                        <div class="flex items-center gap-3 mb-2">
+                                            <i class="ph-users text-2xl" style="color: var(--primary);"></i>
+                                            <strong data-lang-es="Colaboración y Desarrollo Paralelo" data-lang-en="Collaboration and Parallel Development">Colaboración y Desarrollo Paralelo</strong>
+                                        </div>
+                                        <p class="text-sm" style="color: var(--neutral);" data-lang-es="Múltiples desarrolladores trabajan simultáneamente sin sobrescribir cambios." data-lang-en="Multiple developers work simultaneously without overwriting changes.">Múltiples desarrolladores trabajan simultáneamente sin sobrescribir cambios.</p>
+                                    </div>
+                                    <div class="p-4 rounded-lg border cursor-pointer transition-all hover:shadow-lg" style="border-color: var(--secondary);" data-benefit="history">
+                                        <div class="flex items-center gap-3 mb-2">
+                                            <i class="ph-clock-clockwise text-2xl" style="color: var(--secondary);"></i>
+                                            <strong data-lang-es="Historial y Trazabilidad Completa" data-lang-en="Complete History & Traceability">Historial y Trazabilidad Completa</strong>
+                                        </div>
+                                        <p class="text-sm" style="color: var(--neutral);" data-lang-es="Cada cambio queda registrado con autor, fecha y propósito." data-lang-en="Every change is logged with author, date, and purpose.">Cada cambio queda registrado con autor, fecha y propósito.</p>
+                                    </div>
+                                    <div class="p-4 rounded-lg border cursor-pointer transition-all hover:shadow-lg" style="border-color: var(--accent);" data-benefit="recovery">
+                                        <div class="flex items-center gap-3 mb-2">
+                                            <i class="ph-shield-check text-2xl" style="color: var(--accent);"></i>
+                                            <strong data-lang-es="Recuperación de Errores y Experimentación" data-lang-en="Error Recovery and Experimentation">Recuperación de Errores y Experimentación</strong>
+                                        </div>
+                                        <p class="text-sm" style="color: var(--neutral);" data-lang-es="Revierte errores instantáneamente y experimenta con confianza." data-lang-en="Revert errors instantly and experiment with confidence.">Revierte errores instantáneamente y experimenta con confianza.</p>
+                                    </div>
+                                    <div class="p-4 rounded-lg border cursor-pointer transition-all hover:shadow-lg" style="border-color: var(--danger);" data-benefit="automation">
+                                        <div class="flex items-center gap-3 mb-2">
+                                            <i class="ph-robot text-2xl" style="color: var(--danger);"></i>
+                                            <strong data-lang-es="Automatización y DevOps" data-lang-en="Automation and DevOps">Automatización y DevOps</strong>
+                                        </div>
+                                        <p class="text-sm" style="color: var(--neutral);" data-lang-es="Desencadena pipelines automáticos de testing y despliegue." data-lang-en="Triggers automatic testing and deployment pipelines.">Desencadena pipelines automáticos de testing y despliegue.</p>
+                                    </div>
+                                </div>
+
+                                <h4 data-lang-es="1.3 CVCS vs DVCS: Análisis Arquitectónico" data-lang-en="1.3 CVCS vs DVCS: Architectural Analysis">1.3 CVCS vs DVCS: Análisis Arquitectónico</h4>
+                                
+                                <!-- Interactive Comparison Tool -->
+                                <div class="my-6">
+                                    <div class="flex justify-center mb-4">
+                                        <div class="flex border rounded-lg overflow-hidden" style="border-color: var(--border-color);">
+                                            <button id="show-cvcs" class="px-4 py-2 transition-all" style="background-color: var(--primary); color: white;"><span data-lang-es="CVCS Centralizado" data-lang-en="Centralized CVCS">CVCS Centralizado</span></button>
+                                            <button id="show-dvcs" class="px-4 py-2 transition-all" style="background-color: var(--card-bg); color: var(--text);"><span data-lang-es="DVCS Distribuido" data-lang-en="Distributed DVCS">DVCS Distribuido</span></button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div id="cvcs-diagram" class="comparison-diagram">
+                                        <div class="workflow-diagram">
+                                            <div class="workflow-node">
+                                                <i class="ph-laptop text-3xl mb-2" style="color: var(--primary);"></i>
+                                                <p data-lang-es="Cliente" data-lang-en="Client">Cliente</p>
+                                            </div>
+                                            <i class="ph-arrows-horizontal workflow-arrow"></i>
+                                            <div class="workflow-node" style="background-color: var(--primary); color: white;">
+                                                <i class="ph-database text-3xl mb-2"></i>
+                                                <p data-lang-es="Servidor Central" data-lang-en="Central Server">Servidor Central</p>
+                                            </div>
+                                            <i class="ph-arrows-horizontal workflow-arrow"></i>
+                                            <div class="workflow-node">
+                                                <i class="ph-laptop text-3xl mb-2" style="color: var(--primary);"></i>
+                                                <p data-lang-es="Cliente" data-lang-en="Client">Cliente</p>
+                                            </div>
+                                        </div>
+                                        <div class="mt-4 p-4 rounded-lg" style="background-color: var(--card-bg); border: 1px solid var(--border-color);">
+                                            <h6 data-lang-es="Características CVCS:" data-lang-en="CVCS Features:">Características CVCS:</h6>
+                                            <ul class="mt-2 space-y-1 text-sm" style="color: var(--neutral);">
+                                                <li data-lang-es="• Servidor único como punto central" data-lang-en="• Single server as central point">• Servidor único como punto central</li>
+                                                <li data-lang-es="• Clientes solo tienen archivos locales" data-lang-en="• Clients only have local files">• Clientes solo tienen archivos locales</li>
+                                                <li data-lang-es="• Vulnerabilidad: punto único de falla" data-lang-en="• Vulnerability: single point of failure">• Vulnerabilidad: punto único de falla</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    
+                                    <div id="dvcs-diagram" class="comparison-diagram" style="display: none;">
+                                        <div class="workflow-diagram">
+                                            <div class="workflow-node" style="background-color: var(--secondary); color: white;">
+                                                <i class="ph-git-branch text-3xl mb-2"></i>
+                                                <p data-lang-es="Repositorio Completo" data-lang-en="Full Repository">Repositorio Completo</p>
+                                            </div>
+                                            <i class="ph-arrows-horizontal workflow-arrow"></i>
+                                            <div class="workflow-node" style="background-color: var(--accent); color: white;">
+                                                <i class="ph-cloud text-3xl mb-2"></i>
+                                                <p data-lang-es="Remoto (Convención)" data-lang-en="Remote (Convention)">Remoto (Convención)</p>
+                                            </div>
+                                            <i class="ph-arrows-horizontal workflow-arrow"></i>
+                                            <div class="workflow-node" style="background-color: var(--secondary); color: white;">
+                                                <i class="ph-git-branch text-3xl mb-2"></i>
+                                                <p data-lang-es="Repositorio Completo" data-lang-en="Full Repository">Repositorio Completo</p>
+                                            </div>
+                                        </div>
+                                        <div class="mt-4 p-4 rounded-lg" style="background-color: var(--card-bg); border: 1px solid var(--border-color);">
+                                            <h6 data-lang-es="Características DVCS:" data-lang-en="DVCS Features:">Características DVCS:</h6>
+                                            <ul class="mt-2 space-y-1 text-sm" style="color: var(--neutral);">
+                                                <li data-lang-es="• Cada desarrollador tiene historial completo" data-lang-en="• Each developer has complete history">• Cada desarrollador tiene historial completo</li>
+                                                <li data-lang-es="• Operaciones locales ultra-rápidas" data-lang-en="• Ultra-fast local operations">• Operaciones locales ultra-rápidas</li>
+                                                <li data-lang-es="• Alta resistencia: múltiples backups" data-lang-en="• High resilience: multiple backups">• Alta resistencia: múltiples backups</li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </details>
-                        <!-- Section 2 Accordion -->
+
+                        <!-- Section 2: The Git Philosophy -->
                         <details class="group mt-4 bg-transparent rounded-lg border" style="background-color: var(--card-bg); border-color: var(--border-color);">
                             <summary class="flex justify-between items-center p-4 cursor-pointer">
-                                <h3 class="text-lg font-medium"><i class="ph-brain inline-block mr-2 text-xl" style="color: var(--primary);"></i><span data-lang-es="Sección 2: La Filosofía de Git" data-lang-en="Section 2: The Git Philosophy">Sección 2: La Filosofía de Git</span></h3>
+                                <h3 class="text-lg font-medium"><i class="ph-brain inline-block mr-2 text-xl" style="color: var(--primary);"></i><span data-lang-es="Sección 2: La Filosofía de Git - Una Inmersión Profunda" data-lang-en="Section 2: The Git Philosophy - A Deep Dive">Sección 2: La Filosofía de Git - Una Inmersión Profunda</span></h3>
                                 <div class="text-xl" style="color: var(--neutral);"><i class="ph-plus icon-plus"></i><i class="ph-minus icon-minus"></i></div>
                             </summary>
                             <div class="p-4 pt-0">
-                                <h4 data-lang-es="2.1 Una Breve Historia" data-lang-en="2.1 A Brief History">2.1 Una Breve Historia</h4>
-                                <p data-lang-es="Git no apareció de la nada. Nació de una necesidad específica. Explora la línea de tiempo:" data-lang-en="Git didn't just appear. It was born from a specific need. Explore the timeline:">Git no apareció de la nada. Nació de una necesidad específica. Explora la línea de tiempo:</p>
-                                <div class="relative mt-4 border-l-2 pl-6" style="border-color: var(--primary);">
-                                    <div class="mb-8 relative"><div class="absolute -left-8 -top-1 w-4 h-4 rounded-full" style="background-color: var(--primary);"></div><p class="font-bold">2002</p><p class="text-sm" style="color: var(--neutral);" data-lang-es="El equipo del Kernel de Linux adopta BitKeeper, un DVCS propietario." data-lang-en="The Linux Kernel team adopts BitKeeper, a proprietary DVCS.">El equipo del Kernel de Linux adopta BitKeeper, un DVCS propietario.</p></div>
-                                    <div class="mb-8 relative"><div class="absolute -left-8 -top-1 w-4 h-4 rounded-full" style="background-color: var(--primary);"></div><p class="font-bold">2005</p><p class="text-sm" style="color: var(--neutral);" data-lang-es="BitKeeper revoca su licencia gratuita. Linus Torvalds crea Git en 10 días." data-lang-en="BitKeeper revokes its free license. Linus Torvalds creates Git in 10 days.">BitKeeper revoca su licencia gratuita. Linus Torvalds crea Git en 10 días.</p></div>
-                                    <div class="relative"><div class="absolute -left-8 -top-1 w-4 h-4 rounded-full" style="background-color: var(--primary);"></div><p class="font-bold" data-lang-es="Hoy" data-lang-en="Today">Hoy</p><p class="text-sm" style="color: var(--neutral);" data-lang-es="Git es el estándar de facto para el control de versiones en todo el mundo." data-lang-en="Git is the de facto standard for version control worldwide.">Git es el estándar de facto para el control de versiones en todo el mundo.</p></div>
+                                <h4 data-lang-es="2.1 Del Kernel de Linux al Estándar Industrial" data-lang-en="2.1 From Linux Kernel to Industry Standard">2.1 Del Kernel de Linux al Estándar Industrial</h4>
+                                
+                                <!-- Interactive Timeline -->
+                                <div class="relative mt-4">
+                                    <div class="timeline-line"></div>
+                                    <div class="timeline-item">
+                                        <div class="cursor-pointer p-3 rounded-lg transition-all hover:shadow-lg" style="background-color: var(--card-bg); border: 1px solid var(--border-color);" data-year="2002">
+                                            <p class="font-bold text-lg">2002</p>
+                                            <p class="text-sm" style="color: var(--neutral);" data-lang-es="El equipo del Kernel de Linux adopta BitKeeper, un DVCS propietario para gestionar la complejidad creciente." data-lang-en="The Linux Kernel team adopts BitKeeper, a proprietary DVCS to manage growing complexity.">El equipo del Kernel de Linux adopta BitKeeper, un DVCS propietario para gestionar la complejidad creciente.</p>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="cursor-pointer p-3 rounded-lg transition-all hover:shadow-lg" style="background-color: var(--card-bg); border: 1px solid var(--border-color);" data-year="2005">
+                                            <p class="font-bold text-lg">2005</p>
+                                            <p class="text-sm" style="color: var(--neutral);" data-lang-es="BitKeeper revoca su licencia gratuita. Linus Torvalds crea Git en solo 10 días con objetivos específicos: velocidad, diseño simple, y soporte robusto para desarrollo no-lineal." data-lang-en="BitKeeper revokes its free license. Linus Torvalds creates Git in just 10 days with specific goals: speed, simple design, and robust support for non-linear development.">BitKeeper revoca su licencia gratuita. Linus Torvalds crea Git en solo 10 días con objetivos específicos: velocidad, diseño simple, y soporte robusto para desarrollo no-lineal.</p>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="cursor-pointer p-3 rounded-lg transition-all hover:shadow-lg" style="background-color: var(--card-bg); border: 1px solid var(--border-color);" data-year="today">
+                                            <p class="font-bold text-lg" data-lang-es="Hoy" data-lang-en="Today">Hoy</p>
+                                            <p class="text-sm" style="color: var(--neutral);" data-lang-es="Git es el estándar de facto para el control de versiones mundial, usado por millones de desarrolladores y empresas." data-lang-en="Git is the de facto standard for worldwide version control, used by millions of developers and companies.">Git es el estándar de facto para el control de versiones mundial, usado por millones de desarrolladores y empresas.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <h4 data-lang-es="2.2 Pensando en Instantáneas: Cómo el Modelo de Datos de Git Impulsa su Poder" data-lang-en="2.2 Thinking in Snapshots: How Git's Data Model Drives Its Power">2.2 Pensando en Instantáneas: Cómo el Modelo de Datos de Git Impulsa su Poder</h4>
+                                
+                                <!-- Git Data Model Visualizer -->
+                                <div class="my-6">
+                                    <div class="flex justify-center mb-4">
+                                        <div class="flex border rounded-lg overflow-hidden" style="border-color: var(--border-color);">
+                                            <button id="show-delta" class="px-4 py-2 transition-all" style="background-color: var(--primary); color: white;"><span data-lang-es="Sistema de Deltas" data-lang-en="Delta-based System">Sistema de Deltas</span></button>
+                                            <button id="show-snapshot" class="px-4 py-2 transition-all" style="background-color: var(--card-bg); color: var(--text);"><span data-lang-es="Instantáneas de Git" data-lang-en="Git Snapshots">Instantáneas de Git</span></button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div id="delta-model" class="data-model-viz">
+                                        <div class="git-graph">
+                                            <div class="mb-4">
+                                                <p class="font-semibold mb-2" data-lang-es="Modelo Tradicional (Deltas):" data-lang-en="Traditional Model (Deltas):">Modelo Tradicional (Deltas):</p>
+                                                <div class="space-y-2">
+                                                    <div>V1: <span class="git-commit git-branch-main">archivo.txt (completo)</span></div>
+                                                    <div>V2: <span class="git-commit" style="background-color: var(--warning);">+ línea 5, - línea 2</span></div>
+                                                    <div>V3: <span class="git-commit" style="background-color: var(--warning);">+ línea 10, modificar línea 3</span></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div id="snapshot-model" class="data-model-viz" style="display: none;">
+                                        <div class="git-graph">
+                                            <div class="mb-4">
+                                                <p class="font-semibold mb-2" data-lang-es="Modelo de Git (Instantáneas):" data-lang-en="Git Model (Snapshots):">Modelo de Git (Instantáneas):</p>
+                                                <div class="space-y-2">
+                                                    <div>C1: <span class="git-commit git-branch-main">instantánea completa</span> <span class="git-commit git-branch-feature">archivo.txt</span> <span class="git-commit git-branch-feature">index.html</span></div>
+                                                    <div>C2: <span class="git-commit git-branch-main">instantánea completa</span> <span class="git-commit git-branch-feature">archivo.txt (v2)</span> <span class="git-commit" style="background-color: var(--neutral);">index.html (enlace)</span></div>
+                                                    <div>C3: <span class="git-commit git-branch-main">instantánea completa</span> <span class="git-commit git-branch-feature">archivo.txt (v3)</span> <span class="git-commit git-branch-feature">index.html (v2)</span></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <h4 data-lang-es="2.3 Los Tres Estados: Comprendiendo el Viaje del Directorio de Trabajo al Repositorio" data-lang-en="2.3 The Three States: Understanding the Journey from Working Directory to Repository">2.3 Los Tres Estados: Comprendiendo el Viaje del Directorio de Trabajo al Repositorio</h4>
+                                
+                                <!-- Three States Interactive -->
+                                <div class="my-6 p-4 rounded-lg" style="background-color: var(--bg);">
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                                        <div class="text-center p-4 rounded-lg transition-all cursor-pointer" id="working-dir" style="background-color: var(--card-bg); border: 2px solid var(--border-color);">
+                                            <i class="ph-folder text-4xl mb-2" style="color: var(--accent);"></i>
+                                            <h6 data-lang-es="Directorio de Trabajo" data-lang-en="Working Directory">Directorio de Trabajo</h6>
+                                            <p class="text-sm mt-2" style="color: var(--neutral);" data-lang-es="Archivos modificados, aún no preparados" data-lang-en="Modified files, not yet staged">Archivos modificados, aún no preparados</p>
+                                        </div>
+                                        <div class="text-center p-4 rounded-lg transition-all cursor-pointer" id="staging-area" style="background-color: var(--card-bg); border: 2px solid var(--border-color);">
+                                            <i class="ph-package text-4xl mb-2" style="color: var(--warning);"></i>
+                                            <h6 data-lang-es="Área de Preparación" data-lang-en="Staging Area">Área de Preparación</h6>
+                                            <p class="text-sm mt-2" style="color: var(--neutral);" data-lang-es="Cambios preparados para el próximo commit" data-lang-en="Changes staged for next commit">Cambios preparados para el próximo commit</p>
+                                        </div>
+                                        <div class="text-center p-4 rounded-lg transition-all cursor-pointer" id="repository" style="background-color: var(--card-bg); border: 2px solid var(--border-color);">
+                                            <i class="ph-database text-4xl mb-2" style="color: var(--success);"></i>
+                                            <h6 data-lang-es="Repositorio Git" data-lang-en="Git Repository">Repositorio Git</h6>
+                                            <p class="text-sm mt-2" style="color: var(--neutral);" data-lang-es="Instantáneas permanentes y seguras" data-lang-en="Permanent and secure snapshots">Instantáneas permanentes y seguras</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex justify-center">
+                                        <button id="demo-three-states" class="px-6 py-3 rounded-lg font-semibold" style="background-color: var(--primary); color: white;">
+                                            <i class="ph-play mr-2"></i>
+                                            <span data-lang-es="Demostrar Flujo" data-lang-en="Demonstrate Flow">Demostrar Flujo</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <h4 data-lang-es="2.4 Integridad de Datos como Principio Fundamental: El Rol del Hash SHA-1" data-lang-en="2.4 Data Integrity as a First Principle: The Role of SHA-1 Hashing">2.4 Integridad de Datos como Principio Fundamental: El Rol del Hash SHA-1</h4>
+                                
+                                <!-- SHA-1 Hash Demo -->
+                                <div class="my-6">
+                                    <div class="hash-demo">
+                                        <h6 data-lang-es="Generador de Hash SHA-1 Interactivo" data-lang-en="Interactive SHA-1 Hash Generator">Generador de Hash SHA-1 Interactivo</h6>
+                                        <input type="text" id="hash-input" class="hash-input mt-2" placeholder="Escribe cualquier texto..." data-lang-es="Escribe cualquier texto..." data-lang-en="Type any text...">
+                                        <div id="hash-output" class="hash-output">
+                                            <span data-lang-es="El hash SHA-1 aparecerá aquí..." data-lang-en="The SHA-1 hash will appear here...">El hash SHA-1 aparecerá aquí...</span>
+                                        </div>
+                                        <p class="text-sm mt-2" style="color: var(--neutral);" data-lang-es="Cualquier cambio, por mínimo que sea, genera un hash completamente diferente." data-lang-en="Any change, no matter how small, generates a completely different hash.">Cualquier cambio, por mínimo que sea, genera un hash completamente diferente.</p>
+                                    </div>
                                 </div>
                             </div>
                         </details>
@@ -423,6 +715,498 @@
     </footer>
 
     <script>
+        // === SPA State Management System ===
+        class SPAState {
+            constructor() {
+                this.state = {
+                    currentSection: 'hero',
+                    userProgress: this.loadProgress(),
+                    interactiveStates: {},
+                    theme: localStorage.getItem('theme') || 'auto',
+                    language: localStorage.getItem('language') || 'es'
+                };
+                this.observers = new Map();
+                this.setupIntersectionObserver();
+            }
+
+            loadProgress() {
+                try {
+                    return JSON.parse(localStorage.getItem('learningProgress')) || {};
+                } catch {
+                    return {};
+                }
+            }
+
+            saveProgress() {
+                localStorage.setItem('learningProgress', JSON.stringify(this.state.userProgress));
+            }
+
+            updateProgress(section, activity, completed = true) {
+                if (!this.state.userProgress[section]) {
+                    this.state.userProgress[section] = {};
+                }
+                this.state.userProgress[section][activity] = completed;
+                this.saveProgress();
+                this.updateProgressBar();
+            }
+
+            updateProgressBar() {
+                const totalActivities = 20; // Approximate total interactive activities
+                const completedActivities = Object.values(this.state.userProgress)
+                    .reduce((sum, section) => sum + Object.values(section).filter(Boolean).length, 0);
+                const progress = Math.min((completedActivities / totalActivities) * 100, 100);
+                const progressBar = document.getElementById('progress-bar');
+                if (progressBar) {
+                    progressBar.style.transform = `scaleX(${progress / 100})`;
+                }
+            }
+
+            setupIntersectionObserver() {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const section = entry.target.id;
+                            this.state.currentSection = section;
+                            this.updateNavigation();
+                            this.lazyLoadSection(section);
+                        }
+                    });
+                }, { threshold: 0.3 });
+
+                // Observe all main sections
+                document.querySelectorAll('#hero, #part1, #part2, #part3, #part4').forEach(section => {
+                    observer.observe(section);
+                });
+            }
+
+            updateNavigation() {
+                document.querySelectorAll('.nav-dot').forEach(dot => {
+                    dot.classList.toggle('active', dot.dataset.section === this.state.currentSection);
+                });
+            }
+
+            lazyLoadSection(sectionId) {
+                const section = document.getElementById(sectionId);
+                if (section && !section.dataset.loaded) {
+                    section.classList.remove('component-loading');
+                    section.classList.add('component-loaded');
+                    section.dataset.loaded = 'true';
+                }
+            }
+        }
+
+        // === Enhanced Interactive Components ===
+        class InteractiveComponents {
+            constructor(state) {
+                this.state = state;
+                this.initializeComponents();
+            }
+
+            initializeComponents() {
+                this.setupDragAndDrop();
+                this.setupCVCSDVCSComparison();
+                this.setupDataModelVisualizer();
+                this.setupThreeStatesDemo();
+                this.setupHashGenerator();
+                this.setupBranchingSimulator();
+                this.setupCollaborationSim();
+                this.setupPlatformComparison();
+                this.setupCICDPipeline();
+                this.setupUDLChecklist();
+            }
+
+            setupDragAndDrop() {
+                const dragItems = document.querySelectorAll('.drag-item');
+                const dropZones = document.querySelectorAll('.drop-zone');
+                let draggedItem = null;
+
+                dragItems.forEach(item => {
+                    item.addEventListener('dragstart', (e) => {
+                        draggedItem = e.target;
+                        setTimeout(() => e.target.style.opacity = '0.5', 0);
+                    });
+                    
+                    item.addEventListener('dragend', (e) => {
+                        setTimeout(() => e.target.style.opacity = '1', 0);
+                        draggedItem = null;
+                    });
+                });
+
+                dropZones.forEach(zone => {
+                    zone.addEventListener('dragover', (e) => {
+                        e.preventDefault();
+                        zone.classList.add('over');
+                    });
+                    
+                    zone.addEventListener('dragleave', () => {
+                        zone.classList.remove('over');
+                    });
+                    
+                    zone.addEventListener('drop', (e) => {
+                        e.preventDefault();
+                        zone.classList.remove('over');
+                        
+                        if (draggedItem && zone.dataset.term === draggedItem.dataset.term) {
+                            zone.classList.add('correct');
+                            zone.appendChild(draggedItem.cloneNode(true));
+                            draggedItem.style.display = 'none';
+                            
+                            const feedback = document.getElementById(`feedback-${zone.dataset.term}`);
+                            if (feedback) {
+                                feedback.className = 'ph ph-check-circle text-2xl';
+                                feedback.style.color = 'var(--success)';
+                            }
+                            
+                            this.state.updateProgress('part1', `drag-drop-${zone.dataset.term}`);
+                            
+                            // Check if all items are correctly placed
+                            const allCorrect = [...dropZones].every(z => z.classList.contains('correct'));
+                            if (allCorrect) {
+                                this.showSuccessMessage('conceptos-completados');
+                            }
+                        } else {
+                            this.shakeElement(zone);
+                        }
+                    });
+                });
+            }
+
+            setupCVCSDVCSComparison() {
+                const cvcsBtn = document.getElementById('show-cvcs');
+                const dvcsBtn = document.getElementById('show-dvcs');
+                const cvcsDiagram = document.getElementById('cvcs-diagram');
+                const dvcsDiagram = document.getElementById('dvcs-diagram');
+
+                if (cvcsBtn && dvcsBtn) {
+                    cvcsBtn.addEventListener('click', () => {
+                        this.toggleComparison(cvcsBtn, dvcsBtn, cvcsDiagram, dvcsDiagram);
+                        this.state.updateProgress('part1', 'cvcs-explored');
+                    });
+                    
+                    dvcsBtn.addEventListener('click', () => {
+                        this.toggleComparison(dvcsBtn, cvcsBtn, dvcsDiagram, cvcsDiagram);
+                        this.state.updateProgress('part1', 'dvcs-explored');
+                    });
+                }
+            }
+
+            toggleComparison(activeBtn, inactiveBtn, showDiagram, hideDiagram) {
+                activeBtn.style.backgroundColor = 'var(--primary)';
+                activeBtn.style.color = 'white';
+                inactiveBtn.style.backgroundColor = 'var(--card-bg)';
+                inactiveBtn.style.color = 'var(--text)';
+                
+                showDiagram.style.display = 'block';
+                hideDiagram.style.display = 'none';
+            }
+
+            setupDataModelVisualizer() {
+                const deltaBtn = document.getElementById('show-delta');
+                const snapshotBtn = document.getElementById('show-snapshot');
+                const deltaModel = document.getElementById('delta-model');
+                const snapshotModel = document.getElementById('snapshot-model');
+
+                if (deltaBtn && snapshotBtn) {
+                    deltaBtn.addEventListener('click', () => {
+                        this.toggleComparison(deltaBtn, snapshotBtn, deltaModel, snapshotModel);
+                        this.state.updateProgress('part1', 'delta-model-explored');
+                    });
+                    
+                    snapshotBtn.addEventListener('click', () => {
+                        this.toggleComparison(snapshotBtn, deltaBtn, snapshotModel, deltaModel);
+                        this.state.updateProgress('part1', 'snapshot-model-explored');
+                    });
+                }
+            }
+
+            setupThreeStatesDemo() {
+                const demoBtn = document.getElementById('demo-three-states');
+                const workingDir = document.getElementById('working-dir');
+                const stagingArea = document.getElementById('staging-area');
+                const repository = document.getElementById('repository');
+
+                if (demoBtn) {
+                    demoBtn.addEventListener('click', () => {
+                        this.animateThreeStates(workingDir, stagingArea, repository);
+                        this.state.updateProgress('part1', 'three-states-demo');
+                    });
+                }
+            }
+
+            animateThreeStates(workingDir, stagingArea, repository) {
+                // Reset states
+                [workingDir, stagingArea, repository].forEach(el => {
+                    if (el) el.style.borderColor = 'var(--border-color)';
+                });
+
+                // Animate sequence
+                setTimeout(() => {
+                    if (workingDir) {
+                        workingDir.style.borderColor = 'var(--accent)';
+                        workingDir.style.transform = 'scale(1.05)';
+                    }
+                }, 500);
+
+                setTimeout(() => {
+                    if (workingDir) workingDir.style.transform = 'scale(1)';
+                    if (stagingArea) {
+                        stagingArea.style.borderColor = 'var(--warning)';
+                        stagingArea.style.transform = 'scale(1.05)';
+                    }
+                }, 1500);
+
+                setTimeout(() => {
+                    if (stagingArea) stagingArea.style.transform = 'scale(1)';
+                    if (repository) {
+                        repository.style.borderColor = 'var(--success)';
+                        repository.style.transform = 'scale(1.05)';
+                    }
+                }, 2500);
+
+                setTimeout(() => {
+                    if (repository) repository.style.transform = 'scale(1)';
+                }, 3500);
+            }
+
+            setupHashGenerator() {
+                const hashInput = document.getElementById('hash-input');
+                const hashOutput = document.getElementById('hash-output');
+
+                if (hashInput && hashOutput) {
+                    // Simple hash simulation (not real SHA-1 for demo purposes)
+                    hashInput.addEventListener('input', (e) => {
+                        const input = e.target.value;
+                        const hash = this.simulateHash(input);
+                        hashOutput.innerHTML = hash || '<span style="color: var(--neutral);">El hash SHA-1 aparecerá aquí...</span>';
+                        
+                        if (input.length > 0) {
+                            this.state.updateProgress('part1', 'hash-generator-used');
+                        }
+                    });
+                }
+            }
+
+            simulateHash(input) {
+                if (!input) return '';
+                // Simple hash simulation for educational purposes
+                let hash = 0;
+                for (let i = 0; i < input.length; i++) {
+                    const char = input.charCodeAt(i);
+                    hash = ((hash << 5) - hash) + char;
+                    hash = hash & hash; // Convert to 32-bit integer
+                }
+                
+                // Convert to hex and pad to simulate SHA-1 length
+                const hexHash = Math.abs(hash).toString(16).padStart(8, '0');
+                return `${hexHash}${'a'.repeat(32 - hexHash.length)}`; // Simulate 40-char SHA-1
+            }
+
+            setupBranchingSimulator() {
+                // Enhanced branching simulator with more realistic Git operations
+                const commitBtn = document.getElementById('branch-commit');
+                const createBtn = document.getElementById('branch-create');
+                const mergeBtn = document.getElementById('branch-merge');
+                const branchInput = document.getElementById('new-branch-input');
+                const visualizer = document.getElementById('branch-visualizer');
+                const currentBranchSpan = document.getElementById('current-branch-name');
+
+                if (!commitBtn) return; // Skip if not on page
+
+                let branches = {
+                    'main': { commits: ['C0'], head: true, color: 'var(--primary)' }
+                };
+                let commitCounter = 1;
+
+                const renderBranches = () => {
+                    let html = '';
+                    for (const [name, branch] of Object.entries(branches)) {
+                        const head = branch.head ? ' <span style="color: var(--success);">* HEAD</span>' : '';
+                        html += `<div><span style="color: ${branch.color};">${name}${head}</span>: ${branch.commits.join(' → ')}</div>`;
+                    }
+                    if (visualizer) visualizer.innerHTML = html;
+                };
+
+                commitBtn?.addEventListener('click', () => {
+                    const headBranch = Object.keys(branches).find(name => branches[name].head);
+                    if (headBranch) {
+                        branches[headBranch].commits.push(`C${commitCounter++}`);
+                        renderBranches();
+                        this.state.updateProgress('part2', 'branch-commit');
+                    }
+                });
+
+                createBtn?.addEventListener('click', () => {
+                    const newName = branchInput?.value.trim();
+                    if (newName && !branches[newName]) {
+                        const headBranch = Object.keys(branches).find(name => branches[name].head);
+                        const colors = ['var(--secondary)', 'var(--accent)', 'var(--danger)', '#9333ea'];
+                        branches[newName] = {
+                            commits: [...branches[headBranch].commits],
+                            head: false,
+                            color: colors[Object.keys(branches).length % colors.length]
+                        };
+                        if (branchInput) branchInput.value = '';
+                        renderBranches();
+                        this.state.updateProgress('part2', 'branch-create');
+                    }
+                });
+
+                mergeBtn?.addEventListener('click', () => {
+                    const headBranchName = Object.keys(branches).find(name => branches[name].head);
+                    if (headBranchName && headBranchName !== 'main') {
+                        branches.main.commits.push(`M${commitCounter++}`);
+                        delete branches[headBranchName];
+                        Object.values(branches).forEach(b => b.head = false);
+                        branches.main.head = true;
+                        if (currentBranchSpan) currentBranchSpan.textContent = 'main';
+                        renderBranches();
+                        this.state.updateProgress('part2', 'branch-merge');
+                    }
+                });
+
+                renderBranches();
+            }
+
+            setupCollaborationSim() {
+                // Enhanced collaboration simulator
+                const commitBtn = document.getElementById('collab-commit');
+                const pushBtn = document.getElementById('collab-push');
+                const prBtn = document.getElementById('collab-pr');
+                const resetBtn = document.getElementById('collab-reset');
+                
+                const localEl = document.getElementById('local-commits');
+                const remoteEl = document.getElementById('remote-commits');
+                const forkEl = document.getElementById('fork-commits');
+
+                if (!commitBtn) return;
+
+                let collabState = {
+                    local: ['C0'],
+                    remote: ['C0'],
+                    fork: ['C0']
+                };
+                let commitCounter = 1;
+
+                const renderState = () => {
+                    if (localEl) localEl.textContent = collabState.local.join(', ');
+                    if (remoteEl) remoteEl.textContent = collabState.remote.join(', ');
+                    if (forkEl) forkEl.textContent = collabState.fork.join(', ');
+                };
+
+                const flashArrow = (arrowId) => {
+                    const arrow = document.getElementById(arrowId);
+                    if (arrow) {
+                        arrow.classList.add('active');
+                        setTimeout(() => arrow.classList.remove('active'), 1000);
+                    }
+                };
+
+                commitBtn?.addEventListener('click', () => {
+                    collabState.local.push(`C${commitCounter++}`);
+                    renderState();
+                    this.state.updateProgress('part2', 'collab-commit');
+                });
+
+                pushBtn?.addEventListener('click', () => {
+                    collabState.fork = [...collabState.local];
+                    flashArrow('arrow-push');
+                    renderState();
+                    this.state.updateProgress('part2', 'collab-push');
+                });
+
+                prBtn?.addEventListener('click', () => {
+                    flashArrow('arrow-pr');
+                    setTimeout(() => {
+                        collabState.remote = [...collabState.fork];
+                        renderState();
+                        this.state.updateProgress('part2', 'collab-pr');
+                    }, 1000);
+                });
+
+                resetBtn?.addEventListener('click', () => {
+                    collabState = { local: ['C0'], remote: ['C0'], fork: ['C0'] };
+                    commitCounter = 1;
+                    renderState();
+                });
+
+                renderState();
+            }
+
+            setupPlatformComparison() {
+                // Interactive platform comparison cards
+                const platformCards = document.querySelectorAll('.platform-card');
+                platformCards.forEach(card => {
+                    card.addEventListener('click', () => {
+                        const platform = card.dataset.platform;
+                        this.showPlatformDetails(platform);
+                        this.state.updateProgress('part3', `platform-${platform}`);
+                    });
+                });
+            }
+
+            setupCICDPipeline() {
+                const startBtn = document.getElementById('cicd-start');
+                const pipeStages = document.querySelectorAll('.cicd-pipe span');
+                
+                if (startBtn) {
+                    startBtn.addEventListener('click', () => {
+                        let delay = 0;
+                        pipeStages.forEach((stage, index) => {
+                            setTimeout(() => {
+                                stage.style.backgroundColor = 'var(--primary)';
+                                stage.style.color = 'var(--card-bg)';
+                                stage.style.transform = 'scale(1.1)';
+                            }, delay);
+                            delay += 800;
+                        });
+                        
+                        setTimeout(() => {
+                            pipeStages.forEach(stage => {
+                                stage.style.backgroundColor = 'transparent';
+                                stage.style.color = 'inherit';
+                                stage.style.transform = 'scale(1)';
+                            });
+                        }, delay + 1000);
+                        
+                        this.state.updateProgress('part3', 'cicd-demo');
+                    });
+                }
+            }
+
+            setupUDLChecklist() {
+                const checkboxes = document.querySelectorAll('.udl-checkbox');
+                checkboxes.forEach(checkbox => {
+                    checkbox.addEventListener('click', () => {
+                        checkbox.classList.toggle('checked');
+                        this.state.updateProgress('part4', `udl-${checkbox.dataset.principle}`);
+                    });
+                });
+            }
+
+            showSuccessMessage(key) {
+                // Show success notifications for completed activities
+                const message = document.createElement('div');
+                message.className = 'fixed top-20 right-4 bg-green-500 text-white p-4 rounded-lg shadow-lg z-50 transform translate-x-full transition-transform';
+                message.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <i class="ph-check-circle text-xl"></i>
+                        <span>¡Excelente trabajo!</span>
+                    </div>
+                `;
+                document.body.appendChild(message);
+                
+                setTimeout(() => message.style.transform = 'translateX(0)', 100);
+                setTimeout(() => message.style.transform = 'translateX(full)', 3000);
+                setTimeout(() => document.body.removeChild(message), 3500);
+            }
+
+            shakeElement(element) {
+                element.style.animation = 'shake 0.5s ease-in-out';
+                setTimeout(() => element.style.animation = '', 500);
+            }
+        }
+
+        // === Main Application Initialization ===
         document.addEventListener('DOMContentLoaded', () => {
             // --- Dynamic Year ---
             document.getElementById('current-year').textContent = new Date().getFullYear();
