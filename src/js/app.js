@@ -87,24 +87,26 @@ class GitPedagogyApp {
      */
     async loadComponents() {
         const componentModules = [
-            // Interactive Components
-            () => import('./components/drag-drop-component.js'),
-            () => import('./components/terminal-simulator.js'),
-            () => import('./components/branch-visualizer.js'),
-            () => import('./components/comparison-tool.js'),
-            () => import('./components/three-states-demo.js'),
-            () => import('./components/hash-generator.js'),
-            () => import('./components/timeline-component.js'),
-            () => import('./components/collaboration-sim.js'),
-            () => import('./components/cicd-pipeline.js'),
-            () => import('./components/platform-comparison.js'),
-            () => import('./components/udl-checklist.js'),
+            // Interactive Components - only load existing ones
+            () => import('./components/drag-drop-component.js')
             
-            // Section Components
-            () => import('./components/sections/part1-section.js'),
-            () => import('./components/sections/part2-section.js'),
-            () => import('./components/sections/part3-section.js'),
-            () => import('./components/sections/part4-section.js')
+            // TODO: Add more components as they are implemented:
+            // () => import('./components/terminal-simulator.js'),
+            // () => import('./components/branch-visualizer.js'),
+            // () => import('./components/comparison-tool.js'),
+            // () => import('./components/three-states-demo.js'),
+            // () => import('./components/hash-generator.js'),
+            // () => import('./components/timeline-component.js'),
+            // () => import('./components/collaboration-sim.js'),
+            // () => import('./components/cicd-pipeline.js'),
+            // () => import('./components/platform-comparison.js'),
+            // () => import('./components/udl-checklist.js'),
+            
+            // Section Components - TODO: implement
+            // () => import('./components/sections/part1-section.js'),
+            // () => import('./components/sections/part2-section.js'),
+            // () => import('./components/sections/part3-section.js'),
+            // () => import('./components/sections/part4-section.js')
         ];
 
         // Load components with progress indication
