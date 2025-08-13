@@ -1,4 +1,4 @@
-var c=Object.defineProperty;var p=(a,e,t)=>e in a?c(a,e,{enumerable:!0,configurable:!0,writable:!0,value:t}):a[e]=t;var s=(a,e,t)=>p(a,typeof e!="symbol"?e+"":e,t);import{B as l,i as h,x as i}from"./index-DJNVVxKM.js";class n extends l{constructor(){super(),this.inputText="Hello, Git World!",this.generatedHash="",this.isGenerating=!1,this.showExplanation=!1,this.demoStep=0,this.examples=[{content:"Initial commit",hash:"a1b2c3d4e5f6789012345678901234567890abcd"},{content:"Add user authentication",hash:"9876543210fedcba0987654321098765432109876"},{content:"Fix login bug",hash:"abcdef1234567890abcdef1234567890abcdef12"}]}render(){return i`
+var c=Object.defineProperty;var p=(a,e,t)=>e in a?c(a,e,{enumerable:!0,configurable:!0,writable:!0,value:t}):a[e]=t;var s=(a,e,t)=>p(a,typeof e!="symbol"?e+"":e,t);import{B as l,i as h,x as i}from"./index-BQHeEUBN.js";class n extends l{constructor(){super(),this.inputText="Hello, Git World!",this.generatedHash="",this.isGenerating=!1,this.showExplanation=!1,this.demoStep=0,this.examples=[{content:"Initial commit",hash:"a1b2c3d4e5f6789012345678901234567890abcd"},{content:"Add user authentication",hash:"9876543210fedcba0987654321098765432109876"},{content:"Fix login bug",hash:"abcdef1234567890abcdef1234567890abcdef12"}]}render(){return i`
             <div class="hash-container">
                 <h4 class="title">
                     <i class="ph-fingerprint-duotone"></i>
@@ -554,4 +554,4 @@ var c=Object.defineProperty;var p=(a,e,t)=>e in a?c(a,e,{enumerable:!0,configura
                 }
             }
         `]);customElements.define("git-hash-generator",n);export{n as GitHashGeneratorComponent,n as default};
-//# sourceMappingURL=hash-generator-component-B3pdwLuF.js.map
+//# sourceMappingURL=hash-generator-component-fPsBn9I5.js.map
