@@ -1,272 +1,139 @@
-/**
- * Main Application Entry Point
- * Modern SPA Architecture for Interactive Git Pedagogy Platform
- */
-
-import { StateManager } from './state/state-manager.js';
-import { ComponentRegistry } from './components/component-registry.js';
-import { ThemeManager } from './utils/theme-manager.js';
-import { LanguageManager } from './utils/language-manager.js';
-import { ProgressTracker } from './utils/progress-tracker.js';
-import { NavigationManager } from './utils/navigation-manager.js';
-import { AnalyticsManager } from './utils/analytics-manager.js';
-
-/**
- * Main Application Class
- * Orchestrates all managers and components
- */
-class GitPedagogyApp {
-    constructor() {
-        this.state = new StateManager();
-        this.components = new ComponentRegistry();
-        this.theme = new ThemeManager();
-        this.language = new LanguageManager();
-        this.progress = new ProgressTracker(this.state);
-        this.navigation = new NavigationManager();
-        this.analytics = new AnalyticsManager();
-        
-        this.isInitialized = false;
-    }
-
-    /**
-     * Initialize the application
-     */
-    async init() {
-        try {
-            console.log('🚀 Initializing Git Pedagogy SPA...');
+var ue=Object.defineProperty;var ge=(i,e,a)=>e in i?ue(i,e,{enumerable:!0,configurable:!0,writable:!0,value:a}):i[e]=a;var f=(i,e,a)=>ge(i,typeof e!="symbol"?e+"":e,a);(function(){const e=document.createElement("link").relList;if(e&&e.supports&&e.supports("modulepreload"))return;for(const s of document.querySelectorAll('link[rel="modulepreload"]'))t(s);new MutationObserver(s=>{for(const n of s)if(n.type==="childList")for(const o of n.addedNodes)o.tagName==="LINK"&&o.rel==="modulepreload"&&t(o)}).observe(document,{childList:!0,subtree:!0});function a(s){const n={};return s.integrity&&(n.integrity=s.integrity),s.referrerPolicy&&(n.referrerPolicy=s.referrerPolicy),s.crossOrigin==="use-credentials"?n.credentials="include":s.crossOrigin==="anonymous"?n.credentials="omit":n.credentials="same-origin",n}function t(s){if(s.ep)return;s.ep=!0;const n=a(s);fetch(s.href,n)}})();const he="modulepreload",ve=function(i){return"/"+i},J={},v=function(e,a,t){let s=Promise.resolve();if(a&&a.length>0){document.getElementsByTagName("link");const o=document.querySelector("meta[property=csp-nonce]"),r=(o==null?void 0:o.nonce)||(o==null?void 0:o.getAttribute("nonce"));s=Promise.allSettled(a.map(l=>{if(l=ve(l),l in J)return;J[l]=!0;const d=l.endsWith(".css"),p=d?'[rel="stylesheet"]':"";if(document.querySelector(`link[href="${l}"]${p}`))return;const c=document.createElement("link");if(c.rel=d?"stylesheet":he,d||(c.as="script"),c.crossOrigin="",c.href=l,r&&c.setAttribute("nonce",r),document.head.appendChild(c),d)return new Promise((u,g)=>{c.addEventListener("load",u),c.addEventListener("error",()=>g(new Error(`Unable to preload CSS for ${l}`)))})}))}function n(o){const r=new Event("vite:preloadError",{cancelable:!0});if(r.payload=o,window.dispatchEvent(r),!r.defaultPrevented)throw o}return s.then(o=>{for(const r of o||[])r.status==="rejected"&&n(r.reason);return e().catch(n)})},z={ui:{currentSection:"hero",theme:"auto",language:"es",loading:!1,error:null},progress:{sections:{},activities:{},completionRate:0,lastUpdated:null},components:{dragDrop:{},branchSimulator:{},collaborationSim:{},terminal:{},comparisons:{}},preferences:{autoSave:!0,animations:!0,soundEffects:!1,keyboardShortcuts:!0,highContrast:!1},analytics:{sessionStart:null,pageViews:{},interactions:[],timeSpent:{}}},h={SET_CURRENT_SECTION:"SET_CURRENT_SECTION",SET_THEME:"SET_THEME",SET_LANGUAGE:"SET_LANGUAGE",SET_LOADING:"SET_LOADING",SET_ERROR:"SET_ERROR",UPDATE_PROGRESS:"UPDATE_PROGRESS",COMPLETE_ACTIVITY:"COMPLETE_ACTIVITY",UPDATE_COMPONENT_STATE:"UPDATE_COMPONENT_STATE",UPDATE_PREFERENCES:"UPDATE_PREFERENCES",TRACK_INTERACTION:"TRACK_INTERACTION",TRACK_TIME_SPENT:"TRACK_TIME_SPENT"},fe={[h.SET_CURRENT_SECTION]:(i,e)=>({...i,ui:{...i.ui,currentSection:e.payload.section}}),[h.SET_THEME]:(i,e)=>({...i,ui:{...i.ui,theme:e.payload.theme}}),[h.SET_LANGUAGE]:(i,e)=>({...i,ui:{...i.ui,language:e.payload.language}}),[h.SET_LOADING]:(i,e)=>({...i,ui:{...i.ui,loading:e.payload.loading}}),[h.SET_ERROR]:(i,e)=>({...i,ui:{...i.ui,error:e.payload.error}}),[h.UPDATE_PROGRESS]:(i,e)=>{const{section:a,activity:t,completed:s}=e.payload,n={...i.progress,sections:{...i.progress.sections,[a]:{...i.progress.sections[a],[t]:s}},lastUpdated:Date.now()};return n.completionRate=be(n),{...i,progress:n}},[h.COMPLETE_ACTIVITY]:(i,e)=>{const{activityId:a,data:t}=e.payload;return{...i,progress:{...i.progress,activities:{...i.progress.activities,[a]:{completed:!0,completedAt:Date.now(),data:t}}}}},[h.UPDATE_COMPONENT_STATE]:(i,e)=>{const{componentId:a,state:t}=e.payload;return{...i,components:{...i.components,[a]:{...i.components[a],...t}}}},[h.UPDATE_PREFERENCES]:(i,e)=>({...i,preferences:{...i.preferences,...e.payload}}),[h.TRACK_INTERACTION]:(i,e)=>({...i,analytics:{...i.analytics,interactions:[...i.analytics.interactions,e.payload]}}),[h.TRACK_TIME_SPENT]:(i,e)=>{const{section:a,timeSpent:t}=e.payload;return{...i,analytics:{...i.analytics,timeSpent:{...i.analytics.timeSpent,[a]:(i.analytics.timeSpent[a]||0)+t}}}}};function be(i){const e=Object.values(i.sections).reduce((t,s)=>t+Object.keys(s).length,0),a=Object.values(i.sections).reduce((t,s)=>t+Object.values(s).filter(Boolean).length,0);return e>0?Math.round(a/e*100):0}class ye{constructor(){this.state={...z},this.listeners=new Map,this.middleware=[],this.isHydrated=!1}async init(){await this.loadPersistedState(),this.setupAutoSave(),this.state.analytics.sessionStart=Date.now(),console.log("🏪 State Manager initialized")}dispatch(e,a={}){const t={type:e,payload:a};for(const n of this.middleware)n(t,this.state);const s=fe[e];if(s){const n=s(this.state,t);this.setState(n)}else console.warn(`No reducer found for action type: ${e}`);this.notifyListeners(e,a)}subscribe(e,a){return this.listeners.has(e)||this.listeners.set(e,[]),this.listeners.get(e).push(a),()=>{const t=this.listeners.get(e);if(t){const s=t.indexOf(a);s>-1&&t.splice(s,1)}}}getState(){return{...this.state}}getStateSlice(e){return e.split(".").reduce((a,t)=>a&&a[t],this.state)}setState(e){this.state=e,this.state.preferences.autoSave&&this.saveState()}use(e){this.middleware.push(e)}notifyListeners(e,a){const t=this.listeners.get(e);t&&t.forEach(s=>{try{s(a)}catch(n){console.error("Error in state listener:",n)}})}async loadPersistedState(){var e,a;try{const t=localStorage.getItem("gitPedagogy:state");if(t){const s=JSON.parse(t);this.state={...z,...s,ui:{...z.ui,theme:((e=s.ui)==null?void 0:e.theme)||"auto",language:((a=s.ui)==null?void 0:a.language)||"es"}},this.isHydrated=!0,console.log("💾 State hydrated from localStorage")}}catch(t){console.warn("Failed to load persisted state:",t)}}saveState(){try{const e={...this.state,ui:{theme:this.state.ui.theme,language:this.state.ui.language}};localStorage.setItem("gitPedagogy:state",JSON.stringify(e))}catch(e){console.warn("Failed to save state:",e)}}setupAutoSave(){setInterval(()=>{this.state.preferences.autoSave&&this.saveState()},3e4),window.addEventListener("beforeunload",()=>{this.saveState()})}reset(){this.state={...z},localStorage.removeItem("gitPedagogy:state"),this.notifyListeners("STATE_RESET",{})}exportState(){return JSON.stringify(this.state,null,2)}importState(e){try{const a=JSON.parse(e);this.setState(a),console.log("State imported successfully")}catch(a){console.error("Failed to import state:",a)}}}/**
+ * @license
+ * Copyright 2019 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */const G=globalThis,V=G.ShadowRoot&&(G.ShadyCSS===void 0||G.ShadyCSS.nativeShadow)&&"adoptedStyleSheets"in Document.prototype&&"replace"in CSSStyleSheet.prototype,K=Symbol(),Q=new WeakMap;let re=class{constructor(e,a,t){if(this._$cssResult$=!0,t!==K)throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");this.cssText=e,this.t=a}get styleSheet(){let e=this.o;const a=this.t;if(V&&e===void 0){const t=a!==void 0&&a.length===1;t&&(e=Q.get(a)),e===void 0&&((this.o=e=new CSSStyleSheet).replaceSync(this.cssText),t&&Q.set(a,e))}return e}toString(){return this.cssText}};const we=i=>new re(typeof i=="string"?i:i+"",void 0,K),Ee=(i,...e)=>{const a=i.length===1?i[0]:e.reduce((t,s,n)=>t+(o=>{if(o._$cssResult$===!0)return o.cssText;if(typeof o=="number")return o;throw Error("Value passed to 'css' function must be a 'css' function result: "+o+". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.")})(s)+i[n+1],i[0]);return new re(a,i,K)},Ce=(i,e)=>{if(V)i.adoptedStyleSheets=e.map(a=>a instanceof CSSStyleSheet?a:a.styleSheet);else for(const a of e){const t=document.createElement("style"),s=G.litNonce;s!==void 0&&t.setAttribute("nonce",s),t.textContent=a.cssText,i.appendChild(t)}},Y=V?i=>i:i=>i instanceof CSSStyleSheet?(e=>{let a="";for(const t of e.cssRules)a+=t.cssText;return we(a)})(i):i;/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */const{is:Se,defineProperty:xe,getOwnPropertyDescriptor:Ae,getOwnPropertyNames:Pe,getOwnPropertySymbols:Te,getPrototypeOf:ke}=Object,y=globalThis,X=y.trustedTypes,Ie=X?X.emptyScript:"",O=y.reactiveElementPolyfillSupport,k=(i,e)=>i,F={toAttribute(i,e){switch(e){case Boolean:i=i?Ie:null;break;case Object:case Array:i=i==null?i:JSON.stringify(i)}return i},fromAttribute(i,e){let a=i;switch(e){case Boolean:a=i!==null;break;case Number:a=i===null?null:Number(i);break;case Object:case Array:try{a=JSON.parse(i)}catch{a=null}}return a}},le=(i,e)=>!Se(i,e),Z={attribute:!0,type:String,converter:F,reflect:!1,useDefault:!1,hasChanged:le};Symbol.metadata??(Symbol.metadata=Symbol("metadata")),y.litPropertyMetadata??(y.litPropertyMetadata=new WeakMap);let x=class extends HTMLElement{static addInitializer(e){this._$Ei(),(this.l??(this.l=[])).push(e)}static get observedAttributes(){return this.finalize(),this._$Eh&&[...this._$Eh.keys()]}static createProperty(e,a=Z){if(a.state&&(a.attribute=!1),this._$Ei(),this.prototype.hasOwnProperty(e)&&((a=Object.create(a)).wrapped=!0),this.elementProperties.set(e,a),!a.noAccessor){const t=Symbol(),s=this.getPropertyDescriptor(e,t,a);s!==void 0&&xe(this.prototype,e,s)}}static getPropertyDescriptor(e,a,t){const{get:s,set:n}=Ae(this.prototype,e)??{get(){return this[a]},set(o){this[a]=o}};return{get:s,set(o){const r=s==null?void 0:s.call(this);n==null||n.call(this,o),this.requestUpdate(e,r,t)},configurable:!0,enumerable:!0}}static getPropertyOptions(e){return this.elementProperties.get(e)??Z}static _$Ei(){if(this.hasOwnProperty(k("elementProperties")))return;const e=ke(this);e.finalize(),e.l!==void 0&&(this.l=[...e.l]),this.elementProperties=new Map(e.elementProperties)}static finalize(){if(this.hasOwnProperty(k("finalized")))return;if(this.finalized=!0,this._$Ei(),this.hasOwnProperty(k("properties"))){const a=this.properties,t=[...Pe(a),...Te(a)];for(const s of t)this.createProperty(s,a[s])}const e=this[Symbol.metadata];if(e!==null){const a=litPropertyMetadata.get(e);if(a!==void 0)for(const[t,s]of a)this.elementProperties.set(t,s)}this._$Eh=new Map;for(const[a,t]of this.elementProperties){const s=this._$Eu(a,t);s!==void 0&&this._$Eh.set(s,a)}this.elementStyles=this.finalizeStyles(this.styles)}static finalizeStyles(e){const a=[];if(Array.isArray(e)){const t=new Set(e.flat(1/0).reverse());for(const s of t)a.unshift(Y(s))}else e!==void 0&&a.push(Y(e));return a}static _$Eu(e,a){const t=a.attribute;return t===!1?void 0:typeof t=="string"?t:typeof e=="string"?e.toLowerCase():void 0}constructor(){super(),this._$Ep=void 0,this.isUpdatePending=!1,this.hasUpdated=!1,this._$Em=null,this._$Ev()}_$Ev(){var e;this._$ES=new Promise(a=>this.enableUpdating=a),this._$AL=new Map,this._$E_(),this.requestUpdate(),(e=this.constructor.l)==null||e.forEach(a=>a(this))}addController(e){var a;(this._$EO??(this._$EO=new Set)).add(e),this.renderRoot!==void 0&&this.isConnected&&((a=e.hostConnected)==null||a.call(e))}removeController(e){var a;(a=this._$EO)==null||a.delete(e)}_$E_(){const e=new Map,a=this.constructor.elementProperties;for(const t of a.keys())this.hasOwnProperty(t)&&(e.set(t,this[t]),delete this[t]);e.size>0&&(this._$Ep=e)}createRenderRoot(){const e=this.shadowRoot??this.attachShadow(this.constructor.shadowRootOptions);return Ce(e,this.constructor.elementStyles),e}connectedCallback(){var e;this.renderRoot??(this.renderRoot=this.createRenderRoot()),this.enableUpdating(!0),(e=this._$EO)==null||e.forEach(a=>{var t;return(t=a.hostConnected)==null?void 0:t.call(a)})}enableUpdating(e){}disconnectedCallback(){var e;(e=this._$EO)==null||e.forEach(a=>{var t;return(t=a.hostDisconnected)==null?void 0:t.call(a)})}attributeChangedCallback(e,a,t){this._$AK(e,t)}_$ET(e,a){var n;const t=this.constructor.elementProperties.get(e),s=this.constructor._$Eu(e,t);if(s!==void 0&&t.reflect===!0){const o=(((n=t.converter)==null?void 0:n.toAttribute)!==void 0?t.converter:F).toAttribute(a,t.type);this._$Em=e,o==null?this.removeAttribute(s):this.setAttribute(s,o),this._$Em=null}}_$AK(e,a){var n,o;const t=this.constructor,s=t._$Eh.get(e);if(s!==void 0&&this._$Em!==s){const r=t.getPropertyOptions(s),l=typeof r.converter=="function"?{fromAttribute:r.converter}:((n=r.converter)==null?void 0:n.fromAttribute)!==void 0?r.converter:F;this._$Em=s;const d=l.fromAttribute(a,r.type);this[s]=d??((o=this._$Ej)==null?void 0:o.get(s))??d,this._$Em=null}}requestUpdate(e,a,t){var s;if(e!==void 0){const n=this.constructor,o=this[e];if(t??(t=n.getPropertyOptions(e)),!((t.hasChanged??le)(o,a)||t.useDefault&&t.reflect&&o===((s=this._$Ej)==null?void 0:s.get(e))&&!this.hasAttribute(n._$Eu(e,t))))return;this.C(e,a,t)}this.isUpdatePending===!1&&(this._$ES=this._$EP())}C(e,a,{useDefault:t,reflect:s,wrapped:n},o){t&&!(this._$Ej??(this._$Ej=new Map)).has(e)&&(this._$Ej.set(e,o??a??this[e]),n!==!0||o!==void 0)||(this._$AL.has(e)||(this.hasUpdated||t||(a=void 0),this._$AL.set(e,a)),s===!0&&this._$Em!==e&&(this._$Eq??(this._$Eq=new Set)).add(e))}async _$EP(){this.isUpdatePending=!0;try{await this._$ES}catch(a){Promise.reject(a)}const e=this.scheduleUpdate();return e!=null&&await e,!this.isUpdatePending}scheduleUpdate(){return this.performUpdate()}performUpdate(){var t;if(!this.isUpdatePending)return;if(!this.hasUpdated){if(this.renderRoot??(this.renderRoot=this.createRenderRoot()),this._$Ep){for(const[n,o]of this._$Ep)this[n]=o;this._$Ep=void 0}const s=this.constructor.elementProperties;if(s.size>0)for(const[n,o]of s){const{wrapped:r}=o,l=this[n];r!==!0||this._$AL.has(n)||l===void 0||this.C(n,void 0,o,l)}}let e=!1;const a=this._$AL;try{e=this.shouldUpdate(a),e?(this.willUpdate(a),(t=this._$EO)==null||t.forEach(s=>{var n;return(n=s.hostUpdate)==null?void 0:n.call(s)}),this.update(a)):this._$EM()}catch(s){throw e=!1,this._$EM(),s}e&&this._$AE(a)}willUpdate(e){}_$AE(e){var a;(a=this._$EO)==null||a.forEach(t=>{var s;return(s=t.hostUpdated)==null?void 0:s.call(t)}),this.hasUpdated||(this.hasUpdated=!0,this.firstUpdated(e)),this.updated(e)}_$EM(){this._$AL=new Map,this.isUpdatePending=!1}get updateComplete(){return this.getUpdateComplete()}getUpdateComplete(){return this._$ES}shouldUpdate(e){return!0}update(e){this._$Eq&&(this._$Eq=this._$Eq.forEach(a=>this._$ET(a,this[a]))),this._$EM()}updated(e){}firstUpdated(e){}};x.elementStyles=[],x.shadowRootOptions={mode:"open"},x[k("elementProperties")]=new Map,x[k("finalized")]=new Map,O==null||O({ReactiveElement:x}),(y.reactiveElementVersions??(y.reactiveElementVersions=[])).push("2.1.1");/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */const I=globalThis,M=I.trustedTypes,ee=M?M.createPolicy("lit-html",{createHTML:i=>i}):void 0,ce="$lit$",b=`lit$${Math.random().toFixed(9).slice(2)}$`,de="?"+b,_e=`<${de}>`,S=document,$=()=>S.createComment(""),L=i=>i===null||typeof i!="object"&&typeof i!="function",W=Array.isArray,$e=i=>W(i)||typeof(i==null?void 0:i[Symbol.iterator])=="function",q=`[ 	
+\f\r]`,T=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,ae=/-->/g,te=/>/g,w=RegExp(`>|${q}(?:([^\\s"'>=/]+)(${q}*=${q}*(?:[^ 	
+\f\r"'\`<>=]|("|')|))|$)`,"g"),se=/'/g,ie=/"/g,pe=/^(?:script|style|textarea|title)$/i,Le=i=>(e,...a)=>({_$litType$:i,strings:e,values:a}),Re=Le(1),A=Symbol.for("lit-noChange"),m=Symbol.for("lit-nothing"),ne=new WeakMap,E=S.createTreeWalker(S,129);function me(i,e){if(!W(i)||!i.hasOwnProperty("raw"))throw Error("invalid template strings array");return ee!==void 0?ee.createHTML(e):e}const De=(i,e)=>{const a=i.length-1,t=[];let s,n=e===2?"<svg>":e===3?"<math>":"",o=T;for(let r=0;r<a;r++){const l=i[r];let d,p,c=-1,u=0;for(;u<l.length&&(o.lastIndex=u,p=o.exec(l),p!==null);)u=o.lastIndex,o===T?p[1]==="!--"?o=ae:p[1]!==void 0?o=te:p[2]!==void 0?(pe.test(p[2])&&(s=RegExp("</"+p[2],"g")),o=w):p[3]!==void 0&&(o=w):o===w?p[0]===">"?(o=s??T,c=-1):p[1]===void 0?c=-2:(c=o.lastIndex-p[2].length,d=p[1],o=p[3]===void 0?w:p[3]==='"'?ie:se):o===ie||o===se?o=w:o===ae||o===te?o=T:(o=w,s=void 0);const g=o===w&&i[r+1].startsWith("/>")?" ":"";n+=o===T?l+_e:c>=0?(t.push(d),l.slice(0,c)+ce+l.slice(c)+b+g):l+b+(c===-2?r:g)}return[me(i,n+(i[a]||"<?>")+(e===2?"</svg>":e===3?"</math>":"")),t]};class R{constructor({strings:e,_$litType$:a},t){let s;this.parts=[];let n=0,o=0;const r=e.length-1,l=this.parts,[d,p]=De(e,a);if(this.el=R.createElement(d,t),E.currentNode=this.el.content,a===2||a===3){const c=this.el.content.firstChild;c.replaceWith(...c.childNodes)}for(;(s=E.nextNode())!==null&&l.length<r;){if(s.nodeType===1){if(s.hasAttributes())for(const c of s.getAttributeNames())if(c.endsWith(ce)){const u=p[o++],g=s.getAttribute(c).split(b),j=/([.?@])?(.*)/.exec(u);l.push({type:1,index:n,name:j[2],strings:g,ctor:j[1]==="."?ze:j[1]==="?"?Ge:j[1]==="@"?Me:H}),s.removeAttribute(c)}else c.startsWith(b)&&(l.push({type:6,index:n}),s.removeAttribute(c));if(pe.test(s.tagName)){const c=s.textContent.split(b),u=c.length-1;if(u>0){s.textContent=M?M.emptyScript:"";for(let g=0;g<u;g++)s.append(c[g],$()),E.nextNode(),l.push({type:2,index:++n});s.append(c[u],$())}}}else if(s.nodeType===8)if(s.data===de)l.push({type:2,index:n});else{let c=-1;for(;(c=s.data.indexOf(b,c+1))!==-1;)l.push({type:7,index:n}),c+=b.length-1}n++}}static createElement(e,a){const t=S.createElement("template");return t.innerHTML=e,t}}function P(i,e,a=i,t){var o,r;if(e===A)return e;let s=t!==void 0?(o=a._$Co)==null?void 0:o[t]:a._$Cl;const n=L(e)?void 0:e._$litDirective$;return(s==null?void 0:s.constructor)!==n&&((r=s==null?void 0:s._$AO)==null||r.call(s,!1),n===void 0?s=void 0:(s=new n(i),s._$AT(i,a,t)),t!==void 0?(a._$Co??(a._$Co=[]))[t]=s:a._$Cl=s),s!==void 0&&(e=P(i,s._$AS(i,e.values),s,t)),e}class je{constructor(e,a){this._$AV=[],this._$AN=void 0,this._$AD=e,this._$AM=a}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(e){const{el:{content:a},parts:t}=this._$AD,s=((e==null?void 0:e.creationScope)??S).importNode(a,!0);E.currentNode=s;let n=E.nextNode(),o=0,r=0,l=t[0];for(;l!==void 0;){if(o===l.index){let d;l.type===2?d=new D(n,n.nextSibling,this,e):l.type===1?d=new l.ctor(n,l.name,l.strings,this,e):l.type===6&&(d=new He(n,this,e)),this._$AV.push(d),l=t[++r]}o!==(l==null?void 0:l.index)&&(n=E.nextNode(),o++)}return E.currentNode=S,s}p(e){let a=0;for(const t of this._$AV)t!==void 0&&(t.strings!==void 0?(t._$AI(e,t,a),a+=t.strings.length-2):t._$AI(e[a])),a++}}class D{get _$AU(){var e;return((e=this._$AM)==null?void 0:e._$AU)??this._$Cv}constructor(e,a,t,s){this.type=2,this._$AH=m,this._$AN=void 0,this._$AA=e,this._$AB=a,this._$AM=t,this.options=s,this._$Cv=(s==null?void 0:s.isConnected)??!0}get parentNode(){let e=this._$AA.parentNode;const a=this._$AM;return a!==void 0&&(e==null?void 0:e.nodeType)===11&&(e=a.parentNode),e}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(e,a=this){e=P(this,e,a),L(e)?e===m||e==null||e===""?(this._$AH!==m&&this._$AR(),this._$AH=m):e!==this._$AH&&e!==A&&this._(e):e._$litType$!==void 0?this.$(e):e.nodeType!==void 0?this.T(e):$e(e)?this.k(e):this._(e)}O(e){return this._$AA.parentNode.insertBefore(e,this._$AB)}T(e){this._$AH!==e&&(this._$AR(),this._$AH=this.O(e))}_(e){this._$AH!==m&&L(this._$AH)?this._$AA.nextSibling.data=e:this.T(S.createTextNode(e)),this._$AH=e}$(e){var n;const{values:a,_$litType$:t}=e,s=typeof t=="number"?this._$AC(e):(t.el===void 0&&(t.el=R.createElement(me(t.h,t.h[0]),this.options)),t);if(((n=this._$AH)==null?void 0:n._$AD)===s)this._$AH.p(a);else{const o=new je(s,this),r=o.u(this.options);o.p(a),this.T(r),this._$AH=o}}_$AC(e){let a=ne.get(e.strings);return a===void 0&&ne.set(e.strings,a=new R(e)),a}k(e){W(this._$AH)||(this._$AH=[],this._$AR());const a=this._$AH;let t,s=0;for(const n of e)s===a.length?a.push(t=new D(this.O($()),this.O($()),this,this.options)):t=a[s],t._$AI(n),s++;s<a.length&&(this._$AR(t&&t._$AB.nextSibling,s),a.length=s)}_$AR(e=this._$AA.nextSibling,a){var t;for((t=this._$AP)==null?void 0:t.call(this,!1,!0,a);e!==this._$AB;){const s=e.nextSibling;e.remove(),e=s}}setConnected(e){var a;this._$AM===void 0&&(this._$Cv=e,(a=this._$AP)==null||a.call(this,e))}}class H{get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}constructor(e,a,t,s,n){this.type=1,this._$AH=m,this._$AN=void 0,this.element=e,this.name=a,this._$AM=s,this.options=n,t.length>2||t[0]!==""||t[1]!==""?(this._$AH=Array(t.length-1).fill(new String),this.strings=t):this._$AH=m}_$AI(e,a=this,t,s){const n=this.strings;let o=!1;if(n===void 0)e=P(this,e,a,0),o=!L(e)||e!==this._$AH&&e!==A,o&&(this._$AH=e);else{const r=e;let l,d;for(e=n[0],l=0;l<n.length-1;l++)d=P(this,r[t+l],a,l),d===A&&(d=this._$AH[l]),o||(o=!L(d)||d!==this._$AH[l]),d===m?e=m:e!==m&&(e+=(d??"")+n[l+1]),this._$AH[l]=d}o&&!s&&this.j(e)}j(e){e===m?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,e??"")}}class ze extends H{constructor(){super(...arguments),this.type=3}j(e){this.element[this.name]=e===m?void 0:e}}class Ge extends H{constructor(){super(...arguments),this.type=4}j(e){this.element.toggleAttribute(this.name,!!e&&e!==m)}}class Me extends H{constructor(e,a,t,s,n){super(e,a,t,s,n),this.type=5}_$AI(e,a=this){if((e=P(this,e,a,0)??m)===A)return;const t=this._$AH,s=e===m&&t!==m||e.capture!==t.capture||e.once!==t.once||e.passive!==t.passive,n=e!==m&&(t===m||s);s&&this.element.removeEventListener(this.name,this,t),n&&this.element.addEventListener(this.name,this,e),this._$AH=e}handleEvent(e){var a;typeof this._$AH=="function"?this._$AH.call(((a=this.options)==null?void 0:a.host)??this.element,e):this._$AH.handleEvent(e)}}class He{constructor(e,a,t){this.element=e,this.type=6,this._$AN=void 0,this._$AM=a,this.options=t}get _$AU(){return this._$AM._$AU}_$AI(e){P(this,e)}}const U=I.litHtmlPolyfillSupport;U==null||U(R,D),(I.litHtmlVersions??(I.litHtmlVersions=[])).push("3.3.1");const Oe=(i,e,a)=>{const t=(a==null?void 0:a.renderBefore)??e;let s=t._$litPart$;if(s===void 0){const n=(a==null?void 0:a.renderBefore)??null;t._$litPart$=s=new D(e.insertBefore($(),n),n,void 0,a??{})}return s._$AI(i),s};/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */const C=globalThis;class _ extends x{constructor(){super(...arguments),this.renderOptions={host:this},this._$Do=void 0}createRenderRoot(){var a;const e=super.createRenderRoot();return(a=this.renderOptions).renderBefore??(a.renderBefore=e.firstChild),e}update(e){const a=this.render();this.hasUpdated||(this.renderOptions.isConnected=this.isConnected),super.update(e),this._$Do=Oe(a,this.renderRoot,this.renderOptions)}connectedCallback(){var e;super.connectedCallback(),(e=this._$Do)==null||e.setConnected(!0)}disconnectedCallback(){var e;super.disconnectedCallback(),(e=this._$Do)==null||e.setConnected(!1)}render(){return A}}var oe;_._$litElement$=!0,_.finalized=!0,(oe=C.litElementHydrateSupport)==null||oe.call(C,{LitElement:_});const B=C.litElementPolyfillSupport;B==null||B({LitElement:_});(C.litElementVersions??(C.litElementVersions=[])).push("4.2.1");class N extends _{constructor(){super(),this.lang="es",this.theme="light",this.progress={}}emit(e,a={}){this.dispatchEvent(new CustomEvent(e,{detail:a,bubbles:!0,composed:!0}))}t(e,a=""){return a||e}track(e,a={}){this.emit("track-interaction",{component:this.tagName.toLowerCase(),action:e,data:a})}updateProgress(e,a=!0){this.emit("progress-update",{component:this.tagName.toLowerCase(),activity:e,completed:a})}}f(N,"properties",{lang:{type:String},theme:{type:String},progress:{type:Object}}),f(N,"styles",Ee`
+        :host {
+            --primary: #2563eb;
+            --secondary: #059669;
+            --accent: #d97706;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --neutral: #64748b;
+            --bg: #f1f5f9;
+            --text: #0f172a;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
             
-            // Initialize core systems
-            await this.initializeCore();
-            
-            // Load and register components
-            await this.loadComponents();
-            
-            // Set up event listeners
-            this.setupEventListeners();
-            
-            // Initialize sections
-            await this.initializeSections();
-            
-            // Start analytics
-            this.analytics.initialize();
-            
-            this.isInitialized = true;
-            console.log('✅ Application initialized successfully');
-            
-            // Trigger initial load complete event
-            this.state.dispatch('APP_INITIALIZED');
-            
-        } catch (error) {
-            console.error('❌ Failed to initialize application:', error);
-            this.handleInitializationError(error);
+            display: block;
+            font-family: 'Poppins', system-ui, sans-serif;
         }
-    }
 
-    /**
-     * Initialize core systems
-     */
-    async initializeCore() {
-        // Initialize state management
-        await this.state.init();
-        
-        // Initialize theme system
-        this.theme.init();
-        
-        // Initialize language system  
-        this.language.init();
-        
-        // Initialize navigation
-        this.navigation.init();
-        
-        // Set current year in footer
-        document.getElementById('current-year').textContent = new Date().getFullYear();
-    }
+        :host([theme="dark"]) {
+            --primary: #3b82f6;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --neutral: #94a3b8;
+            --bg: #020617;
+            --text: #e2e8f0;
+            --card-bg: #0f172a;
+            --border-color: #1e293b;
+        }
 
-    /**
-     * Load and register all components
-     */
-    async loadComponents() {
-        const componentModules = [
-            // Interactive Components - Phase 1 Complete
-            () => import('./components/drag-drop-component.js'),
-            () => import('./components/three-states-component.js'),
-            () => import('./components/comparison-tool-component.js'),
-            () => import('./components/hash-generator-component.js'),
-            
-            // Interactive Components - Phase 2 Complete
-            () => import('./components/git-terminal-simulator.js'),
-            () => import('./components/git-branch-visualizer.js'),
-            
-            // Interactive Components - Phase 3 Complete
-            () => import('./components/platform-comparison-tool.js'),
-            () => import('./components/cicd-pipeline-visualizer.js'),
-            
-            // Interactive Components - Phase 4
-            () => import('./components/accessibility-toolkit.js'),
-            () => import('./components/learning-style-assessment.js'),
-            // () => import('./components/timeline-component.js'),
-            // () => import('./components/collaboration-sim.js'),
-            // () => import('./components/cicd-pipeline.js'),
-            // () => import('./components/platform-comparison.js'),
-            // () => import('./components/udl-checklist.js'),
-            
-            // Section Components - TODO: implement
-            // () => import('./components/sections/part1-section.js'),
-            // () => import('./components/sections/part2-section.js'),
-            // () => import('./components/sections/part3-section.js'),
-            // () => import('./components/sections/part4-section.js')
-        ];
+        .component-container {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            color: var(--text);
+        }
 
-        // Load components with progress indication
-        const total = componentModules.length;
-        let loaded = 0;
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+        }
 
-        for (const moduleLoader of componentModules) {
-            try {
-                await moduleLoader();
-                loaded++;
-                
-                // Update loading progress
-                const progress = (loaded / total) * 100;
-                this.state.dispatch('LOADING_PROGRESS', { progress });
-                
-            } catch (error) {
-                console.warn('⚠️ Failed to load component:', error);
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .success {
+            color: var(--success);
+        }
+
+        .error {
+            color: var(--danger);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
             }
         }
-
-        console.log(`📦 Loaded ${loaded}/${total} components`);
-    }
-
-    /**
-     * Set up global event listeners
-     */
-    setupEventListeners() {
-        // Theme toggle buttons
-        document.getElementById('theme-auto')?.addEventListener('click', () => {
-            this.theme.setTheme('auto');
-        });
-        
-        document.getElementById('theme-light')?.addEventListener('click', () => {
-            this.theme.setTheme('light');
-        });
-        
-        document.getElementById('theme-dark')?.addEventListener('click', () => {
-            this.theme.setTheme('dark');
-        });
-
-        // Language toggle
-        document.getElementById('language-toggle')?.addEventListener('change', (e) => {
-            this.language.setLanguage(e.target.checked ? 'en' : 'es');
-        });
-
-        // Hero action buttons
-        document.getElementById('start-learning')?.addEventListener('click', () => {
-            this.startLearningJourney();
-        });
-        
-        document.getElementById('progress-overview')?.addEventListener('click', () => {
-            this.showProgressOverview();
-        });
-
-        // Navigation dots
-        document.querySelectorAll('.nav-dot').forEach(dot => {
-            dot.addEventListener('click', () => {
-                const section = dot.dataset.section;
-                this.navigation.navigateToSection(section);
-            });
-            
-            // Keyboard navigation
-            dot.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    const section = dot.dataset.section;
-                    this.navigation.navigateToSection(section);
-                }
-            });
-        });
-
-        // Global keyboard shortcuts
-        document.addEventListener('keydown', (e) => {
-            this.handleKeyboardShortcuts(e);
-        });
-
-        // State change listeners
-        this.state.subscribe('SECTION_CHANGED', (data) => {
-            this.navigation.updateActiveSection(data.section);
-            this.analytics.trackSectionView(data.section);
-        });
-
-        this.state.subscribe('PROGRESS_UPDATED', (data) => {
-            this.progress.updateProgressBar();
-            this.analytics.trackProgress(data);
-        });
-
-        // Error handling
-        window.addEventListener('error', (e) => {
-            this.analytics.trackError(e.error);
-            console.error('Global error:', e.error);
-        });
-
-        // Unhandled promise rejections
-        window.addEventListener('unhandledrejection', (e) => {
-            this.analytics.trackError(e.reason);
-            console.error('Unhandled promise rejection:', e.reason);
-        });
-    }
-
-    /**
-     * Initialize content sections
-     */
-    async initializeSections() {
-        const container = document.getElementById('content-sections');
-        if (!container) {
-            throw new Error('Content sections container not found');
-        }
-
-        // Create actual content sections with real content
-        const sections = [
-            { 
-                id: 'part1', 
-                title: 'Fundamentos Conceptuales',
-                content: this.createPart1Content()
-            },
-            { 
-                id: 'part2', 
-                title: 'Ruta de Aprendizaje',
-                content: this.createPart2Content()
-            },
-            { 
-                id: 'part3', 
-                title: 'Ecosistema Extendido',
-                content: this.createPart3Content()
-            },
-            { 
-                id: 'part4', 
-                title: 'Pedagogía Inclusiva',
-                content: this.createPart4Content()
-            }
-        ];
-
-        sections.forEach(section => {
-            const sectionElement = document.createElement('section');
-            sectionElement.id = section.id;
-            sectionElement.className = 'section py-20';
-            sectionElement.innerHTML = section.content;
-            container.appendChild(sectionElement);
-        });
-
-        // Set up intersection observer for lazy loading
-        this.navigation.observeSections();
-        
-        console.log('📄 Content sections initialized with real content');
-    }
-
-    /**
-     * Create Part 1 content - Conceptual Foundations
-     */
-    createPart1Content() {
-        return `
+    `);class qe{constructor(){f(this,"dev",{list:()=>{console.table(this.getUsageStats())},reload:async(e,a)=>{this.unregister(e),await this.lazyLoad(e,a),document.querySelectorAll(e).forEach(t=>{t.requestUpdate&&t.requestUpdate()})},validate:()=>{const e=this.validateComponents();return e.length===0?console.log("✅ All components are valid"):console.warn("⚠️ Component validation issues:",e),e}});this.components=new Map,this.initialized=!1}register(e,a){if(customElements.get(e)){console.warn(`Component ${e} is already registered`);return}try{customElements.define(e,a),this.components.set(e,a),console.log(`✅ Registered component: ${e}`)}catch(t){console.error(`❌ Failed to register component ${e}:`,t)}}get(e){return this.components.get(e)}has(e){return this.components.has(e)}getAll(){return Array.from(this.components.keys())}createElement(e,a={}){if(!this.has(e))throw new Error(`Component ${e} is not registered`);const t=document.createElement(e);return Object.entries(a).forEach(([s,n])=>{typeof n=="boolean"?n&&t.setAttribute(s,""):t.setAttribute(s,String(n))}),t}async initialize(){this.initialized||(console.log("🔧 Initializing Component Registry..."),this.registerBaseComponents(),this.initialized=!0,console.log("✅ Component Registry initialized"))}registerBaseComponents(){["git-drag-drop","git-terminal","git-branch-visualizer","git-comparison-tool","git-three-states","git-hash-generator","git-timeline","git-collaboration-sim","git-cicd-pipeline","git-platform-comparison","git-udl-checklist"].forEach(a=>{customElements.get(a)||this.register(a,class extends N{render(){return Re`
+                            <div class="component-container">
+                                <p>Loading ${a}...</p>
+                            </div>
+                        `}})})}async lazyLoad(e,a){try{if(this.has(e))return this.get(e);console.log(`📦 Lazy loading ${e}...`);const t=await a();if(t.default)return this.register(e,t.default),t.default;throw new Error(`Module for ${e} does not export default`)}catch(t){throw console.error(`Failed to lazy load ${e}:`,t),t}}batchRegister(e){const a=[];return e.forEach(({tagName:t,componentClass:s})=>{try{this.register(t,s),a.push({tagName:t,success:!0})}catch(n){a.push({tagName:t,success:!1,error:n})}}),a}unregister(e){this.components.has(e)&&(this.components.delete(e),console.log(`🗑️ Unregistered component: ${e}`))}getUsageStats(){const e={};return this.components.forEach((a,t)=>{const s=document.querySelectorAll(t);e[t]={registered:!0,instances:s.length,class:a.name}}),e}validateComponents(){const e=[];return this.components.forEach((a,t)=>{try{const s=new a;["render"].forEach(o=>{typeof s[o]!="function"&&e.push({component:t,issue:`Missing required method: ${o}`})})}catch(s){e.push({component:t,issue:`Cannot instantiate: ${s.message}`})}}),e}}class Ue{constructor(){f(this,"dev",{testThemes:()=>{const e=["light","dark","auto"];let a=0;const t=()=>{this.setTheme(e[a]),console.log(`Applied theme: ${e[a]}`),a=(a+1)%e.length,a!==0&&setTimeout(t,2e3)};t()},info:()=>{console.log("Theme Manager Info:",{current:this.currentTheme,resolved:this.getResolvedTheme(),system:this.getSystemPreference(),colors:this.getThemeColors()})}});this.currentTheme="auto",this.systemPrefersDark=!1,this.mediaQuery=null}init(){this.mediaQuery=window.matchMedia("(prefers-color-scheme: dark)"),this.systemPrefersDark=this.mediaQuery.matches,this.mediaQuery.addEventListener("change",a=>{this.systemPrefersDark=a.matches,this.currentTheme==="auto"&&this.applyTheme("auto")});const e=localStorage.getItem("theme")||"auto";this.setTheme(e),console.log("🎨 Theme Manager initialized")}setTheme(e){["auto","light","dark"].includes(e)||(console.warn(`Invalid theme: ${e}. Using 'auto' instead.`),e="auto"),this.currentTheme=e,this.applyTheme(e),this.updateThemeButtons(),this.saveTheme(),document.dispatchEvent(new CustomEvent("theme-changed",{detail:{theme:e,resolvedTheme:this.getResolvedTheme()}}))}applyTheme(e){let a;e==="auto"?a=this.systemPrefersDark?"dark":"light":a=e,document.body.classList.remove("theme-light","theme-dark"),document.body.classList.add(`theme-${a}`),this.updateMetaThemeColor(a),this.updateCustomProperties(a)}updateThemeButtons(){const e={auto:document.getElementById("theme-auto"),light:document.getElementById("theme-light"),dark:document.getElementById("theme-dark")};Object.values(e).forEach(t=>{t&&(t.style.backgroundColor="transparent",t.querySelector("i").style.color="var(--neutral)",t.setAttribute("aria-pressed","false"))});const a=e[this.currentTheme];a&&(a.style.backgroundColor="var(--primary)",a.querySelector("i").style.color="var(--bg)",a.setAttribute("aria-pressed","true"))}updateMetaThemeColor(e){const a=document.querySelector('meta[name="theme-color"]');if(a){const t=e==="dark"?"#020617":"#2563eb";a.setAttribute("content",t)}}updateCustomProperties(e){const a=document.documentElement;e==="dark"?(a.style.setProperty("--resolved-bg","#020617"),a.style.setProperty("--resolved-text","#e2e8f0"),a.style.setProperty("--resolved-card-bg","#0f172a"),a.style.setProperty("--resolved-border","#1e293b")):(a.style.setProperty("--resolved-bg","#f1f5f9"),a.style.setProperty("--resolved-text","#0f172a"),a.style.setProperty("--resolved-card-bg","#ffffff"),a.style.setProperty("--resolved-border","#e2e8f0"))}getCurrentTheme(){return this.currentTheme}getResolvedTheme(){return this.currentTheme==="auto"?this.systemPrefersDark?"dark":"light":this.currentTheme}toggleTheme(){const e=["light","dark","auto"],t=(e.indexOf(this.currentTheme)+1)%e.length;this.setTheme(e[t])}getSystemPreference(){return this.systemPrefersDark?"dark":"light"}saveTheme(){try{localStorage.setItem("theme",this.currentTheme)}catch(e){console.warn("Failed to save theme preference:",e)}}getThemeColors(){const e=this.getResolvedTheme()==="dark";return{primary:e?"#3b82f6":"#2563eb",secondary:e?"#10b981":"#059669",accent:e?"#f59e0b":"#d97706",neutral:e?"#94a3b8":"#64748b",bg:e?"#020617":"#f1f5f9",text:e?"#e2e8f0":"#0f172a",cardBg:e?"#0f172a":"#ffffff",border:e?"#1e293b":"#e2e8f0"}}createThemeCSS(e,a){return this.getResolvedTheme()==="dark"?a:e}onThemeChange(e){document.addEventListener("theme-changed",a=>{e(a.detail)})}preloadThemeAssets(){this.getResolvedTheme()==="dark"?this.preloadImage("/assets/icons/dark-mode-hero.svg"):this.preloadImage("/assets/icons/light-mode-hero.svg")}preloadImage(e){const a=document.createElement("link");a.rel="preload",a.as="image",a.href=e,document.head.appendChild(a)}getAnalyticsData(){return{currentTheme:this.currentTheme,resolvedTheme:this.getResolvedTheme(),systemPreference:this.getSystemPreference(),supportsColorSchemeQuery:this.mediaQuery!==null}}}class Be{constructor(){f(this,"dev",{listKeys:(e=this.currentLanguage)=>{const a=this.translations.get(e);if(a){const t=this.flattenObject(a);console.table(t)}},checkMissing:()=>{const e=this.flattenObject(this.translations.get("es")||{}),a=this.flattenObject(this.translations.get("en")||{}),t=new Set(Object.keys(e)),s=new Set(Object.keys(a)),n=[...t].filter(r=>!s.has(r)),o=[...s].filter(r=>!t.has(r));n.length>0&&console.warn("Missing English translations:",n),o.length>0&&console.warn("Missing Spanish translations:",o),n.length===0&&o.length===0&&console.log("✅ All translations are complete")},testSwitching:()=>{const e=this.supportedLanguages;let a=0;const t=()=>{this.setLanguage(e[a]),console.log(`Switched to: ${e[a]}`),a=(a+1)%e.length,a!==0&&setTimeout(t,3e3)};t()}});this.currentLanguage="es",this.supportedLanguages=["es","en"],this.translations=new Map,this.fallbackLanguage="es"}init(){const e=localStorage.getItem("language")||this.detectBrowserLanguage();this.setLanguage(e),this.loadTranslations(),console.log("🌐 Language Manager initialized")}setLanguage(e){this.supportedLanguages.includes(e)||(console.warn(`Unsupported language: ${e}. Using fallback: ${this.fallbackLanguage}`),e=this.fallbackLanguage),this.currentLanguage=e,this.applyLanguage(),this.updateLanguageToggle(),this.saveLanguage(),document.dispatchEvent(new CustomEvent("language-changed",{detail:{language:e,previousLanguage:this.currentLanguage}}))}applyLanguage(){document.documentElement.lang=this.currentLanguage,document.querySelectorAll("[data-lang-es], [data-lang-en]").forEach(a=>{const t=a.getAttribute(`data-lang-${this.currentLanguage}`);t&&(a.innerHTML=t)}),document.querySelectorAll("[data-placeholder-es], [data-placeholder-en]").forEach(a=>{const t=a.getAttribute(`data-placeholder-${this.currentLanguage}`);t&&(a.placeholder=t)}),document.querySelectorAll("[data-aria-label-es], [data-aria-label-en]").forEach(a=>{const t=a.getAttribute(`data-aria-label-${this.currentLanguage}`);t&&a.setAttribute("aria-label",t)});const e=document.querySelector(`meta[name="title-${this.currentLanguage}"]`);e&&(document.title=e.getAttribute("content"))}updateLanguageToggle(){const e=document.getElementById("language-toggle");e&&(e.checked=this.currentLanguage==="en")}detectBrowserLanguage(){const a=(navigator.language||navigator.userLanguage).split("-")[0];return this.supportedLanguages.includes(a)?a:this.fallbackLanguage}getCurrentLanguage(){return this.currentLanguage}toggleLanguage(){const e=this.currentLanguage==="es"?"en":"es";this.setLanguage(e)}translate(e,a={},t=this.currentLanguage){const s=this.translations.get(t);if(!s)return console.warn(`No translations loaded for language: ${t}`),e;let n=this.getNestedValue(s,e);if(!n&&t!==this.fallbackLanguage){const o=this.translations.get(this.fallbackLanguage);o&&(n=this.getNestedValue(o,e))}return n?this.replaceVariables(n,a):(console.warn(`Missing translation for key: ${e}`),e)}t(e,a={},t=this.currentLanguage){return this.translate(e,a,t)}getNestedValue(e,a){return a.split(".").reduce((t,s)=>t&&t[s]!==void 0?t[s]:null,e)}replaceVariables(e,a){return e.replace(/\{\{(\w+)\}\}/g,(t,s)=>a[s]!==void 0?a[s]:t)}async loadTranslations(){try{const[e,a]=await Promise.all([this.loadTranslationFile("es"),this.loadTranslationFile("en")]);this.translations.set("es",e),this.translations.set("en",a),console.log("📚 Translations loaded")}catch(e){console.warn("Failed to load translations:",e),this.loadFallbackTranslations()}}async loadTranslationFile(e){try{const a=await fetch(`/src/data/translations/${e}.json`);if(!a.ok)throw new Error(`HTTP ${a.status}`);return await a.json()}catch(a){return console.warn(`Failed to load ${e} translations:`,a),{}}}loadFallbackTranslations(){const e={es:{common:{loading:"Cargando...",error:"Error",success:"Éxito",continue:"Continuar",back:"Atrás",next:"Siguiente",finish:"Finalizar"},navigation:{home:"Inicio",progress:"Progreso"}},en:{common:{loading:"Loading...",error:"Error",success:"Success",continue:"Continue",back:"Back",next:"Next",finish:"Finish"},navigation:{home:"Home",progress:"Progress"}}};this.translations.set("es",e.es),this.translations.set("en",e.en)}saveLanguage(){try{localStorage.setItem("language",this.currentLanguage)}catch(e){console.warn("Failed to save language preference:",e)}}formatDate(e,a={}){const t=this.currentLanguage==="es"?"es-ES":"en-US";return new Intl.DateTimeFormat(t,a).format(e)}formatNumber(e,a={}){const t=this.currentLanguage==="es"?"es-ES":"en-US";return new Intl.NumberFormat(t,a).format(e)}getTextDirection(){return"ltr"}onLanguageChange(e){document.addEventListener("language-changed",a=>{e(a.detail)})}getAnalyticsData(){return{currentLanguage:this.currentLanguage,supportedLanguages:this.supportedLanguages,browserLanguage:navigator.language||navigator.userLanguage,detectedLanguage:this.detectBrowserLanguage()}}plural(e,a,t={}){const s=e===1?`${a}.one`:`${a}.other`;return this.translate(s,{...t,count:e})}flattenObject(e,a=""){const t={};return Object.keys(e).forEach(s=>{const n=a?`${a}.${s}`:s;typeof e[s]=="object"&&e[s]!==null?Object.assign(t,this.flattenObject(e[s],n)):t[n]=e[s]}),t}}class Fe{constructor(e){f(this,"dev",{getProgress:()=>this.getProgressSummary(),completeAll:()=>{this.activities.forEach((e,a)=>{this.updateProgress(a,!0)})},completeSection:e=>{Array.from(this.activities.entries()).filter(([t,s])=>s.section===e).forEach(([t,s])=>{this.updateProgress(t,!0)})},showAchievements:()=>{console.table(Array.from(this.milestones.entries()).map(([e,a])=>({id:e,name:a.name,unlocked:this.achievements.has(e),reward:a.reward})))}});this.state=e,this.activities=new Map,this.milestones=new Map,this.achievements=new Set}init(){this.setupActivityDefinitions(),this.setupMilestones(),this.updateProgressBar(),console.log("📊 Progress Tracker initialized")}setupActivityDefinitions(){[{id:"drag-drop-vcs",section:"part1",weight:2,name:"VCS Concept Match"},{id:"drag-drop-commit",section:"part1",weight:2,name:"Commit Concept Match"},{id:"drag-drop-repository",section:"part1",weight:2,name:"Repository Concept Match"},{id:"drag-drop-branch",section:"part1",weight:2,name:"Branch Concept Match"},{id:"cvcs-explored",section:"part1",weight:3,name:"CVCS Architecture Explored"},{id:"dvcs-explored",section:"part1",weight:3,name:"DVCS Architecture Explored"},{id:"delta-model-explored",section:"part1",weight:3,name:"Delta Model Explored"},{id:"snapshot-model-explored",section:"part1",weight:3,name:"Snapshot Model Explored"},{id:"three-states-demo",section:"part1",weight:4,name:"Three States Demo Completed"},{id:"hash-generator-used",section:"part1",weight:2,name:"Hash Generator Used"},{id:"terminal-commands",section:"part2",weight:3,name:"Terminal Commands Practice"},{id:"branch-commit",section:"part2",weight:3,name:"Branch Commit Created"},{id:"branch-create",section:"part2",weight:3,name:"New Branch Created"},{id:"branch-merge",section:"part2",weight:4,name:"Branch Merge Completed"},{id:"merge-conflict-resolved",section:"part2",weight:5,name:"Merge Conflict Resolved"},{id:"collab-commit",section:"part3",weight:2,name:"Collaboration Commit"},{id:"collab-push",section:"part3",weight:3,name:"Push to Fork"},{id:"collab-pr",section:"part3",weight:4,name:"Pull Request Created"},{id:"platform-github",section:"part3",weight:2,name:"GitHub Platform Explored"},{id:"platform-gitlab",section:"part3",weight:2,name:"GitLab Platform Explored"},{id:"platform-bitbucket",section:"part3",weight:2,name:"Bitbucket Platform Explored"},{id:"cicd-demo",section:"part3",weight:3,name:"CI/CD Pipeline Demo"},{id:"udl-representation",section:"part4",weight:2,name:"UDL Representation Explored"},{id:"udl-expression",section:"part4",weight:2,name:"UDL Expression Explored"},{id:"udl-engagement",section:"part4",weight:2,name:"UDL Engagement Explored"},{id:"learning-path-completed",section:"part4",weight:5,name:"Learning Path Completed"}].forEach(a=>{this.activities.set(a.id,a)})}setupMilestones(){[{id:"first-concept",name:"First Steps",description:"Complete your first concept match",condition:a=>this.getCompletedActivitiesCount()>=1,reward:"Git Novice",icon:"ph-star"},{id:"part1-complete",name:"Foundation Master",description:"Complete all Part I activities",condition:a=>this.getSectionProgress("part1")>=100,reward:"Foundation Expert",icon:"ph-graduation-cap"},{id:"branching-expert",name:"Branching Expert",description:"Master all branching concepts",condition:a=>["branch-commit","branch-create","branch-merge"].every(t=>{var s;return a.activities&&((s=a.activities[t])==null?void 0:s.completed)}),reward:"Branch Master",icon:"ph-git-branch"},{id:"collaboration-pro",name:"Collaboration Pro",description:"Complete the collaboration workflow",condition:a=>["collab-commit","collab-push","collab-pr"].every(t=>{var s;return a.activities&&((s=a.activities[t])==null?void 0:s.completed)}),reward:"Team Player",icon:"ph-users"},{id:"platform-explorer",name:"Platform Explorer",description:"Explore all three major platforms",condition:a=>["platform-github","platform-gitlab","platform-bitbucket"].every(t=>{var s;return a.activities&&((s=a.activities[t])==null?void 0:s.completed)}),reward:"Platform Expert",icon:"ph-globe"},{id:"git-master",name:"Git Master",description:"Complete the entire learning journey",condition:a=>this.getOverallProgress()>=100,reward:"Git Guru",icon:"ph-crown"}].forEach(a=>{this.milestones.set(a.id,a)})}updateProgress(e,a=!0,t={}){if(!this.activities.has(e)){console.warn(`Unknown activity: ${e}`);return}const s=this.activities.get(e);this.state.dispatch("COMPLETE_ACTIVITY",{activityId:e,data:{...t,timestamp:Date.now(),section:s.section,weight:s.weight}}),this.state.dispatch("UPDATE_PROGRESS",{section:s.section,activity:e,completed:a}),this.checkAchievements(),this.updateProgressBar(),console.log(`📈 Progress updated: ${s.name}`)}getOverallProgress(){const e=Array.from(this.activities.values()).reduce((t,s)=>t+s.weight,0),a=this.getCompletedActivities().reduce((t,s)=>t+s.weight,0);return e>0?Math.round(a/e*100):0}getSectionProgress(e){const t=Array.from(this.activities.values()).filter(o=>o.section===e).reduce((o,r)=>o+r.weight,0),n=this.getCompletedActivities().filter(o=>o.section===e).reduce((o,r)=>o+r.weight,0);return t>0?Math.round(n/t*100):0}getCompletedActivities(){const e=this.state.getState();return Object.keys(e.progress.activities||{}).filter(t=>{var s;return(s=e.progress.activities[t])==null?void 0:s.completed}).map(t=>this.activities.get(t)).filter(Boolean)}getCompletedActivitiesCount(){return this.getCompletedActivities().length}updateProgressBar(){const e=document.getElementById("progress-bar");if(e){const a=this.getOverallProgress();e.style.transform=`scaleX(${a/100})`,e.setAttribute("aria-valuenow",a)}}checkAchievements(){const e=this.state.getState();this.milestones.forEach((a,t)=>{!this.achievements.has(t)&&a.condition(e.progress)&&this.unlockAchievement(t,a)})}unlockAchievement(e,a){this.achievements.add(e),this.showAchievementNotification(a),this.state.dispatch("TRACK_INTERACTION",{type:"achievement_unlocked",data:{achievementId:e,name:a.name,reward:a.reward}}),console.log(`🏆 Achievement unlocked: ${a.name}`)}showAchievementNotification(e){const a=document.createElement("div");a.className="achievement-notification",a.innerHTML=`
+            <div class="achievement-content">
+                <i class="${e.icon} achievement-icon"></i>
+                <div class="achievement-text">
+                    <div class="achievement-title">${e.name}</div>
+                    <div class="achievement-reward">${e.reward}</div>
+                </div>
+                <i class="ph-x close-btn"></i>
+            </div>
+        `,a.style.cssText=`
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            max-width: 300px;
+        `,document.body.appendChild(a),setTimeout(()=>{a.style.transform="translateX(0)"},100),setTimeout(()=>{a.style.transform="translateX(100%)",setTimeout(()=>{a.parentNode&&a.parentNode.removeChild(a)},300)},5e3),a.querySelector(".close-btn").addEventListener("click",()=>{a.style.transform="translateX(100%)",setTimeout(()=>{a.parentNode&&a.parentNode.removeChild(a)},300)})}getProgressSummary(){const e=["part1","part2","part3","part4"],a={part1:"Fundamentos Conceptuales",part2:"Ruta de Aprendizaje",part3:"Ecosistema Extendido",part4:"Pedagogía Inclusiva"};return{overall:this.getOverallProgress(),completed:this.getCompletedActivitiesCount(),total:this.activities.size,achievements:this.achievements.size,sections:e.map(t=>({id:t,title:a[t],progress:this.getSectionProgress(t)}))}}exportProgress(){const e=this.getProgressSummary(),a=this.getCompletedActivities();return{summary:e,activities:a.map(t=>{var s;return{id:t.id,name:t.name,section:t.section,weight:t.weight,completedAt:(s=this.state.getState().progress.activities[t.id])==null?void 0:s.completedAt}}),achievements:Array.from(this.achievements),exportedAt:Date.now()}}resetProgress(){this.achievements.clear(),this.state.dispatch("RESET_PROGRESS"),this.updateProgressBar(),console.log("🔄 Progress reset")}}class Ne{constructor(){f(this,"dev",{getState:()=>({currentSection:this.currentSection,sections:this.sections,progress:this.getSectionProgress(),isNavigating:this.isNavigating}),testNavigation:()=>{let e=0;const a=()=>{this.navigateToSection(this.sections[e]),console.log(`Navigated to: ${this.sections[e]}`),e=(e+1)%this.sections.length,e!==0&&setTimeout(a,2e3)};a()},jumpTo:e=>{e>=0&&e<this.sections.length&&this.navigateToSection(this.sections[e])}});this.currentSection="hero",this.sections=["hero","part1","part2","part3","part4"],this.observer=null,this.scrollTimeout=null,this.isNavigating=!1}init(){this.setupIntersectionObserver(),this.setupScrollBehavior(),this.handleInitialHash(),this.setupNavigationEvents(),console.log("🧭 Navigation Manager initialized")}setupIntersectionObserver(){const e={root:null,rootMargin:"-20% 0px -20% 0px",threshold:.1};this.observer=new IntersectionObserver(a=>{this.isNavigating||a.forEach(t=>{if(t.isIntersecting){const s=t.target.id;s&&this.sections.includes(s)&&this.updateCurrentSection(s)}})},e)}observeSections(){this.sections.forEach(e=>{const a=document.getElementById(e);a&&this.observer.observe(a)})}setupScrollBehavior(){document.addEventListener("click",e=>{const a=e.target.closest('a[href^="#"]');if(a){e.preventDefault();const t=a.getAttribute("href").slice(1);this.navigateToSection(t)}}),window.addEventListener("popstate",e=>{e.state&&e.state.section&&this.navigateToSection(e.state.section,!1)})}handleInitialHash(){const e=window.location.hash.slice(1);e&&this.sections.includes(e)&&setTimeout(()=>{this.navigateToSection(e)},100)}setupNavigationEvents(){document.addEventListener("keydown",e=>{if(!(e.target.tagName==="INPUT"||e.target.tagName==="TEXTAREA"))switch(e.key){case"ArrowUp":case"PageUp":e.preventDefault(),this.navigateToPreviousSection();break;case"ArrowDown":case"PageDown":e.preventDefault(),this.navigateToNextSection();break;case"Home":e.preventDefault(),this.navigateToSection("hero");break;case"End":e.preventDefault(),this.navigateToSection(this.sections[this.sections.length-1]);break}})}navigateToSection(e,a=!0){if(!this.sections.includes(e)){console.warn(`Invalid section: ${e}`);return}const t=document.getElementById(e);if(!t){console.warn(`Section element not found: ${e}`);return}this.isNavigating=!0,a&&this.updateURL(e),this.scrollToSection(t).then(()=>{this.updateCurrentSection(e),this.isNavigating=!1,this.lazyLoadSection(e)})}scrollToSection(e){return new Promise(a=>{const s=e.offsetTop-64,n=window.pageYOffset,o=s-n,r=Math.min(Math.abs(o)*.5,800);let l=null;const d=c=>c<.5?4*c*c*c:(c-1)*(2*c-2)*(2*c-2)+1,p=c=>{l===null&&(l=c);const u=c-l,g=Math.min(u/r,1);window.scrollTo(0,n+o*d(g)),u<r?requestAnimationFrame(p):a()};requestAnimationFrame(p)})}navigateToPreviousSection(){const e=this.sections.indexOf(this.currentSection);e>0&&this.navigateToSection(this.sections[e-1])}navigateToNextSection(){const e=this.sections.indexOf(this.currentSection);e<this.sections.length-1&&this.navigateToSection(this.sections[e+1])}updateCurrentSection(e){if(this.currentSection===e)return;const a=this.currentSection;this.currentSection=e,this.updateActiveSection(e),document.dispatchEvent(new CustomEvent("section-changed",{detail:{section:e,previousSection:a,sectionIndex:this.sections.indexOf(e)}}))}updateActiveSection(e){document.querySelectorAll(".nav-dot").forEach(n=>{const o=n.dataset.section===e;n.classList.toggle("active",o),n.setAttribute("aria-current",o?"true":"false")});const t=(this.sections.indexOf(e)+1)/this.sections.length*100,s=document.getElementById("progress-bar");s&&(s.style.transform=`scaleX(${t/100})`)}updateURL(e){const a=`${window.location.pathname}#${e}`;history.pushState({section:e},"",a)}lazyLoadSection(e){const a=document.getElementById(e);a&&!a.dataset.loaded&&(a.classList.remove("component-loading"),a.classList.add("component-loaded"),a.dataset.loaded="true",document.dispatchEvent(new CustomEvent("section-load",{detail:{section:e}})))}getCurrentSection(){return this.currentSection}getSections(){return[...this.sections]}getSectionProgress(){return(this.sections.indexOf(this.currentSection)+1)/this.sections.length}sectionExists(e){return this.sections.includes(e)}getNextSection(){const e=this.sections.indexOf(this.currentSection);return e<this.sections.length-1?this.sections[e+1]:null}getPreviousSection(){const e=this.sections.indexOf(this.currentSection);return e>0?this.sections[e-1]:null}scrollToTop(){const e=document.getElementById(this.currentSection);e&&this.scrollToSection(e)}setSmoothScrolling(e){document.documentElement.style.scrollBehavior=e?"smooth":"auto"}onSectionChange(e){document.addEventListener("section-changed",a=>{e(a.detail)})}destroy(){this.observer&&this.observer.disconnect(),this.scrollTimeout&&clearTimeout(this.scrollTimeout)}}class Ve{constructor(){f(this,"dev",{getSession:()=>({sessionId:this.sessionId,events:this.events.length,duration:Date.now()-this.startTime}),report:()=>{const e=this.generateReport();return console.log("📊 Analytics Report:",e),e},clear:()=>{this.events=[],console.log("🗑️ Analytics events cleared")},export:()=>{const e=JSON.stringify(this.events,null,2);return console.log("📤 Analytics Export:",e),e},simulate:()=>{const e=["section_view","user_action","progress_milestone"];for(let a=0;a<20;a++){const t=e[Math.floor(Math.random()*e.length)];this.track(t,{simulated:!0,index:a})}console.log("🎯 Simulated 20 analytics events")}});this.sessionId=this.generateSessionId(),this.events=[],this.userAgent=navigator.userAgent,this.startTime=Date.now(),this.isEnabled=!0,this.batchSize=10,this.flushInterval=3e4}initialize(){this.setupEventListeners(),this.startSession(),this.setupPeriodicFlush(),console.log("📊 Analytics Manager initialized")}generateSessionId(){return`${Date.now()}-${Math.random().toString(36).substr(2,9)}`}setupEventListeners(){document.addEventListener("visibilitychange",()=>{this.track("page_visibility",{visible:!document.hidden,timestamp:Date.now()})}),document.addEventListener("track-interaction",e=>{this.track("component_interaction",e.detail)}),document.addEventListener("progress-update",e=>{this.track("progress_update",e.detail)}),document.addEventListener("section-changed",e=>{this.trackSectionView(e.detail.section)}),window.addEventListener("error",e=>{this.trackError(e.error)}),window.addEventListener("load",()=>{setTimeout(()=>this.trackPerformance(),1e3)})}startSession(){this.track("session_start",{sessionId:this.sessionId,userAgent:this.userAgent,language:navigator.language,screen:{width:screen.width,height:screen.height,colorDepth:screen.colorDepth},viewport:{width:window.innerWidth,height:window.innerHeight},timezone:Intl.DateTimeFormat().resolvedOptions().timeZone})}track(e,a={}){if(!this.isEnabled)return;const t={id:this.generateEventId(),sessionId:this.sessionId,type:e,timestamp:Date.now(),url:window.location.href,data:a,sessionDuration:Date.now()-this.startTime};this.events.push(t),this.isDevelopment()&&console.log(`📈 Analytics: ${e}`,a),this.events.length>=this.batchSize&&this.flush()}generateEventId(){return`${this.sessionId}-${this.events.length+1}`}trackSectionView(e){this.track("section_view",{section:e,previousSection:this.currentSection,timeInPreviousSection:this.currentSection?Date.now()-this.sectionStartTime:0}),this.currentSection=e,this.sectionStartTime=Date.now()}trackAction(e,a={}){this.track("user_action",{action:e,...a})}trackProgress(e){this.track("progress_milestone",{...e,sessionProgress:this.getSessionProgress()})}trackError(e){this.track("error",{message:e.message,stack:e.stack,filename:e.filename,lineno:e.lineno,colno:e.colno})}trackPerformance(){var s,n;if(!("performance"in window))return;const e=performance.getEntriesByType("navigation")[0],a=performance.getEntriesByType("paint"),t={domContentLoaded:(e==null?void 0:e.domContentLoadedEventEnd)-(e==null?void 0:e.domContentLoadedEventStart),loadComplete:(e==null?void 0:e.loadEventEnd)-(e==null?void 0:e.loadEventStart),firstPaint:(s=a.find(o=>o.name==="first-paint"))==null?void 0:s.startTime,firstContentfulPaint:(n=a.find(o=>o.name==="first-contentful-paint"))==null?void 0:n.startTime,totalResources:performance.getEntriesByType("resource").length,memory:"memory"in performance?{usedJSHeapSize:performance.memory.usedJSHeapSize,totalJSHeapSize:performance.memory.totalJSHeapSize}:null};this.track("performance",t)}trackLearningEvent(e,a={}){this.track("learning_event",{eventType:e,learningData:a,sessionTime:Date.now()-this.startTime})}trackAccessibility(e,a={}){this.track("accessibility",{feature:e,...a})}getSessionProgress(){const e=this.events.filter(t=>t.sessionId===this.sessionId),a=e.filter(t=>t.type==="progress_milestone");return{totalEvents:e.length,progressEvents:a.length,sessionDuration:Date.now()-this.startTime}}async flush(){if(this.events.length===0)return;const e=[...this.events];this.events=[];try{await this.sendToAnalyticsService(e),this.isDevelopment()&&console.log(`📤 Flushed ${e.length} analytics events`)}catch(a){console.warn("Failed to send analytics events:",a),this.events.unshift(...e)}}async sendToAnalyticsService(e){return new Promise(a=>{setTimeout(()=>{this.isDevelopment()&&console.log("Analytics Events:",e),a()},100)})}setupPeriodicFlush(){setInterval(()=>{this.events.length>0&&this.flush()},this.flushInterval),window.addEventListener("beforeunload",()=>{this.events.length>0&&this.flushSync()})}flushSync(){if(this.events.length===0)return;const e=JSON.stringify({sessionId:this.sessionId,events:this.events});"sendBeacon"in navigator?navigator.sendBeacon("/api/analytics",e):fetch("/api/analytics",{method:"POST",body:e,headers:{"Content-Type":"application/json"},keepalive:!0}).catch(()=>{}),this.events=[]}isDevelopment(){return window.location.hostname==="localhost"||window.location.hostname==="127.0.0.1"||window.location.hostname.includes("dev")}generateReport(){return{session:{id:this.sessionId,duration:Date.now()-this.startTime,eventCount:this.events.length},events:this.events.reduce((a,t)=>(a[t.type]=(a[t.type]||0)+1,a),{}),performance:this.getPerformanceMetrics(),userAgent:this.userAgent}}getPerformanceMetrics(){const e=this.events.filter(a=>a.type==="performance");return e.length>0?e[0].data:null}setEnabled(e){this.isEnabled=e,e?this.track("analytics_enabled"):(this.track("analytics_disabled"),this.flush())}getPrivacyData(){return{sessionId:this.sessionId,dataCollected:["User interactions with educational components","Learning progress and achievements","Page navigation and time spent","Error events for debugging","Performance metrics","Accessibility feature usage"],dataNotCollected:["Personal identifying information","IP addresses","Exact location data","Third-party account information"],retention:"30 days for learning analytics, 7 days for technical metrics"}}destroy(){this.flush(),this.isEnabled=!1}}class Ke{constructor(){this.state=new ye,this.components=new qe,this.theme=new Ue,this.language=new Be,this.progress=new Fe(this.state),this.navigation=new Ne,this.analytics=new Ve,this.isInitialized=!1}async init(){try{console.log("🚀 Initializing Git Pedagogy SPA..."),await this.initializeCore(),await this.loadComponents(),this.setupEventListeners(),await this.initializeSections(),this.analytics.initialize(),this.isInitialized=!0,console.log("✅ Application initialized successfully"),this.state.dispatch("APP_INITIALIZED")}catch(e){console.error("❌ Failed to initialize application:",e),this.handleInitializationError(e)}}async initializeCore(){await this.state.init(),this.theme.init(),this.language.init(),this.navigation.init(),document.getElementById("current-year").textContent=new Date().getFullYear()}async loadComponents(){const e=[()=>v(()=>import("./drag-drop-component-DvNVMw1z.js"),[]),()=>v(()=>import("./three-states-component-DkfoqZAZ.js"),[]),()=>v(()=>import("./comparison-tool-component-C86wafu-.js"),[]),()=>v(()=>import("./hash-generator-component-_bjNwDFC.js"),[]),()=>v(()=>import("./git-terminal-simulator-HZiFxSU5.js"),[]),()=>v(()=>import("./git-branch-visualizer-C9AMn_BD.js"),[]),()=>v(()=>import("./platform-comparison-tool-BfbymZPm.js"),[]),()=>v(()=>import("./cicd-pipeline-visualizer-CksjHSUx.js"),[]),()=>v(()=>import("./accessibility-toolkit-C8HL18z7.js"),[]),()=>v(()=>import("./learning-style-assessment-D_HfnACm.js"),[])],a=e.length;let t=0;for(const s of e)try{await s(),t++;const n=t/a*100;this.state.dispatch("LOADING_PROGRESS",{progress:n})}catch(n){console.warn("⚠️ Failed to load component:",n)}console.log(`📦 Loaded ${t}/${a} components`)}setupEventListeners(){var e,a,t,s,n,o;(e=document.getElementById("theme-auto"))==null||e.addEventListener("click",()=>{this.theme.setTheme("auto")}),(a=document.getElementById("theme-light"))==null||a.addEventListener("click",()=>{this.theme.setTheme("light")}),(t=document.getElementById("theme-dark"))==null||t.addEventListener("click",()=>{this.theme.setTheme("dark")}),(s=document.getElementById("language-toggle"))==null||s.addEventListener("change",r=>{this.language.setLanguage(r.target.checked?"en":"es")}),(n=document.getElementById("start-learning"))==null||n.addEventListener("click",()=>{this.startLearningJourney()}),(o=document.getElementById("progress-overview"))==null||o.addEventListener("click",()=>{this.showProgressOverview()}),document.querySelectorAll(".nav-dot").forEach(r=>{r.addEventListener("click",()=>{const l=r.dataset.section;this.navigation.navigateToSection(l)}),r.addEventListener("keydown",l=>{if(l.key==="Enter"||l.key===" "){l.preventDefault();const d=r.dataset.section;this.navigation.navigateToSection(d)}})}),document.addEventListener("keydown",r=>{this.handleKeyboardShortcuts(r)}),this.state.subscribe("SECTION_CHANGED",r=>{this.navigation.updateActiveSection(r.section),this.analytics.trackSectionView(r.section)}),this.state.subscribe("PROGRESS_UPDATED",r=>{this.progress.updateProgressBar(),this.analytics.trackProgress(r)}),window.addEventListener("error",r=>{this.analytics.trackError(r.error),console.error("Global error:",r.error)}),window.addEventListener("unhandledrejection",r=>{this.analytics.trackError(r.reason),console.error("Unhandled promise rejection:",r.reason)})}async initializeSections(){const e=document.getElementById("content-sections");if(!e)throw new Error("Content sections container not found");[{id:"part1",title:"Fundamentos Conceptuales",content:this.createPart1Content()},{id:"part2",title:"Ruta de Aprendizaje",content:this.createPart2Content()},{id:"part3",title:"Ecosistema Extendido",content:this.createPart3Content()},{id:"part4",title:"Pedagogía Inclusiva",content:this.createPart4Content()}].forEach(t=>{const s=document.createElement("section");s.id=t.id,s.className="section py-20",s.innerHTML=t.content,e.appendChild(s)}),this.navigation.observeSections(),console.log("📄 Content sections initialized with real content")}createPart1Content(){return`
             <div class="max-w-6xl mx-auto">
                 <h2 class="text-4xl font-bold mb-4 text-center" style="color: var(--text);">
                     Parte I: Fundamentos Conceptuales del Control de Versiones
@@ -662,14 +529,7 @@ class GitPedagogyApp {
                     </div>
                 </section>
             </div>
-        `;
-    }
-
-    /**
-     * Create Part 2 content
-     */
-    createPart2Content() {
-        return `
+        `}createPart2Content(){return`
             <div class="max-w-6xl mx-auto">
                 <h2 class="text-3xl font-bold mb-8 text-center" style="color: var(--text);" 
                     data-lang-es="Parte II: Ruta de Aprendizaje Estructurada" 
@@ -1169,14 +1029,7 @@ class GitPedagogyApp {
                     </div>
                 </div>
             </div>
-        `;
-    }
-
-    /**
-     * Create Part 3 content  
-     */
-    createPart3Content() {
-        return `
+        `}createPart3Content(){return`
             <div class="max-w-6xl mx-auto">
                 <h2 class="text-3xl font-bold mb-8 text-center" style="color: var(--text);" 
                     data-lang-es="Parte III: El Ecosistema Ampliado - Plataformas y Estrategias Avanzadas" 
@@ -1600,14 +1453,7 @@ class GitPedagogyApp {
                     </div>
                 </div>
             </div>
-        `;
-    }
-
-    /**
-     * Create Part 4 content - Inclusive Pedagogy
-     */
-    createPart4Content() {
-        return `
+        `}createPart4Content(){return`
             <div class="max-w-6xl mx-auto">
                 <h2 class="text-3xl font-bold mb-8 text-center" style="color: var(--text);" 
                     data-lang-es="Parte IV: Pedagogía Inclusiva para el Aprendizaje de Control de Versiones"
@@ -2187,86 +2033,7 @@ class GitPedagogyApp {
                     </div>
                 </div>
             </div>
-        `;
-    }
-
-    /**
-     * Handle keyboard shortcuts
-     */
-    handleKeyboardShortcuts(event) {
-        // Skip if user is typing in an input
-        if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
-            return;
-        }
-
-        switch (event.key) {
-            case '1':
-                this.navigation.navigateToSection('hero');
-                break;
-            case '2':
-                this.navigation.navigateToSection('part1');
-                break;
-            case '3':
-                this.navigation.navigateToSection('part2');
-                break;
-            case '4':
-                this.navigation.navigateToSection('part3');
-                break;
-            case '5':
-                this.navigation.navigateToSection('part4');
-                break;
-            case 'h':
-                this.showKeyboardShortcuts();
-                break;
-            case 'p':
-                this.showProgressOverview();
-                break;
-            case 't':
-                this.theme.toggleTheme();
-                break;
-            case 'l':
-                this.language.toggleLanguage();
-                break;
-        }
-    }
-
-    /**
-     * Start the learning journey
-     */
-    startLearningJourney() {
-        this.analytics.trackAction('start_learning');
-        this.navigation.navigateToSection('part1');
-        
-        // Show welcome message
-        this.showNotification('¡Bienvenido! Comencemos tu viaje de aprendizaje.', 'success');
-    }
-
-    /**
-     * Show progress overview
-     */
-    showProgressOverview() {
-        this.analytics.trackAction('view_progress');
-        const progress = this.progress.getProgressSummary();
-        
-        // Create and show progress modal
-        const modal = this.createProgressModal(progress);
-        document.body.appendChild(modal);
-        
-        // Auto-remove after 10 seconds
-        setTimeout(() => {
-            if (modal.parentNode) {
-                modal.parentNode.removeChild(modal);
-            }
-        }, 10000);
-    }
-
-    /**
-     * Create progress modal
-     */
-    createProgressModal(progress) {
-        const modal = document.createElement('div');
-        modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
-        modal.innerHTML = `
+        `}handleKeyboardShortcuts(e){if(!(e.target.tagName==="INPUT"||e.target.tagName==="TEXTAREA"))switch(e.key){case"1":this.navigation.navigateToSection("hero");break;case"2":this.navigation.navigateToSection("part1");break;case"3":this.navigation.navigateToSection("part2");break;case"4":this.navigation.navigateToSection("part3");break;case"5":this.navigation.navigateToSection("part4");break;case"h":this.showKeyboardShortcuts();break;case"p":this.showProgressOverview();break;case"t":this.theme.toggleTheme();break;case"l":this.language.toggleLanguage();break}}startLearningJourney(){this.analytics.trackAction("start_learning"),this.navigation.navigateToSection("part1"),this.showNotification("¡Bienvenido! Comencemos tu viaje de aprendizaje.","success")}showProgressOverview(){this.analytics.trackAction("view_progress");const e=this.progress.getProgressSummary(),a=this.createProgressModal(e);document.body.appendChild(a),setTimeout(()=>{a.parentNode&&a.parentNode.removeChild(a)},1e4)}createProgressModal(e){const a=document.createElement("div");return a.className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50",a.innerHTML=`
             <div class="bg-white dark:bg-gray-800 p-6 rounded-lg max-w-md w-full mx-4">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-xl font-semibold">Tu Progreso</h3>
@@ -2278,100 +2045,46 @@ class GitPedagogyApp {
                     <div class="progress-bar-container">
                         <div class="flex justify-between text-sm mb-1">
                             <span>Progreso General</span>
-                            <span>${progress.overall}%</span>
+                            <span>${e.overall}%</span>
                         </div>
                         <div class="w-full bg-gray-200 rounded-full h-2">
-                            <div class="bg-blue-600 h-2 rounded-full" style="width: ${progress.overall}%"></div>
+                            <div class="bg-blue-600 h-2 rounded-full" style="width: ${e.overall}%"></div>
                         </div>
                     </div>
-                    ${progress.sections.map(section => `
+                    ${e.sections.map(t=>`
                         <div class="section-progress">
                             <div class="flex justify-between text-sm mb-1">
-                                <span>${section.title}</span>
-                                <span>${section.progress}%</span>
+                                <span>${t.title}</span>
+                                <span>${t.progress}%</span>
                             </div>
                             <div class="w-full bg-gray-200 rounded-full h-1">
-                                <div class="bg-green-600 h-1 rounded-full" style="width: ${section.progress}%"></div>
+                                <div class="bg-green-600 h-1 rounded-full" style="width: ${t.progress}%"></div>
                             </div>
                         </div>
-                    `).join('')}
+                    `).join("")}
                 </div>
             </div>
-        `;
-
-        // Close modal on click outside or close button
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal || e.target.closest('.close-modal')) {
-                modal.remove();
-            }
-        });
-
-        return modal;
-    }
-
-    /**
-     * Show notification
-     */
-    showNotification(message, type = 'info') {
-        const notification = document.createElement('div');
-        notification.className = `notification notification-${type}`;
-        notification.innerHTML = `
+        `,a.addEventListener("click",t=>{(t.target===a||t.target.closest(".close-modal"))&&a.remove()}),a}showNotification(e,a="info"){const t=document.createElement("div");t.className=`notification notification-${a}`,t.innerHTML=`
             <div class="flex items-center gap-2">
-                <i class="ph-${type === 'success' ? 'check-circle' : 'info'} text-xl"></i>
-                <span>${message}</span>
+                <i class="ph-${a==="success"?"check-circle":"info"} text-xl"></i>
+                <span>${e}</span>
             </div>
-        `;
-
-        document.body.appendChild(notification);
-
-        // Auto-remove
-        setTimeout(() => {
-            notification.style.transform = 'translateX(100%)';
-            setTimeout(() => notification.remove(), 300);
-        }, 3000);
-    }
-
-    /**
-     * Show keyboard shortcuts help
-     */
-    showKeyboardShortcuts() {
-        const shortcuts = [
-            { key: '1-5', action: 'Navegar a secciones' },
-            { key: 'H', action: 'Mostrar ayuda' },
-            { key: 'P', action: 'Ver progreso' },
-            { key: 'T', action: 'Cambiar tema' },
-            { key: 'L', action: 'Cambiar idioma' }
-        ];
-
-        const modal = document.createElement('div');
-        modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
-        modal.innerHTML = `
+        `,document.body.appendChild(t),setTimeout(()=>{t.style.transform="translateX(100%)",setTimeout(()=>t.remove(),300)},3e3)}showKeyboardShortcuts(){const e=[{key:"1-5",action:"Navegar a secciones"},{key:"H",action:"Mostrar ayuda"},{key:"P",action:"Ver progreso"},{key:"T",action:"Cambiar tema"},{key:"L",action:"Cambiar idioma"}],a=document.createElement("div");a.className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50",a.innerHTML=`
             <div class="bg-white dark:bg-gray-800 p-6 rounded-lg max-w-md w-full mx-4">
                 <h3 class="text-xl font-semibold mb-4">Atajos de Teclado</h3>
                 <div class="space-y-2">
-                    ${shortcuts.map(shortcut => `
+                    ${e.map(t=>`
                         <div class="flex justify-between">
-                            <kbd class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-sm">${shortcut.key}</kbd>
-                            <span>${shortcut.action}</span>
+                            <kbd class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-sm">${t.key}</kbd>
+                            <span>${t.action}</span>
                         </div>
-                    `).join('')}
+                    `).join("")}
                 </div>
                 <button class="mt-4 w-full btn btn-primary" onclick="this.closest('.fixed').remove()">
                     Cerrar
                 </button>
             </div>
-        `;
-
-        document.body.appendChild(modal);
-    }
-
-    /**
-     * Handle initialization errors
-     */
-    handleInitializationError(error) {
-        const errorContainer = document.createElement('div');
-        errorContainer.className = 'error-container fixed inset-0 flex items-center justify-center bg-red-50 dark:bg-red-900';
-        errorContainer.innerHTML = `
+        `,document.body.appendChild(a)}handleInitializationError(e){const a=document.createElement("div");a.className="error-container fixed inset-0 flex items-center justify-center bg-red-50 dark:bg-red-900",a.innerHTML=`
             <div class="text-center p-8">
                 <i class="ph-warning text-6xl text-red-500 mb-4"></i>
                 <h2 class="text-2xl font-bold mb-2">Error de Inicialización</h2>
@@ -2382,30 +2095,5 @@ class GitPedagogyApp {
                     Recargar Página
                 </button>
             </div>
-        `;
-        
-        document.body.appendChild(errorContainer);
-    }
-}
-
-/**
- * Initialize Application
- */
-document.addEventListener('DOMContentLoaded', async () => {
-    const app = new GitPedagogyApp();
-    
-    // Global app reference for debugging
-    window.gitPedagogyApp = app;
-    
-    // Initialize the application
-    await app.init();
-});
-
-// Handle module load errors
-window.addEventListener('error', (e) => {
-    if (e.filename && e.filename.includes('.js')) {
-        console.error('Failed to load module:', e.filename);
-    }
-});
-
-export default GitPedagogyApp;
+        `,document.body.appendChild(a)}}document.addEventListener("DOMContentLoaded",async()=>{const i=new Ke;window.gitPedagogyApp=i,await i.init()});window.addEventListener("error",i=>{i.filename&&i.filename.includes(".js")&&console.error("Failed to load module:",i.filename)});export{N as B,_ as a,Ee as i,Re as x};
+//# sourceMappingURL=index-DO_oek1i.js.map
