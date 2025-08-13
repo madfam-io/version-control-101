@@ -87,15 +87,15 @@ class GitPedagogyApp {
      */
     async loadComponents() {
         const componentModules = [
-            // Interactive Components - only load existing ones
-            () => import('./components/drag-drop-component.js')
+            // Interactive Components - Phase 1 Complete
+            () => import('./components/drag-drop-component.js'),
+            () => import('./components/three-states-component.js'),
+            () => import('./components/comparison-tool-component.js'),
+            () => import('./components/hash-generator-component.js')
             
             // TODO: Add more components as they are implemented:
             // () => import('./components/terminal-simulator.js'),
             // () => import('./components/branch-visualizer.js'),
-            // () => import('./components/comparison-tool.js'),
-            // () => import('./components/three-states-demo.js'),
-            // () => import('./components/hash-generator.js'),
             // () => import('./components/timeline-component.js'),
             // () => import('./components/collaboration-sim.js'),
             // () => import('./components/cicd-pipeline.js'),
@@ -255,64 +255,404 @@ class GitPedagogyApp {
     }
 
     /**
-     * Create Part 1 content
+     * Create Part 1 content - Conceptual Foundations
      */
     createPart1Content() {
         return `
-            <div class="max-w-4xl mx-auto">
-                <h2 class="text-3xl font-bold mb-8 text-center" style="color: var(--text);">
-                    Parte I: Fundamentos Conceptuales
+            <div class="max-w-6xl mx-auto">
+                <h2 class="text-4xl font-bold mb-4 text-center" style="color: var(--text);">
+                    Parte I: Fundamentos Conceptuales del Control de Versiones
                 </h2>
-                
-                <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3 mb-12">
-                    <!-- VCS Card -->
-                    <div class="card">
-                        <div class="card-header">
-                            <i class="ph-git-branch text-3xl" style="color: var(--primary);"></i>
-                            <h3 class="text-xl font-semibold">Sistema de Control de Versiones</h3>
+                <p class="text-xl text-center mb-12" style="color: var(--neutral);">
+                    Más allá de "Guardar Como..." - La base teórica del desarrollo colaborativo moderno
+                </p>
+
+                <!-- Section 1.1: Defining Version Control -->
+                <section class="mb-16">
+                    <h3 class="text-2xl font-semibold mb-6" style="color: var(--text);">
+                        <i class="ph-question-mark-duotone mr-3" style="color: var(--primary);"></i>
+                        1.1 Definiendo el Control de Versiones: Más allá de "Guardar Como..."
+                    </h3>
+                    
+                    <div class="grid md:grid-cols-2 gap-8 mb-8">
+                        <div class="concept-explanation">
+                            <div class="comparison-container">
+                                <h4 class="text-lg font-semibold mb-4 text-red-600">❌ Enfoque Manual (Problemático)</h4>
+                                <div class="manual-files">
+                                    <div class="file-item">📄 proyecto_v1.docx</div>
+                                    <div class="file-item">📄 proyecto_v2_final.docx</div>
+                                    <div class="file-item">📄 proyecto_v2_final_REAL.docx</div>
+                                    <div class="file-item">📄 proyecto_v3_corregido.docx</div>
+                                    <div class="file-item">📄 proyecto_final_definitivo.docx</div>
+                                </div>
+                                <p class="text-sm mt-3 text-red-600">¿Cuál es la versión correcta? ¿Qué cambios se hicieron?</p>
+                            </div>
                         </div>
-                        <div class="card-content">
-                            <p>Un sistema que registra y gestiona cambios en archivos a lo largo del tiempo, permitiendo rastrear el historial completo del proyecto.</p>
+                        
+                        <div class="concept-explanation">
+                            <div class="comparison-container">
+                                <h4 class="text-lg font-semibold mb-4 text-green-600">✅ Sistema de Control de Versiones</h4>
+                                <div class="vcs-structure">
+                                    <div class="vcs-item">🗄️ Base de datos especializada</div>
+                                    <div class="vcs-item">📊 Historial completo automático</div>
+                                    <div class="vcs-item">👥 Colaboración sin conflictos</div>
+                                    <div class="vcs-item">🔒 Integridad garantizada</div>
+                                    <div class="vcs-item">⏪ Recuperación instantánea</div>
+                                </div>
+                                <p class="text-sm mt-3 text-green-600">Cada cambio registrado con precisión y contexto</p>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Repository Card -->
-                    <div class="card">
-                        <div class="card-header">
-                            <i class="ph-database text-3xl" style="color: var(--secondary);"></i>
-                            <h3 class="text-xl font-semibold">Repositorio</h3>
+                    <div class="key-insight">
+                        <i class="ph-lightbulb text-2xl mr-3" style="color: var(--accent);"></i>
+                        <p><strong>Concepto Clave:</strong> Un VCS no es solo una herramienta de respaldo, sino el pilar fundamental sobre el cual se construye todo el desarrollo colaborativo, las prácticas DevOps y la integridad del proyecto.</p>
+                    </div>
+                </section>
+
+                <!-- Interactive Component: Drag Drop Exercise -->
+                <section class="mb-16">
+                    <div class="interactive-component-container">
+                        <git-drag-drop></git-drag-drop>
+                    </div>
+                </section>
+
+                <!-- Section 1.2: Core Benefits -->
+                <section class="mb-16">
+                    <h3 class="text-2xl font-semibold mb-6" style="color: var(--text);">
+                        <i class="ph-star-four-duotone mr-3" style="color: var(--secondary);"></i>
+                        1.2 Los Beneficios Fundamentales: Colaboración, Historial y Recuperación
+                    </h3>
+
+                    <div class="benefits-grid">
+                        <div class="benefit-card collaboration">
+                            <div class="benefit-header">
+                                <i class="ph-users-three text-4xl mb-4" style="color: var(--primary);"></i>
+                                <h4 class="text-xl font-semibold mb-3">Colaboración y Desarrollo Paralelo</h4>
+                            </div>
+                            <div class="benefit-content">
+                                <p class="mb-3">Permite que múltiples desarrolladores trabajen simultáneamente sin sobrescribir cambios.</p>
+                                <ul class="benefit-list">
+                                    <li>Sincronización automática de cambios</li>
+                                    <li>Resolución inteligente de conflictos</li>
+                                    <li>Flujos de trabajo estructurados</li>
+                                </ul>
+                                <div class="mini-demo">
+                                    <div class="developer">👨‍💻 Dev A</div>
+                                    <div class="sync-arrow">↔️</div>
+                                    <div class="repository">🏛️ Repo</div>
+                                    <div class="sync-arrow">↔️</div>
+                                    <div class="developer">👩‍💻 Dev B</div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-content">
-                            <p>La base de datos donde se almacena toda la historia del proyecto, incluyendo archivos, cambios y metadatos.</p>
+
+                        <div class="benefit-card history">
+                            <div class="benefit-header">
+                                <i class="ph-clock-clockwise text-4xl mb-4" style="color: var(--secondary);"></i>
+                                <h4 class="text-xl font-semibold mb-3">Historial y Trazabilidad</h4>
+                            </div>
+                            <div class="benefit-content">
+                                <p class="mb-3">Cada cambio queda registrado con metadatos completos y propósito.</p>
+                                <ul class="benefit-list">
+                                    <li>Quién hizo qué cambio y cuándo</li>
+                                    <li>Razones documentadas para cada modificación</li>
+                                    <li>Seguimiento del origen de errores</li>
+                                </ul>
+                                <div class="commit-example">
+                                    <div class="commit-line">
+                                        <span class="commit-hash">a3b7c9d</span>
+                                        <span class="commit-author">María González</span>
+                                        <span class="commit-date">2024-03-15</span>
+                                    </div>
+                                    <div class="commit-message">"Implementar autenticación de usuarios"</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="benefit-card recovery">
+                            <div class="benefit-header">
+                                <i class="ph-shield-check text-4xl mb-4" style="color: var(--success);"></i>
+                                <h4 class="text-xl font-semibold mb-3">Recuperación y Experimentación</h4>
+                            </div>
+                            <div class="benefit-content">
+                                <p class="mb-3">Red de seguridad que permite experimentación confiada y recuperación instantánea.</p>
+                                <ul class="benefit-list">
+                                    <li>Reversión a estados anteriores estables</li>
+                                    <li>Experimentación en ramas aisladas</li>
+                                    <li>Protección contra pérdida de datos</li>
+                                </ul>
+                                <div class="recovery-demo">
+                                    <div class="timeline">
+                                        <div class="timeline-point stable">✅ Estable</div>
+                                        <div class="timeline-point experiment">🧪 Experimento</div>
+                                        <div class="timeline-point error">❌ Error</div>
+                                        <div class="timeline-point recovery">↩️ Recuperar</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="benefit-card branching">
+                            <div class="benefit-header">
+                                <i class="ph-git-branch text-4xl mb-4" style="color: var(--accent);"></i>
+                                <h4 class="text-xl font-semibold mb-3">Ramificación y Fusión</h4>
+                            </div>
+                            <div class="benefit-content">
+                                <p class="mb-3">Desarrollo paralelo independiente con integración controlada.</p>
+                                <ul class="benefit-list">
+                                    <li>Líneas de desarrollo aisladas</li>
+                                    <li>Integración segura de características</li>
+                                    <li>Código principal siempre estable</li>
+                                </ul>
+                                <div class="branch-visual">
+                                    <div class="main-branch">main ——————————————————————————————————</div>
+                                    <div class="feature-branch">feature ——————————————————————————————————⤴</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                </section>
 
-                    <!-- Commit Card -->
-                    <div class="card">
-                        <div class="card-header">
-                            <i class="ph-camera text-3xl" style="color: var(--accent);"></i>
-                            <h3 class="text-xl font-semibold">Commit</h3>
+                <!-- Section 1.3: CVCS vs DVCS Comparison -->
+                <section class="mb-16">
+                    <h3 class="text-2xl font-semibold mb-6" style="color: var(--text);">
+                        <i class="ph-arrows-split-duotone mr-3" style="color: var(--primary);"></i>
+                        1.3 Paradigmas Arquitecturales: Sistemas Centralizados vs Distribuidos
+                    </h3>
+
+                    <div class="architecture-intro mb-8">
+                        <p class="text-lg mb-4" style="color: var(--neutral);">
+                            La arquitectura de un sistema de control de versiones determina cómo se almacenan los datos y cómo colaboran los desarrolladores. Entender estas diferencias es crucial para apreciar por qué Git se ha convertido en el estándar de la industria.
+                        </p>
+                    </div>
+
+                    <!-- Interactive Comparison Tool -->
+                    <div class="interactive-component-container mb-8">
+                        <git-comparison-tool></git-comparison-tool>
+                    </div>
+
+                    <!-- Detailed Comparison Table -->
+                    <div class="comparison-table-container">
+                        <table class="architecture-comparison-table">
+                            <thead>
+                                <tr>
+                                    <th>Característica</th>
+                                    <th class="cvcs-column">
+                                        <i class="ph-building-office mr-2"></i>
+                                        Centralizado (CVCS)
+                                    </th>
+                                    <th class="dvcs-column">
+                                        <i class="ph-network mr-2"></i>
+                                        Distribuido (DVCS)
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Modelo de Repositorio</strong></td>
+                                    <td>Un repositorio central en el servidor. Los clientes tienen solo una copia de trabajo.</td>
+                                    <td>Cada desarrollador tiene un clon completo del repositorio con todo el historial.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Flujo de Trabajo</strong></td>
+                                    <td>Check out → Modificar → Commit al servidor central</td>
+                                    <td>Clonar → Trabajar localmente → Push/Pull para compartir cambios</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Velocidad</strong></td>
+                                    <td>Más lento, requiere comunicación constante con el servidor</td>
+                                    <td>Más rápido, la mayoría de operaciones son locales</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Capacidad Offline</strong></td>
+                                    <td>Limitada, requiere conexión constante para la mayoría de acciones</td>
+                                    <td>Excelente, se puede trabajar completamente offline</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Ramificación y Fusión</strong></td>
+                                    <td>Puede ser lenta y engorrosa</td>
+                                    <td>Rápida, flexible y eficiente</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Resistencia a Fallos</strong></td>
+                                    <td>Vulnerable, el servidor central es un punto único de fallo</td>
+                                    <td>Muy resistente, cada clon es un respaldo completo</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Casos de Uso Ideales</strong></td>
+                                    <td>Equipos pequeños, ubicación única, control centralizado estricto</td>
+                                    <td>Equipos distribuidos, proyectos open source, alta flexibilidad</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Section 2: Git Philosophy -->
+                <section class="mb-16">
+                    <h3 class="text-2xl font-semibold mb-6" style="color: var(--text);">
+                        <i class="ph-brain-duotone mr-3" style="color: var(--accent);"></i>
+                        2. La Filosofía de Git: Pensando en Instantáneas
+                    </h3>
+
+                    <div class="git-philosophy mb-8">
+                        <div class="philosophy-intro">
+                            <p class="text-lg mb-6" style="color: var(--neutral);">
+                                Para usar Git efectivamente, es esencial entender no solo sus comandos, sino la filosofía de diseño subyacente que lo hace tan poderoso y distinto de sus predecesores.
+                            </p>
                         </div>
-                        <div class="card-content">
-                            <p>Una "instantánea" o guardado permanente de cambios con metadata como autor, fecha y mensaje descriptivo.</p>
+
+                        <div class="grid md:grid-cols-2 gap-8 mb-8">
+                            <div class="concept-card">
+                                <h4 class="text-xl font-semibold mb-4">
+                                    <i class="ph-camera-duotone mr-2" style="color: var(--primary);"></i>
+                                    Modelo de Datos: Instantáneas vs Deltas
+                                </h4>
+                                <div class="data-model-comparison">
+                                    <div class="traditional-model mb-4">
+                                        <h5 class="font-semibold text-red-600 mb-2">❌ Sistemas Tradicionales (Deltas)</h5>
+                                        <div class="delta-visualization">
+                                            <div class="file-version">Archivo v1</div>
+                                            <div class="delta">+ línea agregada</div>
+                                            <div class="file-version">Archivo v2</div>
+                                            <div class="delta">- línea eliminada</div>
+                                            <div class="file-version">Archivo v3</div>
+                                        </div>
+                                    </div>
+                                    <div class="git-model">
+                                        <h5 class="font-semibold text-green-600 mb-2">✅ Git (Instantáneas)</h5>
+                                        <div class="snapshot-visualization">
+                                            <div class="snapshot">📷 Snapshot 1</div>
+                                            <div class="snapshot">📷 Snapshot 2</div>
+                                            <div class="snapshot">📷 Snapshot 3</div>
+                                        </div>
+                                        <p class="text-sm mt-2 text-green-600">Cada commit es una foto completa del proyecto</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="concept-card">
+                                <h4 class="text-xl font-semibold mb-4">
+                                    <i class="ph-lock-duotone mr-2" style="color: var(--secondary);"></i>
+                                    Integridad de Datos: SHA-1 Hashing
+                                </h4>
+                                <div class="integrity-demo">
+                                    <p class="mb-3">Todo en Git se identifica por su checksum SHA-1:</p>
+                                    <div class="hash-example mb-3">
+                                        <div class="file-content">Contenido del archivo</div>
+                                        <div class="hash-arrow">↓ SHA-1</div>
+                                        <div class="hash-result">a3b5c7d9e1f2a4b6c8d0e2f4a6b8c0d2e4f6a8b0</div>
+                                    </div>
+                                    <p class="text-sm" style="color: var(--neutral);">
+                                        Imposible alterar contenido sin que Git lo detecte
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </section>
 
-                <!-- Interactive Component Placeholder -->
-                <div class="interactive-component-container mb-8">
-                    <git-drag-drop></git-drag-drop>
-                </div>
+                <!-- Section 2.3: The Three States -->
+                <section class="mb-16">
+                    <h3 class="text-2xl font-semibold mb-6" style="color: var(--text);">
+                        <i class="ph-stack-duotone mr-3" style="color: var(--primary);"></i>
+                        2.3 Los Tres Estados: El Viaje desde el Directorio de Trabajo al Repositorio
+                    </h3>
 
-                <div class="prose prose-lg mx-auto" style="color: var(--text);">
-                    <h3>¿Por qué usar Control de Versiones?</h3>
-                    <ul>
-                        <li><strong>Historial completo:</strong> Cada cambio queda registrado permanentemente</li>
-                        <li><strong>Colaboración:</strong> Múltiples desarrolladores pueden trabajar simultáneamente</li>
-                        <li><strong>Respaldo automático:</strong> Tu código está seguro y distribuido</li>
-                        <li><strong>Experimentación segura:</strong> Prueba nuevas ideas sin miedo a romper el código</li>
-                    </ul>
-                </div>
+                    <div class="three-states-intro mb-8">
+                        <p class="text-lg mb-4" style="color: var(--neutral);">
+                            Para usar Git efectivamente, debes internalizar que los archivos pueden residir en tres estados principales. Este proceso de tres etapas es central al flujo de trabajo de Git.
+                        </p>
+                    </div>
+
+                    <!-- Interactive Three States Demo -->
+                    <div class="interactive-component-container mb-8">
+                        <git-three-states></git-three-states>
+                    </div>
+
+                    <div class="states-explanation">
+                        <div class="state-detail">
+                            <div class="state-icon modified">
+                                <i class="ph-pencil-duotone text-3xl"></i>
+                            </div>
+                            <div class="state-content">
+                                <h4 class="text-xl font-semibold mb-2" style="color: var(--accent);">1. Modificado (Modified)</h4>
+                                <p class="mb-3">Archivos que han sido cambiados pero aún no están registrados formalmente. Estos cambios existen solo en tu <strong>Directorio de Trabajo</strong> visible.</p>
+                                <div class="state-commands">
+                                    <code>git status</code> <span class="command-desc">→ muestra archivos modificados</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="state-detail">
+                            <div class="state-icon staged">
+                                <i class="ph-staging-duotone text-3xl"></i>
+                            </div>
+                            <div class="state-content">
+                                <h4 class="text-xl font-semibold mb-2" style="color: var(--primary);">2. Preparado (Staged)</h4>
+                                <p class="mb-3">Archivos marcados para ser incluidos en la próxima instantánea del commit. Residen en el <strong>Área de Preparación</strong> (staging area o "index").</p>
+                                <div class="state-commands">
+                                    <code>git add archivo.js</code> <span class="command-desc">→ prepara archivo para commit</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="state-detail">
+                            <div class="state-icon committed">
+                                <i class="ph-database-duotone text-3xl"></i>
+                            </div>
+                            <div class="state-content">
+                                <h4 class="text-xl font-semibold mb-2" style="color: var(--success);">3. Confirmado (Committed)</h4>
+                                <p class="mb-3">Los datos del área de preparación han sido almacenados como una instantánea permanente en el <strong>Directorio Git</strong> (carpeta oculta .git).</p>
+                                <div class="state-commands">
+                                    <code>git commit -m "mensaje"</code> <span class="command-desc">→ crea instantánea permanente</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interactive SHA-1 Hash Generator -->
+                <section class="mb-16">
+                    <h3 class="text-2xl font-semibold mb-6" style="color: var(--text);">
+                        <i class="ph-fingerprint-duotone mr-3" style="color: var(--accent);"></i>
+                        Demostración: Generador de Hash SHA-1
+                    </h3>
+                    <div class="interactive-component-container">
+                        <git-hash-generator></git-hash-generator>
+                    </div>
+                </section>
+
+                <!-- Key Takeaways -->
+                <section class="key-takeaways">
+                    <h3 class="text-2xl font-semibold mb-6" style="color: var(--text);">
+                        <i class="ph-key-duotone mr-3" style="color: var(--primary);"></i>
+                        Conceptos Clave para Recordar
+                    </h3>
+                    <div class="takeaway-grid">
+                        <div class="takeaway-item">
+                            <i class="ph-camera text-2xl mb-2" style="color: var(--primary);"></i>
+                            <h4 class="font-semibold mb-2">Git piensa en instantáneas</h4>
+                            <p class="text-sm">Cada commit es una foto completa del proyecto, no una lista de cambios</p>
+                        </div>
+                        <div class="takeaway-item">
+                            <i class="ph-stack text-2xl mb-2" style="color: var(--secondary);"></i>
+                            <h4 class="font-semibold mb-2">Tres estados fundamentales</h4>
+                            <p class="text-sm">Modificado → Preparado → Confirmado es el flujo central de Git</p>
+                        </div>
+                        <div class="takeaway-item">
+                            <i class="ph-shield-check text-2xl mb-2" style="color: var(--success);"></i>
+                            <h4 class="font-semibold mb-2">Integridad garantizada</h4>
+                            <p class="text-sm">SHA-1 hashing protege contra corrupción y alteración maliciosa</p>
+                        </div>
+                        <div class="takeaway-item">
+                            <i class="ph-network text-2xl mb-2" style="color: var(--accent);"></i>
+                            <h4 class="font-semibold mb-2">Distribución = Resistencia</h4>
+                            <p class="text-sm">Cada clon es un respaldo completo, eliminando puntos únicos de fallo</p>
+                        </div>
+                    </div>
+                </section>
             </div>
         `;
     }

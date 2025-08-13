@@ -2,6 +2,599 @@
    CONTENT COMPONENTS  
    ======================= */
 
+/* Educational Section Styling */
+.max-w-6xl {
+  max-width: 72rem;
+}
+
+/* Concept Explanations */
+.concept-explanation {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+}
+
+.comparison-container {
+  text-align: center;
+}
+
+.manual-files,
+.vcs-structure {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin: var(--space-md) 0;
+}
+
+.file-item,
+.vcs-item {
+  background: var(--bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: var(--space-sm);
+  font-size: var(--text-sm);
+  text-align: left;
+}
+
+.file-item {
+  border-left: 4px solid #ef4444;
+}
+
+.vcs-item {
+  border-left: 4px solid #22c55e;
+}
+
+/* Key Insight Box */
+.key-insight {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(168, 85, 247, 0.1));
+  border: 1px solid var(--primary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  margin: var(--space-xl) 0;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+}
+
+.key-insight p {
+  color: var(--text);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Benefits Grid */
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-xl);
+  margin: var(--space-xl) 0;
+}
+
+.benefit-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.benefit-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+}
+
+.benefit-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  border-color: var(--primary);
+}
+
+.benefit-header {
+  text-align: center;
+  margin-bottom: var(--space-lg);
+}
+
+.benefit-header h4 {
+  color: var(--text);
+  margin: 0;
+}
+
+.benefit-content p {
+  color: var(--neutral);
+  margin-bottom: var(--space-md);
+}
+
+.benefit-list {
+  list-style: none;
+  padding: 0;
+  margin-bottom: var(--space-lg);
+}
+
+.benefit-list li {
+  color: var(--text);
+  padding: var(--space-xs) 0;
+  position: relative;
+  padding-left: var(--space-lg);
+}
+
+.benefit-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--success);
+  font-weight: 700;
+}
+
+/* Mini Demo Visualizations */
+.mini-demo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  background: var(--bg);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+}
+
+.developer,
+.repository {
+  background: var(--primary);
+  color: white;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+}
+
+.sync-arrow {
+  font-size: var(--text-lg);
+  animation: pulse 2s infinite;
+}
+
+.commit-example {
+  background: var(--code-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+.commit-line {
+  display: flex;
+  gap: var(--space-md);
+  margin-bottom: var(--space-xs);
+}
+
+.commit-hash {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.commit-author {
+  color: var(--primary);
+}
+
+.commit-date {
+  color: var(--neutral);
+}
+
+.commit-message {
+  color: var(--text);
+  font-style: italic;
+  padding-left: var(--space-md);
+}
+
+/* Recovery Demo */
+.recovery-demo {
+  background: var(--bg);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+}
+
+.timeline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--border-color);
+  z-index: 1;
+}
+
+.timeline-point {
+  background: var(--card-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  z-index: 2;
+  position: relative;
+}
+
+.timeline-point.stable {
+  border-color: var(--success);
+  color: var(--success);
+}
+
+.timeline-point.error {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.timeline-point.recovery {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* Branch Visual */
+.branch-visual {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  background: var(--code-bg);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+}
+
+.main-branch {
+  color: var(--primary);
+  margin-bottom: var(--space-xs);
+}
+
+.feature-branch {
+  color: var(--secondary);
+}
+
+/* Architecture Comparison Table */
+.comparison-table-container {
+  overflow-x: auto;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+}
+
+.architecture-comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--card-bg);
+  font-size: var(--text-sm);
+}
+
+.architecture-comparison-table th,
+.architecture-comparison-table td {
+  padding: var(--space-md);
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+  vertical-align: top;
+}
+
+.architecture-comparison-table th {
+  background: var(--bg);
+  font-weight: 600;
+  color: var(--text);
+}
+
+.cvcs-column {
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.dvcs-column {
+  background: rgba(34, 197, 94, 0.05);
+}
+
+.architecture-comparison-table tbody tr:hover {
+  background: var(--bg);
+}
+
+/* Git Philosophy Sections */
+.concept-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  transition: all var(--transition-normal);
+}
+
+.concept-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  border-color: var(--primary);
+}
+
+.data-model-comparison {
+  margin-top: var(--space-lg);
+}
+
+.delta-visualization,
+.snapshot-visualization {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin: var(--space-sm) 0;
+}
+
+.file-version,
+.snapshot {
+  background: var(--bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: var(--space-sm);
+  text-align: center;
+  font-size: var(--text-sm);
+}
+
+.delta {
+  background: rgba(239, 68, 68, 0.1);
+  color: #dc2626;
+  border: 1px solid #fecaca;
+  border-radius: var(--radius-sm);
+  padding: var(--space-xs);
+  text-align: center;
+  font-size: 0.75rem;
+}
+
+.snapshot {
+  background: rgba(34, 197, 94, 0.1);
+  color: #059669;
+  border: 1px solid #bbf7d0;
+}
+
+/* SHA-1 Integrity Demo */
+.integrity-demo {
+  text-align: center;
+}
+
+.hash-example {
+  background: var(--code-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  margin: var(--space-md) 0;
+}
+
+.file-content {
+  background: var(--bg);
+  padding: var(--space-sm);
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-sm);
+  color: var(--text);
+}
+
+.hash-arrow {
+  color: var(--primary);
+  font-weight: 600;
+  margin: var(--space-sm) 0;
+}
+
+.hash-result {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--accent);
+  background: var(--card-bg);
+  padding: var(--space-sm);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  word-break: break-all;
+}
+
+/* Three States Explanation */
+.states-explanation {
+  display: grid;
+  gap: var(--space-xl);
+  margin-top: var(--space-xl);
+}
+
+.state-detail {
+  display: flex;
+  gap: var(--space-lg);
+  align-items: flex-start;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  transition: all var(--transition-normal);
+}
+
+.state-detail:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+.state-icon {
+  flex-shrink: 0;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--border-color);
+  background: var(--bg);
+}
+
+.state-icon.modified {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.state-icon.staged {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.state-icon.committed {
+  border-color: var(--success);
+  color: var(--success);
+}
+
+.state-content h4 {
+  margin: 0 0 var(--space-sm) 0;
+}
+
+.state-content p {
+  color: var(--neutral);
+  margin-bottom: var(--space-md);
+  line-height: 1.6;
+}
+
+.state-commands {
+  background: var(--code-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+.state-commands code {
+  color: var(--primary);
+  font-weight: 600;
+  margin-right: var(--space-md);
+}
+
+.command-desc {
+  color: var(--neutral);
+  font-size: 0.75rem;
+}
+
+/* Key Takeaways */
+.key-takeaways {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.05), rgba(34, 197, 94, 0.05));
+  border-radius: var(--radius-xl);
+  padding: var(--space-xxl);
+  margin-top: var(--space-xxl);
+}
+
+.takeaway-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-xl);
+  margin-top: var(--space-xl);
+}
+
+.takeaway-item {
+  text-align: center;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  transition: all var(--transition-normal);
+}
+
+.takeaway-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.1);
+  border-color: var(--primary);
+}
+
+.takeaway-item h4 {
+  color: var(--text);
+  margin: var(--space-md) 0 var(--space-sm) 0;
+}
+
+.takeaway-item p {
+  color: var(--neutral);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Animations */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+}
+
+/* Responsive Design for New Components */
+@media (max-width: 768px) {
+  .max-w-6xl {
+    padding: 0 var(--space-md);
+  }
+  
+  .benefits-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .concept-card {
+    padding: var(--space-lg);
+  }
+  
+  .state-detail {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .state-icon {
+    align-self: center;
+  }
+  
+  .timeline {
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+  
+  .timeline::before {
+    display: none;
+  }
+  
+  .takeaway-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .architecture-comparison-table {
+    font-size: 0.75rem;
+  }
+  
+  .architecture-comparison-table th,
+  .architecture-comparison-table td {
+    padding: var(--space-sm);
+  }
+}
+
+@media (max-width: 480px) {
+  .mini-demo {
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+  
+  .sync-arrow {
+    transform: rotate(90deg);
+  }
+  
+  .branch-visual {
+    font-size: 0.75rem;
+  }
+  
+  .hash-result {
+    font-size: 0.75rem;
+  }
+}
+
 /* Cards */
 .card {
   background: var(--card-bg);
