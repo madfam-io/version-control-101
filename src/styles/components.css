@@ -24,19 +24,44 @@
   padding-bottom: var(--space-md);
 }
 
-/* Command Grid System */
+/* Command Grid System - Mobile First */
 .command-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: var(--space-lg);
-  margin: var(--space-xl) 0;
+  grid-template-columns: 1fr;
+  gap: var(--space-md);
+  margin: var(--space-lg) 0;
 }
 
 .branch-commands-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: var(--space-lg);
-  margin: var(--space-xl) 0;
+  grid-template-columns: 1fr;
+  gap: var(--space-md);
+  margin: var(--space-lg) 0;
+}
+
+/* Mobile-friendly touch targets */
+@media (min-width: 480px) {
+  .command-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-lg);
+  }
+  
+  .branch-commands-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-lg);
+  }
+}
+
+@media (min-width: 768px) {
+  .command-grid {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    margin: var(--space-xl) 0;
+  }
+  
+  .branch-commands-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    margin: var(--space-xl) 0;
+  }
 }
 
 .command-card {
@@ -190,9 +215,23 @@
 /* Merge Strategy Components */
 .strategy-comparison {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: var(--space-xl);
-  margin: var(--space-xl) 0;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+  margin: var(--space-lg) 0;
+}
+
+@media (min-width: 480px) {
+  .strategy-comparison {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
+
+@media (min-width: 768px) {
+  .strategy-comparison {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-xl);
+    margin: var(--space-xl) 0;
+  }
 }
 
 .strategy-card {
@@ -268,9 +307,23 @@
 
 .summary-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: var(--space-xl);
-  margin-top: var(--space-lg);
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+  margin-top: var(--space-md);
+}
+
+@media (min-width: 420px) {
+  .summary-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
+
+@media (min-width: 768px) {
+  .summary-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--space-xl);
+    margin-top: var(--space-lg);
+  }
 }
 
 .summary-card {
@@ -325,9 +378,23 @@
 /* Part III - Platform and Ecosystem Components */
 .platform-analysis-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: var(--space-xl);
-  margin: var(--space-xl) 0;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+  margin: var(--space-lg) 0;
+}
+
+@media (min-width: 480px) {
+  .platform-analysis-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+}
+
+@media (min-width: 768px) {
+  .platform-analysis-grid {
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: var(--space-xl);
+    margin: var(--space-xl) 0;
+  }
 }
 
 .platform-analysis-card {
@@ -418,8 +485,21 @@
 /* Self-hosted Solutions */
 .self-hosted-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: var(--space-lg);
+  grid-template-columns: 1fr;
+  gap: var(--space-md);
+}
+
+@media (min-width: 420px) {
+  .self-hosted-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-lg);
+  }
+}
+
+@media (min-width: 640px) {
+  .self-hosted-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
 }
 
 .self-hosted-card {
@@ -452,9 +532,23 @@
 /* Branching Models */
 .branching-models-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: var(--space-xl);
-  margin: var(--space-xl) 0;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+  margin: var(--space-lg) 0;
+}
+
+@media (min-width: 480px) {
+  .branching-models-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
+
+@media (min-width: 768px) {
+  .branching-models-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-xl);
+    margin: var(--space-xl) 0;
+  }
 }
 
 .model-card {
@@ -565,8 +659,21 @@
 
 .deployment-steps {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: var(--space-lg);
+  grid-template-columns: 1fr;
+  gap: var(--space-md);
+}
+
+@media (min-width: 480px) {
+  .deployment-steps {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--space-lg);
+  }
+}
+
+@media (min-width: 768px) {
+  .deployment-steps {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
 }
 
 .step-card {
@@ -621,68 +728,202 @@
   padding: var(--space-xl);
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .command-grid,
-  .branch-commands-grid {
-    grid-template-columns: 1fr;
+/* =======================
+   COMPREHENSIVE MOBILE-FIRST RESPONSIVE DESIGN  
+   ======================= */
+
+/* Touch-Friendly Interactive Elements */
+button, .button, .interactive-element {
+  min-height: 44px;
+  min-width: 44px;
+  padding: var(--space-sm) var(--space-md);
+  touch-action: manipulation;
+}
+
+/* Mobile-First Workflow Adjustments */
+.workflow-steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  align-items: center;
+  justify-content: center;
+  margin-top: var(--space-md);
+}
+
+.workflow-arrow {
+  transform: rotate(90deg);
+  color: var(--primary);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.workflow-step {
+  min-width: 100%;
+  max-width: 400px;
+}
+
+.tip-card {
+  flex-direction: column;
+  text-align: center;
+  gap: var(--space-sm);
+}
+
+/* Enhanced Mobile Typography */
+.step-content code {
+  font-size: var(--text-xs);
+  line-height: 1.4;
+}
+
+/* Mobile-Optimized Layout Adjustments */
+.platform-header {
+  flex-direction: column;
+  text-align: center;
+  gap: var(--space-sm);
+  padding-bottom: var(--space-lg);
+}
+
+.model-header {
+  flex-direction: column;
+  gap: var(--space-sm);
+  text-align: center;
+}
+
+.step-card {
+  flex-direction: column;
+  text-align: center;
+  padding: var(--space-md);
+}
+
+/* Touch-Friendly Hover Replacements */
+@media (hover: none) {
+  .command-card:hover,
+  .workflow-step:hover,
+  .summary-card:hover,
+  .platform-analysis-card:hover,
+  .model-card:hover,
+  .step-card:hover,
+  .benefit-card:hover,
+  .concept-card:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  
+  .command-card:focus,
+  .workflow-step:focus,
+  .summary-card:focus,
+  .platform-analysis-card:focus,
+  .model-card:focus,
+  .step-card:focus,
+  .benefit-card:focus,
+  .concept-card:focus {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    border-color: var(--primary);
+  }
+}
+
+/* Small Mobile Devices (320px - 375px) */
+@media (max-width: 375px) {
+  .container {
+    padding: 0 var(--space-sm);
+  }
+  
+  .command-card,
+  .platform-analysis-card,
+  .benefit-card,
+  .concept-card {
+    padding: var(--space-md);
+    margin-bottom: var(--space-md);
+  }
+  
+  .educational-intro,
+  .learning-summary,
+  .interactive-component {
+    padding: var(--space-md);
+  }
+  
+  .workflow-step {
+    padding: var(--space-md);
+    min-width: unset;
+  }
+  
+  .timeline {
+    flex-direction: column;
     gap: var(--space-md);
   }
   
+  .timeline:before {
+    display: none;
+  }
+}
+
+/* Standard Mobile Devices (376px - 480px) */
+@media (min-width: 376px) and (max-width: 480px) {
   .workflow-steps {
-    flex-direction: column;
-    gap: var(--space-sm);
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-md);
   }
   
   .workflow-arrow {
-    transform: rotate(90deg);
+    transform: none;
   }
   
-  .strategy-comparison,
-  .summary-grid {
-    grid-template-columns: 1fr;
-    gap: var(--space-lg);
+  .workflow-step {
+    flex: 1;
+    min-width: 140px;
+    max-width: 200px;
+  }
+}
+
+/* Large Mobile / Small Tablet (481px - 640px) */
+@media (min-width: 481px) and (max-width: 640px) {
+  .workflow-steps {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--space-md);
   }
   
-  .tip-card {
-    flex-direction: column;
-    text-align: center;
-  }
-  
-  .step-content code {
-    font-size: var(--text-xs);
-  }
-  
-  /* Part III Mobile Responsive */
-  .platform-analysis-grid,
-  .branching-models-grid {
-    grid-template-columns: 1fr;
-    gap: var(--space-lg);
-  }
-  
-  .self-hosted-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .deployment-steps {
-    grid-template-columns: 1fr;
+  .workflow-arrow {
+    transform: none;
   }
   
   .platform-header {
-    flex-direction: column;
-    text-align: center;
-    gap: var(--space-sm);
+    flex-direction: row;
+    text-align: left;
+    justify-content: flex-start;
   }
   
   .model-header {
-    flex-direction: column;
-    gap: var(--space-sm);
-    text-align: center;
+    flex-direction: row;
+    text-align: left;
+    justify-content: space-between;
   }
   
   .step-card {
-    flex-direction: column;
-    text-align: center;
+    flex-direction: row;
+    text-align: left;
+  }
+}
+
+/* Tablet Landscape / Small Desktop (641px - 768px) */
+@media (min-width: 641px) {
+  .workflow-steps {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-lg);
+    margin-top: var(--space-lg);
+  }
+  
+  .workflow-arrow {
+    transform: none;
+  }
+  
+  .workflow-step {
+    min-width: 140px;
+    max-width: none;
   }
 }
 
@@ -745,9 +986,23 @@
 /* Benefits Grid */
 .benefits-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: var(--space-xl);
-  margin: var(--space-xl) 0;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+  margin: var(--space-lg) 0;
+}
+
+@media (min-width: 480px) {
+  .benefits-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
+
+@media (min-width: 768px) {
+  .benefits-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-xl);
+    margin: var(--space-xl) 0;
+  }
 }
 
 .benefit-card {

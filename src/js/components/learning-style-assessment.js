@@ -828,10 +828,104 @@ export class LearningStyleAssessment extends LitElement {
             transform: translateY(-1px);
         }
 
-        @media (max-width: 768px) {
+        /* Mobile-First Responsive Design */
+        @media (max-width: 375px) {
+            .assessment-container {
+                padding: var(--space-md);
+                margin: var(--space-sm);
+            }
+            
+            .question-container {
+                padding: var(--space-md);
+            }
+            
+            .question-options {
+                gap: var(--space-sm);
+            }
+            
+            .option-button {
+                padding: var(--space-md);
+                font-size: var(--text-sm);
+                min-height: 60px;
+                text-align: left;
+            }
+            
             .navigation-buttons {
                 flex-direction: column;
                 gap: var(--space-md);
+                padding: var(--space-md);
+            }
+            
+            .nav-button {
+                min-height: 48px;
+                width: 100%;
+            }
+            
+            .progress-bar {
+                height: 8px;
+                margin: var(--space-md) 0;
+            }
+            
+            .style-breakdown {
+                grid-template-columns: 1fr;
+                gap: var(--space-md);
+            }
+            
+            .style-item {
+                padding: var(--space-md);
+            }
+            
+            .characteristics-list,
+            .recommendation-list {
+                grid-template-columns: 1fr;
+                gap: var(--space-sm);
+            }
+            
+            .characteristic-item,
+            .recommendation-item {
+                padding: var(--space-sm);
+                font-size: var(--text-sm);
+            }
+        }
+        
+        @media (min-width: 376px) and (max-width: 640px) {
+            .question-options {
+                gap: var(--space-md);
+            }
+            
+            .option-button {
+                min-height: 56px;
+                padding: var(--space-md);
+            }
+            
+            .navigation-buttons {
+                flex-direction: row;
+                justify-content: space-between;
+                gap: var(--space-lg);
+            }
+            
+            .nav-button {
+                min-height: 44px;
+                flex: 1;
+                max-width: 200px;
+            }
+            
+            .style-breakdown {
+                grid-template-columns: repeat(2, 1fr);
+                gap: var(--space-lg);
+            }
+            
+            .characteristics-list,
+            .recommendation-list {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (min-width: 641px) and (max-width: 768px) {
+            .navigation-buttons {
+                flex-direction: row;
+                justify-content: space-between;
+                gap: var(--space-lg);
             }
             
             .style-breakdown {
@@ -840,8 +934,46 @@ export class LearningStyleAssessment extends LitElement {
             
             .characteristics-list,
             .recommendation-list {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             }
+        }
+        
+        /* Touch-Friendly Enhancements */
+        @media (hover: none) {
+            .option-button:hover,
+            .nav-button:hover {
+                transform: none;
+                box-shadow: none;
+            }
+            
+            .option-button:focus,
+            .option-button:active {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+                outline: 2px solid var(--primary);
+                outline-offset: 2px;
+            }
+            
+            .nav-button:focus,
+            .nav-button:active {
+                outline: 2px solid var(--primary);
+                outline-offset: 2px;
+            }
+        }
+        
+        /* Enhanced Touch Targets for All Screens */
+        .option-button,
+        .nav-button,
+        .reset-button {
+            min-height: 44px;
+            touch-action: manipulation;
+        }
+        
+        .option-button {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
         }
     `;
 

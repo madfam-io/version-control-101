@@ -385,13 +385,64 @@ export class AccessibilityToolkit extends LitElement {
             transition-duration: 0.01ms !important;
         }
 
-        @media (max-width: 768px) {
+        /* Mobile-First Responsive Design */
+        @media (max-width: 375px) {
+            .toolkit-container {
+                padding: var(--space-md);
+                margin: var(--space-sm);
+            }
+            
             .tabs-container {
                 flex-direction: column;
                 gap: var(--space-xs);
+                padding: var(--space-sm);
             }
             
             .tab-button {
+                justify-content: center;
+                padding: var(--space-md);
+                min-height: 44px;
+                width: 100%;
+            }
+            
+            .accessibility-section {
+                padding: var(--space-md);
+            }
+            
+            .control-item {
+                flex-direction: column;
+                align-items: stretch;
+                gap: var(--space-md);
+                padding: var(--space-md);
+            }
+            
+            .control-input {
+                margin-left: 0;
+                align-self: center;
+            }
+            
+            .slider {
+                width: 100%;
+                max-width: 200px;
+            }
+            
+            .select-control {
+                min-width: unset;
+                width: 100%;
+            }
+        }
+        
+        @media (min-width: 376px) and (max-width: 768px) {
+            .tabs-container {
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: var(--space-xs);
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                min-height: 44px;
+                touch-action: manipulation;
                 justify-content: center;
             }
             
@@ -405,6 +456,47 @@ export class AccessibilityToolkit extends LitElement {
                 margin-left: 0;
                 align-self: center;
             }
+        }
+        
+        /* Touch-Friendly Enhancements */
+        @media (hover: none) {
+            .tab-button:hover {
+                background: none;
+                color: var(--text-secondary);
+            }
+            
+            .tab-button:focus,
+            .tab-button:active {
+                background: var(--card-bg);
+                color: var(--text);
+                outline: 2px solid var(--primary);
+                outline-offset: 2px;
+            }
+        }
+        
+        /* Enhanced Touch Targets for All Screens */
+        .tab-button, 
+        .toggle-switch, 
+        .select-control, 
+        .slider {
+            min-height: 44px;
+            touch-action: manipulation;
+        }
+        
+        .toggle-switch {
+            width: 60px;
+            height: 32px;
+        }
+        
+        .toggle-slider:before {
+            height: 26px;
+            width: 26px;
+            left: 3px;
+            bottom: 3px;
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(28px);
         }
     `;
 

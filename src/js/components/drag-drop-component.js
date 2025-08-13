@@ -189,18 +189,96 @@ export class GitDragDropComponent extends BaseComponent {
                 }
             }
 
-            @media (max-width: 768px) {
+            /* Mobile-First Touch-Friendly Design */
+            @media (max-width: 375px) {
                 .drag-drop-container {
-                    padding: 1rem;
+                    padding: 0.75rem;
+                    margin: 0.5rem 0;
                 }
-
+                
+                .terms-container {
+                    justify-content: center;
+                    gap: 0.5rem;
+                }
+                
+                .term-item {
+                    min-height: 48px;
+                    padding: 0.75rem 1rem;
+                    font-size: 0.875rem;
+                    touch-action: manipulation;
+                    cursor: pointer;
+                }
+                
                 .definitions-list {
                     gap: 0.5rem;
                 }
-
+                
                 .definition-item {
-                    padding: 0.75rem;
+                    min-height: 60px;
+                    padding: 1rem;
+                    touch-action: manipulation;
+                    cursor: pointer;
                 }
+                
+                .instructions {
+                    font-size: 0.875rem;
+                    text-align: center;
+                    margin-bottom: 1rem;
+                }
+            }
+            
+            @media (min-width: 376px) and (max-width: 768px) {
+                .drag-drop-container {
+                    padding: 1rem;
+                }
+                
+                .term-item,
+                .definition-item {
+                    min-height: 44px;
+                    touch-action: manipulation;
+                }
+                
+                .definitions-list {
+                    gap: 0.75rem;
+                }
+                
+                .definition-item {
+                    padding: 0.875rem;
+                }
+            }
+            
+            /* Touch-Friendly Interactions */
+            @media (hover: none) {
+                .term-item:hover,
+                .definition-item:hover {
+                    transform: none;
+                    box-shadow: none;
+                }
+                
+                .term-item:active,
+                .definition-item:active {
+                    transform: scale(0.98);
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                }
+                
+                .term-item.dragging,
+                .definition-item.drag-over {
+                    transform: scale(1.02);
+                    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+                }
+            }
+            
+            /* Enhanced Touch Targets */
+            .term-item,
+            .definition-item,
+            .reset-button {
+                min-height: 44px;
+                touch-action: manipulation;
+                cursor: pointer;
+                user-select: none;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
             }
         `
     ];

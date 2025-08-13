@@ -1,4 +1,4 @@
-var l=Object.defineProperty;var m=(s,e,t)=>e in s?l(s,e,{enumerable:!0,configurable:!0,writable:!0,value:t}):s[e]=t;var d=(s,e,t)=>m(s,typeof e!="symbol"?e+"":e,t);import{B as c,i as h,x as i}from"./index-DO_oek1i.js";class n extends c{constructor(){super(),this.terms=[],this.definitions=[],this.completed=!1,this.loading=!1,this.matches=new Map,this.draggedItem=null,this.setupDefaultData()}setupDefaultData(){this.terms=[{id:"vcs",text:"VCS",matched:!1},{id:"commit",text:"Commit",matched:!1},{id:"repository",text:"Repository",matched:!1},{id:"branch",text:"Branch",matched:!1}],this.definitions=[{id:"vcs",text:this.lang==="es"?"Un sistema que registra y gestiona cambios en archivos a lo largo del tiempo.":"A system that records and manages changes to files over time.",matched:!1},{id:"commit",text:this.lang==="es"?'Una "instantánea" o guardado permanente de cambios con metadata.':'A "snapshot" or permanent save of changes with metadata.',matched:!1},{id:"repository",text:this.lang==="es"?"La base de datos donde se almacena toda la historia del proyecto.":"The database where the entire project history is stored.",matched:!1},{id:"branch",text:this.lang==="es"?"Una línea independiente de desarrollo paralelo.":"An independent line of parallel development.",matched:!1}]}render(){return i`
+var m=Object.defineProperty;var l=(i,e,t)=>e in i?m(i,e,{enumerable:!0,configurable:!0,writable:!0,value:t}):i[e]=t;var n=(i,e,t)=>l(i,typeof e!="symbol"?e+"":e,t);import{B as c,i as h,x as s}from"./index-DmWaINwU.js";class d extends c{constructor(){super(),this.terms=[],this.definitions=[],this.completed=!1,this.loading=!1,this.matches=new Map,this.draggedItem=null,this.setupDefaultData()}setupDefaultData(){this.terms=[{id:"vcs",text:"VCS",matched:!1},{id:"commit",text:"Commit",matched:!1},{id:"repository",text:"Repository",matched:!1},{id:"branch",text:"Branch",matched:!1}],this.definitions=[{id:"vcs",text:this.lang==="es"?"Un sistema que registra y gestiona cambios en archivos a lo largo del tiempo.":"A system that records and manages changes to files over time.",matched:!1},{id:"commit",text:this.lang==="es"?'Una "instantánea" o guardado permanente de cambios con metadata.':'A "snapshot" or permanent save of changes with metadata.',matched:!1},{id:"repository",text:this.lang==="es"?"La base de datos donde se almacena toda la historia del proyecto.":"The database where the entire project history is stored.",matched:!1},{id:"branch",text:this.lang==="es"?"Una línea independiente de desarrollo paralelo.":"An independent line of parallel development.",matched:!1}]}render(){return s`
             <div class="drag-drop-container">
                 <h4 class="title">
                     ${this.lang==="es"?"Ejercicio Interactivo: Conceptos Fundamentales":"Interactive Exercise: Fundamental Concepts"}
@@ -10,7 +10,7 @@ var l=Object.defineProperty;var m=(s,e,t)=>e in s?l(s,e,{enumerable:!0,configura
 
                 <!-- Terms Container -->
                 <div class="terms-container">
-                    ${this.terms.filter(e=>!e.matched).map(e=>i`
+                    ${this.terms.filter(e=>!e.matched).map(e=>s`
                         <div 
                             class="drag-item"
                             draggable="true"
@@ -25,7 +25,7 @@ var l=Object.defineProperty;var m=(s,e,t)=>e in s?l(s,e,{enumerable:!0,configura
 
                 <!-- Definitions List -->
                 <div class="definitions-list">
-                    ${this.definitions.map(e=>{var t;return i`
+                    ${this.definitions.map(e=>{var t;return s`
                         <div 
                             class="definition-item ${e.matched?"correct":""}"
                             data-definition-id="${e.id}"
@@ -37,7 +37,7 @@ var l=Object.defineProperty;var m=(s,e,t)=>e in s?l(s,e,{enumerable:!0,configura
                                 ${e.text}
                             </div>
                             
-                            ${e.matched?i`
+                            ${e.matched?s`
                                 <div class="matched-term drag-item">
                                     ${(t=this.terms.find(a=>a.id===e.id))==null?void 0:t.text}
                                 </div>
@@ -48,7 +48,7 @@ var l=Object.defineProperty;var m=(s,e,t)=>e in s?l(s,e,{enumerable:!0,configura
                     `})}
                 </div>
 
-                ${this.completed?i`
+                ${this.completed?s`
                     <div class="completion-message">
                         <i class="ph-trophy" style="margin-right: 0.5rem;"></i>
                         ${this.lang==="es"?"¡Excelente trabajo! Has completado el ejercicio.":"Excellent work! You completed the exercise."}
@@ -59,7 +59,7 @@ var l=Object.defineProperty;var m=(s,e,t)=>e in s?l(s,e,{enumerable:!0,configura
                     </button>
                 `:""}
             </div>
-        `}handleDragStart(e){this.draggedItem=e.target,e.target.classList.add("dragging"),e.dataTransfer.effectAllowed="move",e.dataTransfer.setData("text/plain",e.target.dataset.termId),this.track("drag_start",{termId:e.target.dataset.termId})}handleDragEnd(e){e.target.classList.remove("dragging"),this.draggedItem=null}handleDragOver(e){e.preventDefault(),e.dataTransfer.dropEffect="move";const t=e.currentTarget;t.classList.contains("correct")||t.classList.add("drop-over")}handleDragLeave(e){e.currentTarget.classList.remove("drop-over")}handleDrop(e){e.preventDefault();const t=e.currentTarget,a=t.dataset.definitionId,r=e.dataTransfer.getData("text/plain");t.classList.remove("drop-over"),r===a?this.handleCorrectMatch(r,a):this.handleIncorrectMatch(t)}handleCorrectMatch(e,t){const a=this.terms.find(o=>o.id===e),r=this.definitions.find(o=>o.id===t);a&&r&&(a.matched=!0,r.matched=!0,this.matches.set(e,t)),this.checkCompletion(),this.track("correct_match",{termId:e,definitionId:t}),this.updateProgress(`drag-drop-${e}`),this.requestUpdate()}handleIncorrectMatch(e){var t;e.classList.add("incorrect"),setTimeout(()=>{e.classList.remove("incorrect")},500),this.track("incorrect_match",{attemptedMatch:((t=this.draggedItem)==null?void 0:t.dataset.termId)+" -> "+e.dataset.definitionId})}checkCompletion(){this.terms.every(t=>t.matched)&&!this.completed&&(this.completed=!0,this.track("exercise_completed",{matches:this.matches.size}),this.updateProgress("drag-drop-completed"),this.emit("exercise-completed",{component:"drag-drop",score:100,attempts:this.matches.size}))}reset(){this.completed=!1,this.matches.clear(),this.terms.forEach(e=>{e.matched=!1}),this.definitions.forEach(e=>{e.matched=!1}),this.track("exercise_reset"),this.requestUpdate()}updated(e){e.has("lang")&&this.setupDefaultData()}firstUpdated(){this.addEventListener("keydown",this.handleKeydown.bind(this)),this.setAttribute("role","application"),this.setAttribute("aria-label",this.lang==="es"?"Ejercicio de arrastrar y soltar para conceptos de Git":"Drag and drop exercise for Git concepts")}handleKeydown(e){if(e.key==="Enter"||e.key===" "){const t=this.shadowRoot.activeElement;t&&t.classList.contains("drag-item")&&this.handleKeyboardMatch(t)}}handleKeyboardMatch(e){const t=e.dataset.termId,a=this.definitions.filter(r=>!r.matched);if(a.length>0){const r=a[0];r.id===t&&this.handleCorrectMatch(t,r.id)}}}d(n,"properties",{terms:{type:Array},definitions:{type:Array},completed:{type:Boolean},loading:{type:Boolean}}),d(n,"styles",[c.styles,h`
+        `}handleDragStart(e){this.draggedItem=e.target,e.target.classList.add("dragging"),e.dataTransfer.effectAllowed="move",e.dataTransfer.setData("text/plain",e.target.dataset.termId),this.track("drag_start",{termId:e.target.dataset.termId})}handleDragEnd(e){e.target.classList.remove("dragging"),this.draggedItem=null}handleDragOver(e){e.preventDefault(),e.dataTransfer.dropEffect="move";const t=e.currentTarget;t.classList.contains("correct")||t.classList.add("drop-over")}handleDragLeave(e){e.currentTarget.classList.remove("drop-over")}handleDrop(e){e.preventDefault();const t=e.currentTarget,a=t.dataset.definitionId,r=e.dataTransfer.getData("text/plain");t.classList.remove("drop-over"),r===a?this.handleCorrectMatch(r,a):this.handleIncorrectMatch(t)}handleCorrectMatch(e,t){const a=this.terms.find(o=>o.id===e),r=this.definitions.find(o=>o.id===t);a&&r&&(a.matched=!0,r.matched=!0,this.matches.set(e,t)),this.checkCompletion(),this.track("correct_match",{termId:e,definitionId:t}),this.updateProgress(`drag-drop-${e}`),this.requestUpdate()}handleIncorrectMatch(e){var t;e.classList.add("incorrect"),setTimeout(()=>{e.classList.remove("incorrect")},500),this.track("incorrect_match",{attemptedMatch:((t=this.draggedItem)==null?void 0:t.dataset.termId)+" -> "+e.dataset.definitionId})}checkCompletion(){this.terms.every(t=>t.matched)&&!this.completed&&(this.completed=!0,this.track("exercise_completed",{matches:this.matches.size}),this.updateProgress("drag-drop-completed"),this.emit("exercise-completed",{component:"drag-drop",score:100,attempts:this.matches.size}))}reset(){this.completed=!1,this.matches.clear(),this.terms.forEach(e=>{e.matched=!1}),this.definitions.forEach(e=>{e.matched=!1}),this.track("exercise_reset"),this.requestUpdate()}updated(e){e.has("lang")&&this.setupDefaultData()}firstUpdated(){this.addEventListener("keydown",this.handleKeydown.bind(this)),this.setAttribute("role","application"),this.setAttribute("aria-label",this.lang==="es"?"Ejercicio de arrastrar y soltar para conceptos de Git":"Drag and drop exercise for Git concepts")}handleKeydown(e){if(e.key==="Enter"||e.key===" "){const t=this.shadowRoot.activeElement;t&&t.classList.contains("drag-item")&&this.handleKeyboardMatch(t)}}handleKeyboardMatch(e){const t=e.dataset.termId,a=this.definitions.filter(r=>!r.matched);if(a.length>0){const r=a[0];r.id===t&&this.handleCorrectMatch(t,r.id)}}}n(d,"properties",{terms:{type:Array},definitions:{type:Array},completed:{type:Boolean},loading:{type:Boolean}}),n(d,"styles",[c.styles,h`
             :host {
                 display: block;
                 margin: 1rem 0;
@@ -232,18 +232,96 @@ var l=Object.defineProperty;var m=(s,e,t)=>e in s?l(s,e,{enumerable:!0,configura
                 }
             }
 
-            @media (max-width: 768px) {
+            /* Mobile-First Touch-Friendly Design */
+            @media (max-width: 375px) {
                 .drag-drop-container {
-                    padding: 1rem;
+                    padding: 0.75rem;
+                    margin: 0.5rem 0;
                 }
-
+                
+                .terms-container {
+                    justify-content: center;
+                    gap: 0.5rem;
+                }
+                
+                .term-item {
+                    min-height: 48px;
+                    padding: 0.75rem 1rem;
+                    font-size: 0.875rem;
+                    touch-action: manipulation;
+                    cursor: pointer;
+                }
+                
                 .definitions-list {
                     gap: 0.5rem;
                 }
-
+                
                 .definition-item {
-                    padding: 0.75rem;
+                    min-height: 60px;
+                    padding: 1rem;
+                    touch-action: manipulation;
+                    cursor: pointer;
+                }
+                
+                .instructions {
+                    font-size: 0.875rem;
+                    text-align: center;
+                    margin-bottom: 1rem;
                 }
             }
-        `]);customElements.define("git-drag-drop",n);export{n as GitDragDropComponent,n as default};
-//# sourceMappingURL=drag-drop-component-DvNVMw1z.js.map
+            
+            @media (min-width: 376px) and (max-width: 768px) {
+                .drag-drop-container {
+                    padding: 1rem;
+                }
+                
+                .term-item,
+                .definition-item {
+                    min-height: 44px;
+                    touch-action: manipulation;
+                }
+                
+                .definitions-list {
+                    gap: 0.75rem;
+                }
+                
+                .definition-item {
+                    padding: 0.875rem;
+                }
+            }
+            
+            /* Touch-Friendly Interactions */
+            @media (hover: none) {
+                .term-item:hover,
+                .definition-item:hover {
+                    transform: none;
+                    box-shadow: none;
+                }
+                
+                .term-item:active,
+                .definition-item:active {
+                    transform: scale(0.98);
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                }
+                
+                .term-item.dragging,
+                .definition-item.drag-over {
+                    transform: scale(1.02);
+                    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+                }
+            }
+            
+            /* Enhanced Touch Targets */
+            .term-item,
+            .definition-item,
+            .reset-button {
+                min-height: 44px;
+                touch-action: manipulation;
+                cursor: pointer;
+                user-select: none;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+            }
+        `]);customElements.define("git-drag-drop",d);export{d as GitDragDropComponent,d as default};
+//# sourceMappingURL=drag-drop-component-gxHlN6ye.js.map

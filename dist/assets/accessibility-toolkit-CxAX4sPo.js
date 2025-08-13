@@ -1,4 +1,4 @@
-var n=Object.defineProperty;var r=(t,a,e)=>a in t?n(t,a,{enumerable:!0,configurable:!0,writable:!0,value:e}):t[a]=e;var i=(t,a,e)=>r(t,typeof a!="symbol"?a+"":a,e);import{a as l,i as c,x as d}from"./index-DO_oek1i.js";class o extends l{constructor(){super(),this.currentFontSize=16,this.reducedMotion=!1,this.highContrast=!1,this.screenReaderMode=!1,this.keyboardNavigationVisible=!1,this.colorBlindMode="normal",this.focusIndicatorStyle="default",this.lineHeight=1.6,this.activeTab="visual",this.updateRootVariables()}updateRootVariables(){const a=document.documentElement;a.style.setProperty("--font-size",`${this.currentFontSize}px`),a.style.setProperty("--line-height",this.lineHeight.toString());const e=this.focusIndicatorStyle==="high-contrast"?"#ff0000":this.focusIndicatorStyle==="subtle"?"#94a3b8":"#3b82f6";if(a.style.setProperty("--focus-color",e),this.highContrast?(this.setAttribute("high-contrast",""),a.style.setProperty("--text","#ffffff"),a.style.setProperty("--bg","#000000"),a.style.setProperty("--card-bg","#1a1a1a")):this.removeAttribute("high-contrast"),this.reducedMotion?(this.setAttribute("reduced-motion",""),a.style.setProperty("--transition-duration","0.01ms")):(this.removeAttribute("reduced-motion"),a.style.setProperty("--transition-duration","0.3s")),this.colorBlindMode!=="normal"){const s={protanopia:"url(#protanopia-filter)",deuteranopia:"url(#deuteranopia-filter)",tritanopia:"url(#tritanopia-filter)"};a.style.setProperty("filter",s[this.colorBlindMode]||"none")}else a.style.removeProperty("filter")}setActiveTab(a){this.activeTab=a}updateFontSize(a){this.currentFontSize=parseInt(a.target.value),this.updateRootVariables()}updateLineHeight(a){this.lineHeight=parseFloat(a.target.value),this.updateRootVariables()}toggleReducedMotion(a){this.reducedMotion=a.target.checked,this.updateRootVariables()}toggleHighContrast(a){this.highContrast=a.target.checked,this.updateRootVariables()}toggleScreenReader(a){this.screenReaderMode=a.target.checked,this.announceToScreenReader(this.screenReaderMode?"Screen reader optimization enabled":"Screen reader optimization disabled")}toggleKeyboardNavigation(a){this.keyboardNavigationVisible=a.target.checked,document.body.classList.toggle("keyboard-navigation-visible",this.keyboardNavigationVisible)}updateColorBlindMode(a){this.colorBlindMode=a.target.value,this.updateRootVariables()}updateFocusIndicator(a){this.focusIndicatorStyle=a.target.value,this.updateRootVariables()}announceToScreenReader(a){const e=document.createElement("div");e.setAttribute("aria-live","polite"),e.setAttribute("aria-atomic","true"),e.style.position="absolute",e.style.left="-10000px",e.textContent=a,document.body.appendChild(e),setTimeout(()=>{document.body.removeChild(e)},1e3)}render(){return d`
+var n=Object.defineProperty;var r=(t,a,e)=>a in t?n(t,a,{enumerable:!0,configurable:!0,writable:!0,value:e}):t[a]=e;var i=(t,a,e)=>r(t,typeof a!="symbol"?a+"":a,e);import{a as l,i as c,x as d}from"./index-DmWaINwU.js";class o extends l{constructor(){super(),this.currentFontSize=16,this.reducedMotion=!1,this.highContrast=!1,this.screenReaderMode=!1,this.keyboardNavigationVisible=!1,this.colorBlindMode="normal",this.focusIndicatorStyle="default",this.lineHeight=1.6,this.activeTab="visual",this.updateRootVariables()}updateRootVariables(){const a=document.documentElement;a.style.setProperty("--font-size",`${this.currentFontSize}px`),a.style.setProperty("--line-height",this.lineHeight.toString());const e=this.focusIndicatorStyle==="high-contrast"?"#ff0000":this.focusIndicatorStyle==="subtle"?"#94a3b8":"#3b82f6";if(a.style.setProperty("--focus-color",e),this.highContrast?(this.setAttribute("high-contrast",""),a.style.setProperty("--text","#ffffff"),a.style.setProperty("--bg","#000000"),a.style.setProperty("--card-bg","#1a1a1a")):this.removeAttribute("high-contrast"),this.reducedMotion?(this.setAttribute("reduced-motion",""),a.style.setProperty("--transition-duration","0.01ms")):(this.removeAttribute("reduced-motion"),a.style.setProperty("--transition-duration","0.3s")),this.colorBlindMode!=="normal"){const s={protanopia:"url(#protanopia-filter)",deuteranopia:"url(#deuteranopia-filter)",tritanopia:"url(#tritanopia-filter)"};a.style.setProperty("filter",s[this.colorBlindMode]||"none")}else a.style.removeProperty("filter")}setActiveTab(a){this.activeTab=a}updateFontSize(a){this.currentFontSize=parseInt(a.target.value),this.updateRootVariables()}updateLineHeight(a){this.lineHeight=parseFloat(a.target.value),this.updateRootVariables()}toggleReducedMotion(a){this.reducedMotion=a.target.checked,this.updateRootVariables()}toggleHighContrast(a){this.highContrast=a.target.checked,this.updateRootVariables()}toggleScreenReader(a){this.screenReaderMode=a.target.checked,this.announceToScreenReader(this.screenReaderMode?"Screen reader optimization enabled":"Screen reader optimization disabled")}toggleKeyboardNavigation(a){this.keyboardNavigationVisible=a.target.checked,document.body.classList.toggle("keyboard-navigation-visible",this.keyboardNavigationVisible)}updateColorBlindMode(a){this.colorBlindMode=a.target.value,this.updateRootVariables()}updateFocusIndicator(a){this.focusIndicatorStyle=a.target.value,this.updateRootVariables()}announceToScreenReader(a){const e=document.createElement("div");e.setAttribute("aria-live","polite"),e.setAttribute("aria-atomic","true"),e.style.position="absolute",e.style.left="-10000px",e.textContent=a,document.body.appendChild(e),setTimeout(()=>{document.body.removeChild(e)},1e3)}render(){return d`
             <div class="toolkit-container">
                 <div class="toolkit-header">
                     <h2 class="toolkit-title">
@@ -727,13 +727,64 @@ var n=Object.defineProperty;var r=(t,a,e)=>a in t?n(t,a,{enumerable:!0,configura
             transition-duration: 0.01ms !important;
         }
 
-        @media (max-width: 768px) {
+        /* Mobile-First Responsive Design */
+        @media (max-width: 375px) {
+            .toolkit-container {
+                padding: var(--space-md);
+                margin: var(--space-sm);
+            }
+            
             .tabs-container {
                 flex-direction: column;
                 gap: var(--space-xs);
+                padding: var(--space-sm);
             }
             
             .tab-button {
+                justify-content: center;
+                padding: var(--space-md);
+                min-height: 44px;
+                width: 100%;
+            }
+            
+            .accessibility-section {
+                padding: var(--space-md);
+            }
+            
+            .control-item {
+                flex-direction: column;
+                align-items: stretch;
+                gap: var(--space-md);
+                padding: var(--space-md);
+            }
+            
+            .control-input {
+                margin-left: 0;
+                align-self: center;
+            }
+            
+            .slider {
+                width: 100%;
+                max-width: 200px;
+            }
+            
+            .select-control {
+                min-width: unset;
+                width: 100%;
+            }
+        }
+        
+        @media (min-width: 376px) and (max-width: 768px) {
+            .tabs-container {
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: var(--space-xs);
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                min-height: 44px;
+                touch-action: manipulation;
                 justify-content: center;
             }
             
@@ -748,5 +799,46 @@ var n=Object.defineProperty;var r=(t,a,e)=>a in t?n(t,a,{enumerable:!0,configura
                 align-self: center;
             }
         }
+        
+        /* Touch-Friendly Enhancements */
+        @media (hover: none) {
+            .tab-button:hover {
+                background: none;
+                color: var(--text-secondary);
+            }
+            
+            .tab-button:focus,
+            .tab-button:active {
+                background: var(--card-bg);
+                color: var(--text);
+                outline: 2px solid var(--primary);
+                outline-offset: 2px;
+            }
+        }
+        
+        /* Enhanced Touch Targets for All Screens */
+        .tab-button, 
+        .toggle-switch, 
+        .select-control, 
+        .slider {
+            min-height: 44px;
+            touch-action: manipulation;
+        }
+        
+        .toggle-switch {
+            width: 60px;
+            height: 32px;
+        }
+        
+        .toggle-slider:before {
+            height: 26px;
+            width: 26px;
+            left: 3px;
+            bottom: 3px;
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(28px);
+        }
     `);customElements.define("accessibility-toolkit",o);export{o as AccessibilityToolkit};
-//# sourceMappingURL=accessibility-toolkit-C8HL18z7.js.map
+//# sourceMappingURL=accessibility-toolkit-CxAX4sPo.js.map

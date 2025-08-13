@@ -355,3 +355,174 @@ details {
     transition: none;
   }
 }
+
+/* =======================
+   MOBILE PERFORMANCE & UX OPTIMIZATIONS
+   ======================= */
+
+/* Mobile Scroll Performance */
+@media (max-width: 768px) {
+  * {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+  
+  /* Reduce animations on mobile for better performance */
+  .fade-in,
+  .slide-up,
+  .scale-in,
+  .bounce-in {
+    animation-duration: 0.2s;
+    animation-timing-function: ease-out;
+  }
+  
+  /* Simplified transforms for mobile */
+  .command-card:hover,
+  .summary-card:hover,
+  .platform-analysis-card:hover {
+    transform: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Battery-Conscious Optimizations */
+@media (max-width: 768px) and (prefers-reduced-motion: no-preference) {
+  /* Pause background animations when not in viewport */
+  .hero-bg {
+    animation-play-state: paused;
+  }
+  
+  /* Reduce complex animations */
+  .pulse {
+    animation-duration: 3s;
+  }
+  
+  .bounce {
+    animation-duration: 1s;
+    animation-iteration-count: 3;
+  }
+}
+
+/* Touch Gesture Optimizations */
+@media (hover: none) and (pointer: coarse) {
+  /* Remove hover animations entirely on touch devices */
+  *:hover {
+    animation: none !important;
+    transition-duration: 0.1s !important;
+  }
+  
+  /* Enhanced tap feedback */
+  .command-card:active,
+  .summary-card:active,
+  .platform-analysis-card:active,
+  .btn:active {
+    transform: scale(0.98);
+    transition-duration: 0.05s;
+  }
+  
+  /* Improve button press feedback */
+  button:active,
+  .button:active,
+  input[type="button"]:active,
+  input[type="submit"]:active {
+    opacity: 0.8;
+    transform: scale(0.95);
+  }
+}
+
+/* Safe Area Support for Modern Mobile Devices */
+@supports (padding: max(0px)) {
+  .container {
+    padding-left: max(var(--space-md), env(safe-area-inset-left));
+    padding-right: max(var(--space-md), env(safe-area-inset-right));
+  }
+  
+  .mobile-header {
+    padding-top: max(var(--space-md), env(safe-area-inset-top));
+  }
+  
+  .mobile-footer {
+    padding-bottom: max(var(--space-md), env(safe-area-inset-bottom));
+  }
+}
+
+/* Landscape Orientation Optimizations */
+@media (orientation: landscape) and (max-height: 600px) {
+  h1, h2 {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    margin-bottom: var(--space-sm);
+  }
+  
+  .educational-intro,
+  .interactive-component {
+    padding: var(--space-md);
+  }
+  
+  .workflow-steps {
+    gap: var(--space-sm);
+  }
+  
+  .workflow-step {
+    padding: var(--space-md);
+  }
+}
+
+/* High DPI Display Optimizations */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* Ensure crisp rendering on high-DPI mobile screens */
+  .command-card,
+  .platform-analysis-card,
+  .summary-card {
+    border-width: 0.5px;
+  }
+  
+  .workflow-arrow,
+  .step-number {
+    font-weight: 500;
+  }
+}
+
+/* Dark Mode Mobile Optimizations */
+@media (prefers-color-scheme: dark) and (max-width: 768px) {
+  .command-card,
+  .summary-card,
+  .platform-analysis-card {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  .workflow-step {
+    border-color: var(--border-color);
+    background: var(--card-bg);
+  }
+}
+
+/* Reduced Data Mode */
+@media (prefers-reduced-data: reduce) {
+  .hero-bg {
+    animation: none;
+    background: var(--bg);
+  }
+  
+  .fade-in,
+  .slide-up,
+  .scale-in,
+  .bounce-in {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* iOS Safari Specific Optimizations */
+@supports (-webkit-appearance: none) {
+  .ios-scroll-fix {
+    -webkit-overflow-scrolling: touch;
+    overflow: auto;
+  }
+  
+  /* Fix iOS Safari viewport height issue */
+  .mobile-full-height {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+  }
+}
